@@ -1,38 +1,53 @@
 <template>
   <div id="guoqianchen">
-      <keep-alive>
-        <router-view></router-view>
-      </keep-alive>
-    <div class="footer">
-      <ul>
-        <router-link :to="{path:'/index'}">
-          <li class="footer-link-1">
-            <div class="footer-logo"></div>
-            <p>游戏</p>
-          </li>
-        </router-link>
-        <router-link :to="{path:'/store'}">
-          <li class="footer-link-2">
-            <div class="footer-logo"></div>
-            <p>商城</p>
-          </li>
-        </router-link>
-        <router-link :to="{path:'/gift'}">
-          <li class="footer-link-3">
-            <div class="footer-logo"></div>
-            <p>礼包</p>
-          </li>
-        </router-link>
-
-        <router-link :to="{path:'/person'}">
-          <li class="footer-link-5">
-            <div class="footer-logo"></div>
-            <p>个人</p>
-          </li>
-        </router-link>
-      </ul>
+    <div class="main-wrap">
+      <div class="main">
+        <div class="scroll">
+          <!--路由 S-->
+          <keep-alive>
+            <router-view></router-view>
+          </keep-alive>
+          <!--路由 E-->
+          <!--footer S-->
+          <div class="footer">
+            <ul>
+              <router-link :to="{path:'/index'}">
+                <li class="footer-link-1">
+                  <div class="footer-logo"></div>
+                  <p>游戏</p>
+                </li>
+              </router-link>
+              <router-link :to="{path:'/store'}">
+                <li class="footer-link-2">
+                  <div class="footer-logo"></div>
+                  <p>商城</p>
+                </li>
+              </router-link>
+              <router-link :to="{path:'/gift'}">
+                <li class="footer-link-3">
+                  <div class="footer-logo"></div>
+                  <p>礼包</p>
+                </li>
+              </router-link>
+              <router-link :to="{path:'/person'}">
+                <li class="footer-link-5">
+                  <div class="footer-logo"></div>
+                  <p>个人</p>
+                </li>
+              </router-link>
+            </ul>
+          </div>
+          <!--footer E-->
+        </div>
+      </div>
     </div>
-
+    <!--PC端页面 S-->
+    <div class="pc-wrap">
+      <div class="pc-header">
+        <div class="pc-logo"></div>
+      </div>
+    </div>
+    <!--PC端页面 E-->
 
   </div>
 </template>
@@ -41,35 +56,15 @@
 //  import wx from 'wx-js-sdk'
 export default {
   created(){
-    this.$http.get('/api/h5/user/getUserinfo').then(function(res) {
-      //平台登录信息
-      if (res.body.user === null){
-          //第三方登录信息
-        if (res.body.oauth === null){
-          console.log('跳转到授权接口')
-          window.location.href = '/api/h5/user/oauthlogin/oauthtype/wechat'
-          console.log('授权接口跳转完成')
-        }else{
-          this.$router.push({path:'/register'})
-        }
-      }else{
-          this.user = res.body.user
-      }
-    },function (err) {
-      console.log(err)
-    })
-    //获取SDK配置文件
-/*    this.$http.get('/api/h5/index/getwechatsdkconf').then(function (res) {
-      console.log(this)
-      if(config !==''){
-        wx.config(config)
-      }
-    }, function (err) {
-      console.log(err)
-    })*/
-    let _this = this
+    if(this.isWechat()){
+        this.getUserInfo();
+    }else{
+
+    }
 
 
+
+    let _this = this;
     this.$axios.get('/api/h5/index/getwechatsdkconf?route='+ encodeURIComponent(window.location.pathname+window.location.search))
       .then(res => {
           console.log(res)
@@ -122,6 +117,34 @@ export default {
   },
   methods:{
 
+      getUserInfo(){
+        this.$http.get('/api/h5/user/getUserinfo').then(function(res) {
+          //平台登录信息
+          if (res.body.user === null){
+            //第三方登录信息
+            if (res.body.oauth === null){
+              console.log('跳转到授权接口')
+              window.location.href = '/api/h5/user/oauthlogin/oauthtype/wechat'
+              console.log('授权接口跳转完成')
+            }else{
+              this.$router.push({path:'/register'})
+            }
+          }else{
+            this.user = res.body.user
+          }
+        },function (err) {
+          console.log(err)
+        })
+      },
+      //判断是否是微信浏览器
+      isWechat(){
+          let ua = navigator.userAgent.toLowerCase();
+          if(ua.match(/MicroMessenger/i) === 'micromessenger'){
+              return true;
+          }else{
+              return false;
+          }
+      }
   }
 }
 </script>
@@ -264,14 +287,62 @@ input[type=button]{
 
 html,body{
   height: 100%;
+  max-width: 1920px;
 }
-  #guoqianchen{
-    max-width: 750px;
+/* ------------------
+*   基本样式
+------------------*/
+  .main{
     margin: 0 auto;
     position: relative;
     height: 100%;
-
+    width: 100%;
   }
+
+  @media only screen and (min-width: 800px){
+    .main-wrap{
+      width: 374px;
+      height: 700px;
+      padding:102px 22px 49px 22px;
+      overflow: hidden;
+      position: absolute;
+      top:50%;
+      left: 50%;
+      transform: translate(-50%,-45%);
+      background: url("../assets/pc-phone.png");
+    }
+    .main{
+      overflow: hidden;
+      border:1px solid #ffb0a3;
+    }
+    .scroll{
+      overflow-y: auto;
+      height: 100%;
+      width: calc(100% + 15px);
+    }
+    .pc-wrap{
+      position:absolute;
+      z-index: -1;
+      background: url("../assets/pc-bg.jpg") center 0 no-repeat;
+      width: 100%;
+      height: 100%;
+    }
+    .pc-header{
+      height: 84px;
+      background-color: #fff;
+      position: relative;
+    }
+    .pc-logo{
+      background: url("../assets/pc-logo.png") center 0 no-repeat;
+      width: 210px;
+      height: 60px;
+      position: absolute;
+      top:50%;
+      margin-top: -30px;
+      left: 360px;
+    }
+  }
+
   .footer{
     height:5.2rem;
     background-color: #fff;
@@ -317,6 +388,19 @@ html,body{
   .footer-link-5 .footer-logo{
     background: url("../assets/icon-person.png") 0 0 no-repeat;
   }
+
+
+  @media only screen and (min-width: 800px){
+    .footer{
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+    }
+  }
+
+
+
+
 
   .router-link-active li{
     color: #4385f5 !important;

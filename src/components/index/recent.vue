@@ -152,9 +152,9 @@ export default {
   .swiper-wrapper .swiper-slide:first-of-type{
     margin-left: 4rem;
   }
-  @media only screen and (min-width: 600px){
+ /* @media only screen and (min-width: 600px){
     .swiper-wrapper .swiper-slide{
       margin-right: -20px!important;
     }
-  }
+  }*/
 </style>

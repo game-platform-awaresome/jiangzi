@@ -52,13 +52,13 @@ export default {
     position: relative;
     z-index: 1;
   }
-  @media only screen and (min-width: 600px) {
+ /* @media only screen and (min-width: 600px) {
     .slider{
       width: 100%;
       height: 30rem!important;
     }
 
-  }
+  }*/
   .slider{
     height: 12rem;
   }
