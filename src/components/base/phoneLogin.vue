@@ -106,6 +106,7 @@ export default {
               console.log(res)
               if (res.data.code === 2000){
                 console.log('登录成功')
+                window.reload()
               }
               else{
                 layer.msg(res.data.msg);

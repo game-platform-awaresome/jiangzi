@@ -127,22 +127,35 @@ export default {
   methods:{
       //获取平台登录信息
       getUserInfo(){
+
         this.$http.get('/api/h5/user/getUserinfo').then(function(res) {
-          if (res.body.user === null){
+          /*if (res.body.user === null){*/
+
             //判断是否是微信登录
             if(this.isWechat()){
-              //微信登录 true
-              this.notLogin = false
-              //第三方登录信息 微信登录
+              if(res.body.user === null){
+                //微信登录 true
+                this.notLogin = false
+
+                //第三方登录信息 微信登录
                 console.log('跳转到授权接口')
                 window.location.href = '/api/h5/user/oauthlogin/oauthtype/wechat'
                 console.log('授权接口跳转完成')
+              }else{
+                this.user = res.body.user
+              }
+              //非微信登录
             }else{
-                this.notLogin = true
+               if(res.body.user === null){
+                 this.notLogin = true
+               }else{
+                 this.notLogin = false
+               }
+
             }
-          }else{
+        /*  }else{
             this.user = res.body.user
-          }
+          }*/
         },function (err) {
           console.log(err)
         })
@@ -150,10 +163,12 @@ export default {
       //判断是否是微信浏览器
       isWechat(){
           let ua = navigator.userAgent.toLowerCase();
-          if(ua.match(/MicroMessenger/i) === 'micromessenger'){
-              return true;
+          if(ua.match(/MicroMessenger/i) == 'micromessenger'){
+              console.log('是微信浏览器')
+              return true
           }else{
-              return false;
+            console.log('不是微信浏览器')
+            return false
           }
       },
       //手机登录

@@ -12,9 +12,9 @@
       <router-link to="/person/realname" tag="li" class="person-function-gap person-realname">
         <span class="person-function-tit">实名认证</span>
       </router-link>
-  <!--    <router-link to="/person/addtel" tag="li" class="person-addtel">
+      <router-link to="/person/addtel" tag="li" class="person-addtel">
         <span class="person-function-tit">绑定手机</span>
-      </router-link>-->
+      </router-link>
     <!--  <router-link to="/person/gradeinfo" tag="li" class="person-function-gap person-gradeinfo">
         <span class="person-function-tit">用户条例</span>
       </router-link>
