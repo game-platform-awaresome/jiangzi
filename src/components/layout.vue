@@ -1,6 +1,6 @@
 <template>
   <div id="guoqianchen">
-    <div class="main-wrap">
+    <div class="main-wrap" v-if="notLogin === false">
       <div class="main">
         <div class="scroll">
           <!--路由 S-->
@@ -18,7 +18,7 @@
                 </li>
               </router-link>
               <router-link :to="{path:'/store'}">
-                <li class="footer-link-2">
+                <li class="footer-link-2 footer-store">
                   <div class="footer-logo"></div>
                   <p>商城</p>
                 </li>
@@ -30,7 +30,7 @@
                 </li>
               </router-link>
               <router-link :to="{path:'/person'}">
-                <li class="footer-link-5">
+                <li class="footer-link-5 footer-person">
                   <div class="footer-logo"></div>
                   <p>个人</p>
                 </li>
@@ -42,29 +42,32 @@
       </div>
     </div>
     <!--PC端页面 S-->
-    <div class="pc-wrap">
+    <div class="pc-wrap" v-if="notLogin === false">
       <div class="pc-header">
         <div class="pc-logo"></div>
       </div>
     </div>
     <!--PC端页面 E-->
-
+    <!--PC端登录操作 S-->
+    <Login v-if="notLogin === true && phoneLoginStatus === false" @change-phone="changePhone"></Login>
+    <!--PC端登录操作 E-->
+    <!--PC端手机登录 S-->
+    <phoneLogin v-if="phoneLoginStatus === true" @select-login="backSelect"></phoneLogin>
+    <!--PC端手机登录 E-->
   </div>
 </template>
 
 <script>
 //  import wx from 'wx-js-sdk'
+import Login from './base/login.vue'
+import phoneLogin from './base/phoneLogin.vue'
 export default {
   created(){
-    if(this.isWechat()){
-        this.getUserInfo();
-    }else{
-
-    }
-
-
+    //用户信息初始化
+    this.getUserInfo()
 
     let _this = this;
+    //微信分享SDK
     this.$axios.get('/api/h5/index/getwechatsdkconf?route='+ encodeURIComponent(window.location.pathname+window.location.search))
       .then(res => {
           console.log(res)
@@ -106,28 +109,36 @@ export default {
       })
 
   },
+  components:{
+    Login,
+    phoneLogin
+  },
   data(){
       return{
         linkcolor:true,
         user:{
 
         },
-        config:''
+        config:'',
+        notLogin: false,
+        phoneLoginStatus : false
       }
   },
   methods:{
-
+      //获取平台登录信息
       getUserInfo(){
         this.$http.get('/api/h5/user/getUserinfo').then(function(res) {
-          //平台登录信息
           if (res.body.user === null){
-            //第三方登录信息
-            if (res.body.oauth === null){
-              console.log('跳转到授权接口')
-              window.location.href = '/api/h5/user/oauthlogin/oauthtype/wechat'
-              console.log('授权接口跳转完成')
+            //判断是否是微信登录
+            if(this.isWechat()){
+              //微信登录 true
+              this.notLogin = false
+              //第三方登录信息 微信登录
+                console.log('跳转到授权接口')
+                window.location.href = '/api/h5/user/oauthlogin/oauthtype/wechat'
+                console.log('授权接口跳转完成')
             }else{
-              this.$router.push({path:'/register'})
+                this.notLogin = true
             }
           }else{
             this.user = res.body.user
@@ -144,6 +155,15 @@ export default {
           }else{
               return false;
           }
+      },
+      //手机登录
+      changePhone(phoneLogin){
+            console.log(phoneLogin)
+         this.phoneLoginStatus = phoneLogin
+      },
+      //返回到选择登录类型
+      backSelect(){
+         this.phoneLoginStatus = false
       }
   }
 }
@@ -339,8 +359,13 @@ html,body{
       position: absolute;
       top:50%;
       margin-top: -30px;
-      left: 360px;
+      left: 15%;
     }
+    .footer-store,.footer-person{
+      display: none;
+    }
+
+
   }
 
   .footer{

@@ -155,7 +155,7 @@ let router = new VueRouter({
           component: storeGet
         },
       ]
-    },
+    }
 
   ]
 })

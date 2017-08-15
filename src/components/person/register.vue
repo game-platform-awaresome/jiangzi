@@ -99,7 +99,7 @@ export default {
       },1000)
     },
     register(tel,yanzhengCode){
-        let registerContent = {phone:tel,verify:yanzhengCode}
+        let registerContent = {phone:tel,verify:yanzhengCode,type:1}
         this.$http.post('/api/?g=h5&m=user&a=registerByPhone',registerContent).then(function (res) {
           if (res.body.code === 1){
               //注册成功

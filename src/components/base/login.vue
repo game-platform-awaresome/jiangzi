@@ -1,6 +1,26 @@
 <template>
   <div class="login">
-
+      <div class="login-header">
+        <span></span>
+        游戏登录
+      </div>
+      <div class="login-type">
+        <a href="/api/h5/user/oauthlogin?oauthtype=scan">
+          <div class="login-type-item wechat">
+            <p>微信</p>
+          </div>
+        </a>
+        <a href="/api/h5/user/oauthlogin?oauthtype=qq">
+          <div class="login-type-item tencent">
+            <p>QQ</p>
+          </div>
+        </a>
+        <a @click="phoneLogin">
+          <div class="login-type-item phone">
+            <p>手机</p>
+          </div>
+        </a>
+      </div>
   </div>
 </template>
 
@@ -9,13 +29,75 @@
     name: 'hello',
     data () {
       return {
-        msg: 'Welcome to Your Vue.js App'
+        phoneLoginStatus:true
       }
+    },
+    methods:{
+        phoneLogin(){
+            this.$emit('change-phone',this.phoneLoginStatus)
+        }
     }
   }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.login{
+  width: 324px;
+  height: 188px;
+  border:1px solid #ececec;
+  /*box-shadow: 0 0 20px;*/
+  position: absolute;
+  top:40%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+.login-header{
+  overflow: hidden;
+  border-bottom: 1px solid #eaeaea;
+  line-height: 43px;
+  font-size: 21px;
+  color: #202020;
+  padding: 5px;
+  width: 289px;
+  margin:0 auto;
+}
+  .login-header span{
+    display: block;
+    float: left;
+    width: 44px;
+    height: 43px;
+    background: url("../../assets/pc-login-jiangzi.png");
+    margin: 0 5px 0 76px;
+  }
+  .login-type{
+    padding: 20px;
+    overflow: hidden;
+  }
+  .login-type-item{
+    width: 58px;
+    height: 88px;
+    display: inline-block;
+    position: relative;
+    margin:0 15px;
+  }
+  .login-type-item p{
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    text-align: center;
+    color: #202020;
+    font-size: 13px;
 
+  }
+  .login-type-item.wechat{
+    background: url("../../assets/pc-login-wechat.png") no-repeat 0 0;
+  }
+.login-type-item.tencent{
+  background: url("../../assets/pc-login-tencent.png") no-repeat 0 0;
+}
+.login-type-item.phone{
+  background: url("../../assets/pc-login-phone.png") no-repeat 0 0;
+  cursor: pointer;
+}
 </style>
