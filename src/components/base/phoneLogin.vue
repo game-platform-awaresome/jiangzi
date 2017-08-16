@@ -106,7 +106,7 @@ export default {
               console.log(res)
               if (res.data.code === 2000){
                 console.log('登录成功')
-                window.reload()
+                window.location.reload()
               }
               else{
                 layer.msg(res.data.msg);
@@ -138,6 +138,7 @@ export default {
   left: 50%;
   transform: translate(-50%,-50%);
   border-radius: 5px;
+  background: #fff;
 }
   .phone-login-header{
     position: relative;

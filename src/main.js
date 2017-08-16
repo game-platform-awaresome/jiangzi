@@ -32,6 +32,7 @@ import integralLuck from './components/store/integralLuck.vue'
 import storeDetial from './components/store/integralstore/storedetial.vue'
 import storeGet from './components/store/integralstore/storeget.vue'
 import VueAwesomeSwiper from 'vue-awesome-swiper'
+import Login from './components/base/login.vue'
 Vue.use(VueAwesomeSwiper)
 Vue.use(VueResource)
 Vue.use(VueRouter)
@@ -155,8 +156,11 @@ let router = new VueRouter({
           component: storeGet
         },
       ]
+    },
+    {
+      path:'/login',
+      component: Login
     }
-
   ]
 })
 /* eslint-disable no-new */

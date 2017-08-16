@@ -1,48 +1,66 @@
 <template>
   <div class="login">
-      <div class="login-header">
-        <span></span>
-        游戏登录
-      </div>
-      <div class="login-type">
-        <a href="/api/h5/user/oauthlogin?oauthtype=scan">
-          <div class="login-type-item wechat">
-            <p>微信</p>
-          </div>
-        </a>
-        <a href="/api/h5/user/oauthlogin?oauthtype=qq">
-          <div class="login-type-item tencent">
-            <p>QQ</p>
-          </div>
-        </a>
-        <a @click="phoneLogin">
-          <div class="login-type-item phone">
-            <p>手机</p>
-          </div>
-        </a>
-      </div>
+    <div class="login-window" v-if="isPhoneLogin === false">
+        <div class="login-header">
+          <span></span>
+          游戏登录
+        </div>
+        <div class="login-type">
+          <a href="/api/h5/user/oauthlogin?oauthtype=scan">
+            <div class="login-type-item wechat">
+              <p>微信</p>
+            </div>
+          </a>
+          <a href="/api/h5/user/oauthlogin?oauthtype=qq">
+            <div class="login-type-item tencent">
+              <p>QQ</p>
+            </div>
+          </a>
+          <a @click="phoneLogin">
+            <div class="login-type-item phone">
+              <p>手机</p>
+            </div>
+          </a>
+        </div>
+    </div>
+    <phoneLogin v-if="isPhoneLogin === true" @select-login="backSelect"></phoneLogin>
   </div>
 </template>
 
 <script>
+  import phoneLogin from './phoneLogin.vue'
   export default {
     name: 'hello',
     data () {
       return {
-        phoneLoginStatus:true
+        isPhoneLogin:false
       }
     },
     methods:{
         phoneLogin(){
-            this.$emit('change-phone',this.phoneLoginStatus)
-        }
+          this.isPhoneLogin = true
+        },
+      backSelect(){
+            this.isPhoneLogin = false
+      }
+    },
+    components:{
+        phoneLogin
     }
   }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.login{
+  .login{
+    background: #000;
+    position: fixed;
+    top:0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+  }
+.login-window{
   width: 324px;
   height: 188px;
   border:1px solid #ececec;
@@ -51,6 +69,8 @@
   top:40%;
   left: 50%;
   transform: translate(-50%,-50%);
+  background: #fff;
+  border-radius: 5px;
 }
 .login-header{
   overflow: hidden;

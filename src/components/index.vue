@@ -4,7 +4,7 @@
     <div class="index">
       <slide></slide>
       <index-list></index-list>
-      <recent></recent>
+      <recent v-if="userInfo !== ''"></recent>
       <boutique></boutique>
     </div>
   </div>
@@ -17,6 +17,18 @@
   import gqcHeader from './base/header'
   import Boutique from './index/boutique'
 export default {
+  created(){
+    this.$axios.get('/api/h5/user/getUserinfo')
+      .then(res => {
+        console.log(res)
+        if (res.data.user){
+          this.userInfo = res.data.user
+        }
+      })
+      .catch(function(error){
+        console.log(error)
+      })
+  },
   components:{
     Slide,
     Recent,
@@ -26,7 +38,7 @@ export default {
   },
   data () {
     return {
-
+        userInfo:''
     }
   },
 

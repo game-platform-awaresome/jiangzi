@@ -87,6 +87,7 @@ export default {
     font-weight: bolder;
     text-indent: 1.8rem;
     color: #4385f5;
+    background: #fff;
   }
 .boutique ul li{
   height:6.2rem;
@@ -124,7 +125,7 @@ p.game-content{
   font-size: 1.2rem;
   line-height: 3rem;
   padding-left: 2rem;
-  max-width: 18rem;
+  max-width: 14rem;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;

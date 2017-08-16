@@ -1,7 +1,7 @@
 <template>
   <div id="guoqianchen">
-    <div class="main-wrap" v-if="notLogin === false">
-      <div class="main">
+    <div class="main-wrap" :class="{'not-login' : !isLogin}">
+      <div class="main" >
         <div class="scroll">
           <!--路由 S-->
           <keep-alive>
@@ -42,27 +42,21 @@
       </div>
     </div>
     <!--PC端页面 S-->
-    <div class="pc-wrap" v-if="notLogin === false">
+    <div class="pc-wrap" v-if="isLogin !== true">
       <div class="pc-header">
         <div class="pc-logo"></div>
       </div>
     </div>
-    <!--PC端页面 E-->
-    <!--PC端登录操作 S-->
-    <Login v-if="notLogin === true && phoneLoginStatus === false" @change-phone="changePhone"></Login>
-    <!--PC端登录操作 E-->
-    <!--PC端手机登录 S-->
-    <phoneLogin v-if="phoneLoginStatus === true" @select-login="backSelect"></phoneLogin>
-    <!--PC端手机登录 E-->
   </div>
 </template>
 
 <script>
 //  import wx from 'wx-js-sdk'
-import Login from './base/login.vue'
-import phoneLogin from './base/phoneLogin.vue'
 export default {
   created(){
+    if(window.location.pathname === '/login'){
+        this.isLogin = true;
+    }
     //用户信息初始化
     this.getUserInfo()
 
@@ -110,8 +104,7 @@ export default {
 
   },
   components:{
-    Login,
-    phoneLogin
+
   },
   data(){
       return{
@@ -120,17 +113,13 @@ export default {
 
         },
         config:'',
-        notLogin: false,
-        phoneLoginStatus : false
+        isLogin:false
       }
   },
   methods:{
       //获取平台登录信息
       getUserInfo(){
-
         this.$http.get('/api/h5/user/getUserinfo').then(function(res) {
-          /*if (res.body.user === null){*/
-
             //判断是否是微信登录
             if(this.isWechat()){
               if(res.body.user === null){
@@ -144,18 +133,7 @@ export default {
               }else{
                 this.user = res.body.user
               }
-              //非微信登录
-            }else{
-               if(res.body.user === null){
-                 this.notLogin = true
-               }else{
-                 this.notLogin = false
-               }
-
             }
-        /*  }else{
-            this.user = res.body.user
-          }*/
         },function (err) {
           console.log(err)
         })
@@ -171,15 +149,6 @@ export default {
             return false
           }
       },
-      //手机登录
-      changePhone(phoneLogin){
-            console.log(phoneLogin)
-         this.phoneLoginStatus = phoneLogin
-      },
-      //返回到选择登录类型
-      backSelect(){
-         this.phoneLoginStatus = false
-      }
   }
 }
 </script>
@@ -333,9 +302,8 @@ html,body{
     height: 100%;
     width: 100%;
   }
-
   @media only screen and (min-width: 800px){
-    .main-wrap{
+    .main-wrap.not-login{
       width: 374px;
       height: 700px;
       padding:102px 22px 49px 22px;
@@ -344,7 +312,8 @@ html,body{
       top:50%;
       left: 50%;
       transform: translate(-50%,-45%);
-      background: url("../assets/pc-phone.png");
+      background: url("../assets/pc-phone.png") no-repeat 0 0;
+      background-size: cover;
     }
     .main{
       overflow: hidden;
