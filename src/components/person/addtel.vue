@@ -77,7 +77,7 @@
           return;
         }
         if (this.flag === false) {
-          this.$http.get('/api/h5/user/sendPhoneVerify?phone='+ this.tel).then(function (res) {
+          this.$http.get('/api/h5/user/sendPhoneVerify?type=1&phone='+ this.tel).then(function (res) {
             console.log(res)
             if (res.body.code === 1) {
               //成功

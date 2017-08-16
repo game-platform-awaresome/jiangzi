@@ -302,6 +302,9 @@ html,body{
     height: 100%;
     width: 100%;
   }
+  .main-wrap{
+    height: 100%;
+  }
   @media only screen and (min-width: 800px){
     .main-wrap.not-login{
       width: 374px;

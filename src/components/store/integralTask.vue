@@ -114,6 +114,7 @@ export default {
   .task li{
     height: 6rem;
     border-bottom: 0.1rem solid #ececec;
+    position: relative;
   }
   .task li img{
     width: 4rem;
