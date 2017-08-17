@@ -57,6 +57,7 @@ export default {
     if(window.location.pathname === '/login'){
         this.isLogin = true;
     }
+
     //用户信息初始化
     this.getUserInfo()
 
@@ -64,7 +65,6 @@ export default {
     //微信分享SDK
     this.$axios.get('/api/h5/index/getwechatsdkconf?route='+ encodeURIComponent(window.location.pathname+window.location.search))
       .then(res => {
-          console.log(res)
         this.config = res.data;
         wx.config(this.config)
 
@@ -133,6 +133,10 @@ export default {
               }else{
                 this.user = res.body.user
               }
+            }else{
+               if(res.body.user){
+                 redirectGame()
+               }
             }
         },function (err) {
           console.log(err)
@@ -140,7 +144,7 @@ export default {
       },
       //判断是否是微信浏览器
       isWechat(){
-          let ua = navigator.userAgent.toLowerCase();
+        let ua = navigator.userAgent.toLowerCase();
           if(ua.match(/MicroMessenger/i) == 'micromessenger'){
               console.log('是微信浏览器')
               return true
@@ -149,6 +153,15 @@ export default {
             return false
           }
       },
+      //跳转到用户点击的游戏
+      redirectGame(){
+        let decode = decodeURIComponent(window.location.search)
+        decode = decode.substr(10)
+        console.log(decode)
+        if(window.location.href.indexOf("redirect") !== -1){
+          window.location.href = decode
+        }
+      }
   }
 }
 </script>

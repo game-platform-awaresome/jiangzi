@@ -42,7 +42,8 @@
         },
       backSelect(){
             this.isPhoneLogin = false
-      }
+      },
+
     },
     components:{
         phoneLogin
