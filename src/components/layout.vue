@@ -309,13 +309,20 @@ html,body{
 /* ------------------
 *   基本样式
 ------------------*/
+  #guoqianchen{
+    height:100%;
+  }
   .main{
     margin: 0 auto;
     position: relative;
     height: 100%;
     width: 100%;
+    background-color: #fff;
   }
   .main-wrap{
+    height: 100%;
+  }
+  .scroll{
     height: 100%;
   }
   @media only screen and (min-width: 800px){
