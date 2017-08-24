@@ -60,6 +60,7 @@
     left: 0;
     bottom: 0;
     right: 0;
+    z-index: 999;
   }
 .login-window{
   width: 324px;
@@ -87,8 +88,9 @@
     display: block;
     float: left;
     width: 44px;
-    height: 43px;
-    background: url("../../assets/pc-login-jiangzi.png");
+    height: 46px;
+    background: url("../../assets/pc-login-jiangzi.png") no-repeat 0 0 ;
+    background-size: contain;
     margin: 0 5px 0 76px;
   }
   .login-type{

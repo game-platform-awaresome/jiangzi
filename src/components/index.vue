@@ -1,6 +1,6 @@
 <template>
   <div>
-    <gqc-header></gqc-header>
+    <gqcHeader></gqcHeader>
     <div class="index">
       <slide></slide>
       <index-list></index-list>

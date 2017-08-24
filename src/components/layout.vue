@@ -135,7 +135,7 @@ export default {
               }
             }else{
                if(res.body.user){
-                 redirectGame()
+                 this.redirectGame()
                }
             }
         },function (err) {
@@ -145,7 +145,7 @@ export default {
       //判断是否是微信浏览器
       isWechat(){
         let ua = navigator.userAgent.toLowerCase();
-          if(ua.match(/MicroMessenger/i) == 'micromessenger'){
+          if(ua.match(/MicroMessenger/i) === 'micromessenger'){
               console.log('是微信浏览器')
               return true
           }else{
@@ -325,7 +325,7 @@ html,body{
   .scroll{
     height: 100%;
   }
-  @media only screen and (min-width: 800px){
+  @media only screen and (min-width: 600px){
     .main-wrap.not-login{
       width: 374px;
       height: 700px;
@@ -361,6 +361,7 @@ html,body{
     }
     .pc-logo{
       background: url("../assets/pc-logo.png") center 0 no-repeat;
+      background-size: cover;
       width: 210px;
       height: 60px;
       position: absolute;

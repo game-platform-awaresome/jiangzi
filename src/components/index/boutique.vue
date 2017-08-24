@@ -65,7 +65,7 @@ export default {
         url : '/api/h5/index/buttonClick',
         data : {
           name : name,
-          type : '最近在玩',
+          type : '精品推荐',
           url : url
         },
         href : url

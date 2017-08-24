@@ -210,7 +210,7 @@ export default {
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
-    max-width: 18rem;
+    max-width: 14rem;
   }
   .game-head .game-start{
     position: absolute;
@@ -257,6 +257,7 @@ export default {
     line-height: 1.6rem;
     font-size: 1.3rem;
     padding: 0 0 0.5rem;
+
   }
   .game-bottom{
     margin-top: 1rem;
@@ -298,6 +299,10 @@ export default {
     bottom:1rem;
     left: 2rem;
     color: #989898;
+    max-width: 14rem;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
   }
   .game-gift .game-gift-get{
     position: absolute;

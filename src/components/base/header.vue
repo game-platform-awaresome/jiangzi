@@ -11,7 +11,7 @@
 
     <div class="follow-alert" :class="style" @click="close">
       <div class="follow-window">
-        <div class="follow-heading"></div>
+        <!--<div class="follow-heading"></div>-->
         <h2 class="follow-tit">关注"游戏酱紫"</h2>
         <img class="follow-erwei" src="../../assets/erwei.jpg" alt="">
         <p class="follow-tips">长按识别二维码</p>
@@ -162,8 +162,9 @@ export default {
   }
   .follow-tit{
     text-align: center;
-    height: 4rem;
-    line-height: 4rem;
+    height: 6rem;
+    line-height: 6rem;
+    font-size: 1.8rem;
   }
   .follow-erwei{
     width: 55%;
