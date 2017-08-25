@@ -176,7 +176,7 @@ export default {
       //判断是否是微信浏览器
       isWechat(){
         let ua = navigator.userAgent.toLowerCase();
-          if(ua.match(/MicroMessenger/i) === 'micromessenger'){
+          if(ua.match(/MicroMessenger/i)[0] === 'micromessenger'){
               console.log('是微信浏览器')
               return true
           }else{
