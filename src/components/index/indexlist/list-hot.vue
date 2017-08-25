@@ -76,6 +76,9 @@ export default {
   background-color: #fff;
   position: relative;
 }
+.list-hot ul li:last-of-type{
+  margin-bottom: 5.2rem;
+}
 .list-hot ul li img{
   position: absolute;
   top: 50%;

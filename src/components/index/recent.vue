@@ -13,6 +13,9 @@
             <a @click="clickBtn(list.gamename,list.url)">开始</a>
           </li>
           </swiper-slide>
+          <swiper-slide>
+
+          </swiper-slide>
         </swiper>
       </ul>
     </div>
@@ -104,7 +107,6 @@ export default {
     margin: 2.3rem 0 0.5rem;
     position: relative;
   }
-
 .recent-play-list ul li img{
   position: absolute;
   left: 50%;
