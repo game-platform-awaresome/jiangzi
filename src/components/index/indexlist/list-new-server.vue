@@ -6,7 +6,7 @@
 
     <ul class="clearfix list-content" v-if="active === 0">
       <li v-for="game in yikai">
-        <router-link :to="{path:'/gamedetial/'+ game.id}">
+        <router-link :to="{path:'/gamedetial/'+ game.gid}">
         <img :src="game.img" alt="">
         <div class="game-box clearfix">
           <p class="game-name">
@@ -92,7 +92,9 @@ export default {
     background-color: #fff;
     position: relative;
   }
-
+  .list-new-server .list-content li:last-of-type{
+    margin-bottom: 6rem;
+  }
   .list-new-server ul li img{
     position: absolute;
     top: 50%;
@@ -212,6 +214,7 @@ export default {
     border: 0.1rem solid #4385f5;
     color: #4385f5;
   }
+
   @media only screen and (max-width: 350px){
     .list-hot ul li img{
       margin-top: -2rem;

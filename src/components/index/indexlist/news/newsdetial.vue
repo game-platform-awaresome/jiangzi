@@ -79,7 +79,7 @@ export default {
     margin-top: -1.2rem;
   }
   .news-detial-content{
-    background-color: #fff;
+    background-color: #f2f2f2;
     margin: 1rem 1.5rem 0;
     min-height: 30rem;
   }
