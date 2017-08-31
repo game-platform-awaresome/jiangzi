@@ -6,12 +6,12 @@
           游戏登录
         </div>
         <div class="login-type">
-          <a href="/api/h5/user/oauthlogin?oauthtype=scan">
+          <a :href="wechatLoginUrl()">
             <div class="login-type-item wechat">
               <p>微信</p>
             </div>
           </a>
-          <a href="/api/h5/user/oauthlogin?oauthtype=qq">
+          <a :href="tencentLoginUrl()">
             <div class="login-type-item tencent">
               <p>QQ</p>
             </div>
@@ -33,17 +33,36 @@
     name: 'hello',
     data () {
       return {
-        isPhoneLogin:false
+        isPhoneLogin:false,
       }
     },
     methods:{
         phoneLogin(){
-          this.isPhoneLogin = true
+            this.isPhoneLogin = true
         },
-      backSelect(){
+        backSelect(){
             this.isPhoneLogin = false
-      },
+        },
+        wechatLoginUrl(){
+            if(this.getUrlParam('token')){
+                return '/api/h5/user/oauthlogin?oauthtype=scan' + this.getUrlParam('token')
+            }else{
+                return '/api/h5/user/oauthlogin?oauthtype=scan'
+            }
 
+        },
+        tencentLoginUrl(){
+            if(this.getUrlParam('token')){
+                return '/api/h5/user/oauthlogin?oauthtype=qq' + this.getUrlParam('token')
+            }else{
+                return '/api/h5/user/oauthlogin?oauthtype=qq'
+            }
+        },
+        getUrlParam(name) {
+            let reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)');
+            let result = window.location.search.substr(1).match(reg);
+            return result ? decodeURIComponent(result[2]) : null
+        },
     },
     components:{
         phoneLogin
