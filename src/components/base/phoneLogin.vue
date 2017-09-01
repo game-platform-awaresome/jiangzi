@@ -157,6 +157,7 @@ export default {
     width: 44px;
     height: 44px;
     background: url("../../assets/pc-login-jiangzi.png") no-repeat;
+    background-size: cover!important
   }
   .phone-login-header .close{
     position: absolute;

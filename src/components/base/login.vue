@@ -44,19 +44,19 @@
             this.isPhoneLogin = false
         },
         wechatLoginUrl(){
-            if(this.getUrlParam('token')){
-                return '/api/h5/user/oauthlogin?oauthtype=scan' + this.getUrlParam('token')
-            }else{
-                return '/api/h5/user/oauthlogin?oauthtype=scan'
-            }
+
+            let token     = this.getUrlParam('token') ? '&token='+this.getUrlParam('token') : '';
+            let redirect  = this.getUrlParam('redirect') ? '&redirect='+this.getUrlParam('redirect') : '';
+
+            return '/api/h5/user/oauthlogin?oauthtype=scan' + token + redirect;　　　　　　　　　　　　　
 
         },
         tencentLoginUrl(){
-            if(this.getUrlParam('token')){
-                return '/api/h5/user/oauthlogin?oauthtype=qq' + this.getUrlParam('token')
-            }else{
-                return '/api/h5/user/oauthlogin?oauthtype=qq'
-            }
+            let token     = this.getUrlParam('token') ? '&token='+this.getUrlParam('token') : '';
+            let redirect  = this.getUrlParam('redirect') ? '&redirect='+this.getUrlParam('redirect') : '';
+
+            return '/api/h5/user/oauthlogin?oauthtype=qq' + token + redirect;
+
         },
         getUrlParam(name) {
             let reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)');
