@@ -46,12 +46,15 @@
         },
         wechatLoginUrl(){
 
+              if(_tool.isWechat()){
+                  return '/api/h5/user/oauthlogin/oauthtype/wechat';
+              }else{
+                  let token     = this.getUrlParam('token') ? '&token='+ encodeURIComponent(this.getUrlParam('token')) : '';
+                  let redirect  = this.getUrlParam('redirect') ? '&redirect='+ encodeURIComponent(this.getUrlParam('redirect')) : '';
 
-              let token     = this.getUrlParam('token') ? '&token='+ encodeURIComponent(this.getUrlParam('token')) : '';
-              let redirect  = this.getUrlParam('redirect') ? '&redirect='+ encodeURIComponent(this.getUrlParam('redirect')) : '';
+                  return '/api/h5/user/oauthlogin?oauthtype=scan' + token + redirect;
+              }
 
-
-              return '/api/h5/user/oauthlogin?oauthtype=scan' + token + redirect;
 
 
 

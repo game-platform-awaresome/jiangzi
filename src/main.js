@@ -16,6 +16,7 @@ import Addtel from './components/person/addtel.vue'
 import Realname from './components/person/realname.vue'
 import Updatepsd from './components/person/updatepsd.vue'
 import Gradeinfo from './components/person/gradeinfo.vue'
+import MyCollection from './components/person/myCollection.vue'
 import Register from './components/person/register.vue'
 import Gamedetial from './components/index/indexlist/hot/gamedetial.vue'
 import Newsdetial from './components/index/indexlist/news/newsdetial.vue'
@@ -92,6 +93,10 @@ let router = new VueRouter({
     {
       path:'/person/gradeinfo',
       component:Gradeinfo
+    },
+    {
+      path:'/person/mycollection',
+      component:MyCollection
     },
     {
       path:'/register',

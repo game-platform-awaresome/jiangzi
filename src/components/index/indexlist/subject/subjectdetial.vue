@@ -76,13 +76,13 @@ export default {
     font-size: 1.6rem;
     height: 1.6rem;
     line-height: 1.6rem;
-    padding:1.5rem 1.5rem .8rem;
+    padding:1rem 1.5rem .8rem;
   }
   .subjectdetial-content{
     height: 100%;
     line-height: 1.6rem;
     font-size: 1.3rem;
-    padding:0 1.5rem;
+    padding:0 1.5rem 1rem;
   }
   .subject-about-game{
     margin-top: 1rem;
@@ -97,6 +97,9 @@ export default {
     border-top: 0.1rem solid rgb(237,237,237);
     background-color: #fff;
     position: relative;
+  }
+  .subject-about-game ul li:last-of-type{
+    margin-bottom: 5.4rem;
   }
   .subject-about-game ul li img{
     position: absolute;

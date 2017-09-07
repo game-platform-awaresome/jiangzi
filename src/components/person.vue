@@ -15,6 +15,9 @@
       <router-link to="/person/addtel" tag="li" class="person-addtel">
         <span class="person-function-tit">绑定手机</span>
       </router-link>
+      <router-link to="/person/mycollection" tag="li" class="person-collection">
+        <span class="person-function-tit">游戏收藏</span>
+      </router-link>
     <!--  <router-link to="/person/gradeinfo" tag="li" class="person-function-gap person-gradeinfo">
         <span class="person-function-tit">用户条例</span>
       </router-link>
@@ -115,6 +118,10 @@ export default {
   }
   .person-addtel{
     background: url("../assets/addtel.png")  1.6rem center no-repeat,
+    url("../assets/person-function-right.png")  right 1.6rem center no-repeat;
+  }
+  .person-collection{
+    background: url("../assets/collection.png")  1.6rem center no-repeat,
     url("../assets/person-function-right.png")  right 1.6rem center no-repeat;
   }
   .person-gradeinfo{

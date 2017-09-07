@@ -106,7 +106,7 @@ export default {
               console.log(res)
               if (res.data.code === 2000){
                 console.log('登录成功')
-                window.location.reload()
+                window.location.href = _tool.getUrlParam('redirect');
               }
               else{
                 layer.msg(res.data.msg);
