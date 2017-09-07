@@ -6,10 +6,10 @@
     <listPublicHeader title="游戏收藏"></listPublicHeader>
     <ul class="clearfix">
       <li v-for="game in collectionGames">
-        <router-link :to="{path:'/gamedetial/'+ game.id}">
+        <router-link :to="{path:'/gamedetial/'+ game.gid}">
           <img :src="game.img" :alt="game.game_name">
           <div class="game-box clearfix">
-            <p class="game-name" :data-game="game.id">
+            <p class="game-name" :data-game="game.gid">
               <span class="game-the-name">{{ game.game_name }}</span>
               <span v-if="game.ishot == 1" class="is-hot">热门</span>
               <span v-if="game.isnew == 1" class="is-new">最新</span>

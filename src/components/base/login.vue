@@ -46,7 +46,7 @@
         },
         wechatLoginUrl(){
 
-              if(_tool.isWechat()){
+              if(this.isWechat()){
                   return '/api/h5/user/oauthlogin/oauthtype/wechat';
               }else{
                   let token     = this.getUrlParam('token') ? '&token='+ encodeURIComponent(this.getUrlParam('token')) : '';
@@ -73,7 +73,7 @@
         },
         isWechat(){
           let ua = navigator.userAgent.toLowerCase();
-          if(ua.match(/MicroMessenger/i)[0] === 'micromessenger'){
+          if(ua.match(/MicroMessenger/i) == 'micromessenger'){
             console.log('是微信浏览器')
             return true
           }else{

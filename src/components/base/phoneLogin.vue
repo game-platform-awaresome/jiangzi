@@ -95,6 +95,7 @@ export default {
       },1000)
     },
     login(){
+        let _this = this;
         if(this.validatePhone() && this.code !== ''){
           this.$axios.get('/api/H5/User/phoneLogin',{
             params:{
@@ -106,7 +107,7 @@ export default {
               console.log(res)
               if (res.data.code === 2000){
                 console.log('登录成功')
-                window.location.href = _tool.getUrlParam('redirect');
+                window.location.href = _this.getUrlParam('redirect');
               }
               else{
                 layer.msg(res.data.msg);
@@ -121,7 +122,13 @@ export default {
           layer.msg("请输入验证码");
         }
 
-    }
+    },
+    //获取url参数
+    getUrlParam(name) {
+      let reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)');
+      let result = window.location.search.substr(1).match(reg);
+      return result ? decodeURIComponent(result[2]) : null
+    },
   }
 }
 </script>
