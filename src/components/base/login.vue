@@ -29,6 +29,7 @@
 
 <script>
   import phoneLogin from './phoneLogin.vue'
+  import _tool from '../../util/tool.js'
   export default {
     name: 'hello',
     data () {
@@ -45,15 +46,19 @@
         },
         wechatLoginUrl(){
 
-            let token     = this.getUrlParam('token') ? '&token='+this.getUrlParam('token') : '';
-            let redirect  = this.getUrlParam('redirect') ? '&redirect='+this.getUrlParam('redirect') : '';
 
-            return '/api/h5/user/oauthlogin?oauthtype=scan' + token + redirect;　　　　　　　　　　　　　
+              let token     = this.getUrlParam('token') ? '&token='+ encodeURIComponent(this.getUrlParam('token')) : '';
+              let redirect  = this.getUrlParam('redirect') ? '&redirect='+ encodeURIComponent(this.getUrlParam('redirect')) : '';
+
+
+              return '/api/h5/user/oauthlogin?oauthtype=scan' + token + redirect;
+
+
 
         },
         tencentLoginUrl(){
-            let token     = this.getUrlParam('token') ? '&token='+this.getUrlParam('token') : '';
-            let redirect  = this.getUrlParam('redirect') ? '&redirect='+this.getUrlParam('redirect') : '';
+            let token     = this.getUrlParam('token') ? '&token='+ encodeURIComponent(this.getUrlParam('token')) : '';
+            let redirect  = this.getUrlParam('redirect') ? '&redirect='+ encodeURIComponent(this.getUrlParam('redirect')) : '';
 
             return '/api/h5/user/oauthlogin?oauthtype=qq' + token + redirect;
 
@@ -63,6 +68,16 @@
             let result = window.location.search.substr(1).match(reg);
             return result ? decodeURIComponent(result[2]) : null
         },
+        isWechat(){
+          let ua = navigator.userAgent.toLowerCase();
+          if(ua.match(/MicroMessenger/i)[0] === 'micromessenger'){
+            console.log('是微信浏览器')
+            return true
+          }else{
+            console.log('不是微信浏览器')
+            return false
+          }
+        }
     },
     components:{
         phoneLogin
