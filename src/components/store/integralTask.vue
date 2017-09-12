@@ -22,7 +22,7 @@
         <img :src="task.image" alt="">
         <p class="task-name">{{ task.title }} <span>+{{ task.integral }}积分</span></p>
         <p class="task-content">{{ task.content }}</p>
-        <a class="btn task-btn task-got"  v-if="task.showStatus === 0" disabled>任务未完成</a>
+        <a class="btn task-btn task-get"  v-if="task.showStatus === 0" disabled>任务未完成</a>
         <a class="btn task-btn task-get" v-if="task.showStatus === 2" @click="getIntegral(task.id)">积分领取</a>
         <a class="btn task-btn task-got"  v-if="task.showStatus === 1 || task.showStatus === 3" disabled>积分已领取</a>
       </li>
@@ -145,7 +145,7 @@ export default {
     width: 7rem;
     top: 50%;
     margin-top: -1.5rem;
-    right: 1rem;
+    right: 2rem;
     border-radius: 0.4rem;
     font-size: 1.4rem;
     text-align: center;

@@ -89,11 +89,9 @@ export default {
               })
           },
           cancel: function () {
-//            alert('用户取消分享后执行的回调函数!')
-            // 用户取消分享后执行的回调函数
+
           },
           error:function () {
-//            alert('失败')
           }
         })
         /*e*/

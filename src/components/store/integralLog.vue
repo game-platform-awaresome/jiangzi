@@ -78,6 +78,9 @@ export default {
   background-color: #fff;
   margin-top: 0.5rem;
 }
+.task-log li:last-of-type{
+  margin-bottom: 5.2rem;
+}
   .task-log li .log-name{
     position: absolute;
     font-size: 1.4rem;

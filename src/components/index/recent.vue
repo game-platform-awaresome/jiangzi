@@ -42,7 +42,7 @@ export default {
       ],
       swiperOption: {
         pagination: '.swiper-pagination',
-        slidesPerView: 4.5,
+        slidesPerView: 4,
         paginationClickable: true,
         spaceBetween: 10,
       }
