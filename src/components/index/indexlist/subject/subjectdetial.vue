@@ -9,7 +9,7 @@
       </div>
     </div>
     <div class="subject-about-game">
-      <ul class="clearfix">
+      <ul class="clearfix" id="subjectList">
         <li v-for="game in subject.games">
           <router-link :to="{path:'/gamedetial/'+ game.id}">
             <img :src="game.img" alt="">
@@ -23,7 +23,7 @@
               <p class="game-content">{{ game.excerpt }}</p>
             </div>
           </router-link>
-          <a :href="game.url" class="start-game">开始</a>
+          <a :data-href="game.url" class="start-game">开始</a>
         </li>
       </ul>
     </div>
@@ -45,8 +45,16 @@ export default {
     getSubject(){
       this.$http.get('/api/h5/activity/details/id/'+this.$route.params.sjid).then((res) => {
         this.subject = res.body.data
+        this.locationHref()
       },(err) => {
         console.log(err)
+      })
+    },
+    locationHref() {
+      let hotGame = document.getElementById('subjectList');
+      hotGame.addEventListener('click',function(event){
+        let dataHref = event.target.getAttribute('data-href');
+        window.location.href = dataHref;
       })
     }
   },

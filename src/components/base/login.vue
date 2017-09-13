@@ -6,12 +6,12 @@
           游戏登录
         </div>
         <div class="login-type">
-          <a :href="wechatLoginUrl()">
+          <a @click="wechatLoginUrl()">
             <div class="login-type-item wechat">
               <p>微信</p>
             </div>
           </a>
-          <a :href="tencentLoginUrl()">
+          <a @click="tencentLoginUrl()">
             <div class="login-type-item tencent">
               <p>QQ</p>
             </div>
@@ -49,11 +49,11 @@
               let redirect  = this.getUrlParam('redirect') ? '&redirect='+ encodeURIComponent(this.getUrlParam('redirect')) : '';
 
               if(this.isWechat()){
-                  return '/api/h5/user/oauthlogin/oauthtype/wechat' + token + redirect;
+                  window.location.href = '/api/h5/user/oauthlogin/oauthtype/wechat' + token + redirect;
               }else{
 
 
-                  return '/api/h5/user/oauthlogin?oauthtype=scan' + token + redirect;
+                  window.location.href = '/api/h5/user/oauthlogin?oauthtype=scan' + token + redirect;
               }
 
 
@@ -64,7 +64,7 @@
             let token     = this.getUrlParam('token') ? '&token='+ encodeURIComponent(this.getUrlParam('token')) : '';
             let redirect  = this.getUrlParam('redirect') ? '&redirect='+ encodeURIComponent(this.getUrlParam('redirect')) : '';
 
-            return '/api/h5/user/oauthlogin?oauthtype=qq' + token + redirect;
+            window.location.href = '/api/h5/user/oauthlogin?oauthtype=qq' + token + redirect;
 
         },
         getUrlParam(name) {

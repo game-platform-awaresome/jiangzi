@@ -4,7 +4,7 @@
       <li v-for="(server,index) in serverStyle" @click="toggleServer(index)" :class="{'server-select-content':active === index}">{{ server.name }}</li>
     </ul>
 
-    <ul class="clearfix list-content" v-if="active === 0">
+    <ul class="clearfix list-content" id="listContent" v-if="active === 0">
       <li v-for="game in yikai">
         <router-link :to="{path:'/gamedetial/'+ game.gid}">
         <img :src="game.img" alt="">
@@ -16,7 +16,7 @@
         </div>
         <p class="game-status">已开服</p>
         </router-link>
-        <a :href="game.url" class="start-game">开始</a>
+        <a :data-href="game.url" class="start-game">开始</a>
       </li>
     </ul>
     <ul class="clearfix list-content" v-if="active === 1">
@@ -50,6 +50,7 @@ export default {
     //已开新服
     this.$http.get('/api/h5/game/server').then((res) => {
       this.yikai = res.body
+      this.locationHref();
     },(err) => {
       console.log(err)
     })
@@ -79,6 +80,13 @@ export default {
   methods:{
     toggleServer(index){
       this.active = index
+    },
+    locationHref() {
+      let hotGame = document.getElementById('listContent');
+      hotGame.addEventListener('click',function(event){
+        let dataHref = event.target.getAttribute('data-href');
+        window.location.href = dataHref;
+      })
     }
   }
 }

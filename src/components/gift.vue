@@ -3,12 +3,12 @@
     <!--<gqc-header></gqc-header>-->
     <listPublicHeader title="全部礼包"></listPublicHeader>
     <div class="gift">
-      <ul class="clearfix game-list" >
+      <ul class="clearfix game-list" id="gameList">
         <li class="clearfix" v-for="(game,index) in games" v-if="game.gift !== null">
           <div class="game-box">
             <img :src="game.pic" alt="" class="game-img">
             <p class="game-name">{{ game.gamename }}</p>
-            <a :href="game.url" class="game-start-btn">开始</a>
+            <a :data-href="game.url" class="game-start-btn">开始</a>
           </div>
           <ul class="gift-list clearfix" >
             <li class="clearfix" v-for="(gift,index2) in game.gift" :class="{block: index == giftIndex}">
@@ -38,6 +38,7 @@ export default {
   created(){
     this.$http.get('/api/h5/game/cardlist').then(function (res) {
       this.games = res.body
+      this.locationHref();
 //      console.log('games.length'+this.games.length)
     },function (err) {
       console.log(err)
@@ -68,10 +69,8 @@ export default {
       selectAllGift(index){
 
 //        this.block = 'block'
-          this.giftIndex = index
+          this.giftIndex = index;
           this.none = 'none'
-
-
       },
       checkGiftCode(card){
           MessageBox({
@@ -106,6 +105,16 @@ export default {
           }
         },function (err) {
           console.log(err)
+        })
+      },
+      locationHref() {
+        let hotGame = document.getElementById('gameList');
+        hotGame.addEventListener('click',function(event){
+            if (event.target.className == 'game-start-btn'){
+              let dataHref = event.target.getAttribute('data-href');
+              window.location.href = dataHref;
+            }
+
         })
       }
   },

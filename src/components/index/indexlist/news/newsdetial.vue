@@ -3,7 +3,7 @@
     <h1>{{ article.post_title }}</h1>
     <div class="news-detial-box">
       <span class="time">{{ article.post_date }}</span>
-      <a :href="article.post_link">开始</a>
+      <a :data-href="article.post_link" id="startGame" @click="locationHref(article.post_link)">开始</a>
     </div>
     <div class="news-detial-content" v-html="article.post_content"></div>
 
@@ -29,6 +29,9 @@ export default {
         },function (err) {
           console.log(err)
         })
+      },
+      locationHref(href){
+          window.location.href = href;
       }
   },
   watch:{
