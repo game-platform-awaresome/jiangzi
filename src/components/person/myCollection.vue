@@ -4,7 +4,7 @@
     <!--<p>最热榜单</p>-->
     <!--</div>-->
     <listPublicHeader title="游戏收藏"></listPublicHeader>
-    <ul class="clearfix">
+    <ul class="clearfix" id="collectionGame">
       <li v-for="game in collectionGames">
         <router-link :to="{path:'/gamedetial/'+ game.gid}">
           <img :src="game.img" :alt="game.game_name">
@@ -18,7 +18,7 @@
             <p class="game-content">{{ game.excerpt }}</p>
           </div>
         </router-link>
-        <a :href="game.url" class="start-game">开始</a>
+        <a :data-href="game.url" class="start-game">开始</a>
       </li>
     </ul>
   </div>
@@ -29,11 +29,13 @@
   import listPublicHeader from '../index/indexlist/common/list-public-header.vue'
   export default {
     created(){
-      this.$http.get('/api/h5/game/collection').then(function (res) {
-        this.collectionGames = res.body.list
-      },function (err) {
-        console.log(err)
-      })
+
+        this.locationHref();
+        this.$http.get('/api/h5/game/collection').then(function (res) {
+          this.collectionGames = res.body.list
+        },function (err) {
+          console.log(err)
+        })
     },
     data () {
       return {
@@ -50,6 +52,15 @@
           console.log(err)
         })
       },
+      locationHref() {
+        let hotGame = document.getElementById('collectionGame');
+        hotGame.addEventListener('click',function(event){
+          if (event.target.className === 'start-game'){
+            let dataHref = event.target.getAttribute('data-href');
+            window.location.href = dataHref;
+          }
+        })
+      }
       /* onInfinite() {
        setTimeout(() => {
        const temp = [];
