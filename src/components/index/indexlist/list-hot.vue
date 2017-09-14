@@ -56,8 +56,11 @@ export default {
       locationHref() {
           let hotGame = document.getElementById('hotGame');
           hotGame.addEventListener('click',function(event){
-              let dataHref = event.target.getAttribute('data-href');
-              window.location.href = dataHref;
+              if(event.target.className === 'start-game'){
+                let dataHref = event.target.getAttribute('data-href');
+                window.location.href = dataHref;
+              }
+
           })
       }
    /* onInfinite() {

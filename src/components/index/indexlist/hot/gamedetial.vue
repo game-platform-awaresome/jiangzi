@@ -9,7 +9,7 @@
       <img :src="game.img" alt="">
       <p class="game-name">{{ game.name }}</p>
       <p class="game-brief">{{ game.excerpt }}</p>
-      <a :href="game.url" class="game-start">开始</a>
+      <a :data-href="game.url" class="game-start" @click="locationHref(game.url)">开始</a>
     </div>
 
     <!--+++-->
@@ -61,6 +61,7 @@
             <span class="game-article-content">{{ article.post_title }}</span>
             <span class="game-article-time">{{ article.post_date }}</span>
         </router-link>
+
       </ul>
       <!--+++++-->
    <!--   <ul class="game-article">
@@ -82,7 +83,8 @@
   import { Toast,MessageBox } from 'mint-ui';
 export default {
   created(){
-    this.getData()
+
+    this.getData();
   },
   data () {
     return {
@@ -109,29 +111,33 @@ export default {
       });
     },
     getData(){
-      this.$http.get('/api/h5/game/gameinfo/gid/'+this.$route.params.gid).then(function (res) {
-        this.game = res.body
-        console.log(this.$route.params.gid)
-        console.log(this.game.articletype)
+        let _this = this;
+        this.$http.get('/api/h5/game/gameinfo/gid/'+this.$route.params.gid).then(function (res) {
+          this.game = res.body
 
+          //文章接口
+
+          _this.$http.get('/api/h5/article/getbyid/id/'+this.game.articletype).then(function (res) {
+            this.articles = res.body
+          },function (err) {
+            console.log(err)
+          })
+
+
+
+        },function (err) {
+          console.log(err)
+        })
         //礼包接口
-        this.$http.get('/api/h5/game/cardlist/gid/'+this.$route.params.gid).then(function (res) {
+        _this.$http.get('/api/h5/game/cardlist/gid/'+this.$route.params.gid).then(function (res) {
           this.gifts = res.body
         },function (err) {
           console.log(err)
         })
+    },
+    locationHref(url) {
+          window.location.href = url;
 
-        //文章接口
-        this.$http.get('/api/h5/article/getbyid/id/'+this.game.articletype).then(function (res) {
-          this.articles = res.body
-        },function (err) {
-          console.log(err)
-        })
-
-
-      },function (err) {
-        console.log(err)
-      })
     },
     // 获取礼包
     getGift(id){
@@ -284,6 +290,9 @@ export default {
     position: relative;
     border-bottom: 0.2rem solid #f1f1f1;
     height: 6rem;
+  }
+  .game-gift > li:last-of-type{
+    margin-bottom: 6rem;
   }
   .game-gift .game-gift-name{
     position: absolute;

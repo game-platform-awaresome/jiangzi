@@ -67,8 +67,8 @@ import Boardcast from "./integralstore/boardcast.vue"
 
 }
 .commodity-list ul li:nth-of-type(even){
-  margin-left: 0.5rem;
-  margin-right: 0.5rem;
+  margin-left: 1rem;
+  /*margin-right: 0.5rem;*/
 }
   .commodity-list ul li:nth-of-type(odd){
     margin-right: 0.5rem;

@@ -372,7 +372,7 @@ html,body{
       border:1px solid #ffb0a3;
     }
     .scroll{
-      overflow-y: auto;
+      overflow-y: scroll;
       height: 100%;
       width: calc(100% + 15px);
     }
