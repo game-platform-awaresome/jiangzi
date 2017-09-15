@@ -30,12 +30,14 @@
   export default {
     created(){
 
-        this.locationHref();
+
         this.$http.get('/api/h5/game/collection').then(function (res) {
           this.collectionGames = res.body.list
+          this.locationHref();
         },function (err) {
           console.log(err)
         })
+
     },
     data () {
       return {
