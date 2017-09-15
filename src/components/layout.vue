@@ -452,7 +452,7 @@ html,body{
   }
 
 
-  @media only screen and (min-width: 800px){
+  @media only screen and (min-width: 600px){
     .footer{
       position: absolute;
       bottom: 0;

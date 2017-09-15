@@ -20,7 +20,7 @@
 
 
     <!--after S-->
-    <div class="per-addtel-after" v-if="user.mobile !== ''">
+    <div class="per-addtel-after" v-if="user.mobile !== '' && user !==''">
       <div class="per-success">
         <p>您已绑定手机</p>
       </div>

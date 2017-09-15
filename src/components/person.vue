@@ -25,7 +25,7 @@
         <span class="person-function-tit">在线客服</span>
       </router-link>-->
     </div>
-    <a href="javascript:;" class="person-exit">退出</a>
+    <a href="javascript:;" class="person-exit" @click="logout()">退出</a>
 
 
     <!--手机绑定弹出层 S-->
@@ -46,13 +46,23 @@
 <script>
   import Vue from 'vue'
   import personHeader from './person/person-header'
+  import { Toast,MessageBox } from 'mint-ui';
 export default {
   created(){
+    let _this = this;
+
     this.$http.get('/api/h5/user/getUserinfo').then(function (res) {
       //平台登录信息
       this.user = res.body.user
-      if (this.user.mobile === ""){
-          this.style['follow-style'] = true
+      if(!this.user){
+        MessageBox.confirm('您还没有登录,是否现在登录?').then(action => {
+          window.location.href = '/login?redirect=' + encodeURIComponent(window.location.href);
+        });
+
+      }else{
+          if (this.user.mobile === ""){
+            this.style['follow-style'] = true
+          }
       }
     }, function (err) {
       console.log(err)
@@ -67,7 +77,9 @@ export default {
     }
   },
   components:{
-      personHeader
+      personHeader,
+      Toast,
+      MessageBox
   },
   methods:{
     follow(){
@@ -75,6 +87,23 @@ export default {
     },
     close(){
       this.style['follow-style'] = false
+    },
+    logout(){
+        this.$axios.get('/api/h5/user/logout')
+          .then(res => {
+              console.log(res);
+              if(res.data.code == 2000){
+                Toast({
+                  message: '退出成功',
+                  position: 'middle',
+                  duration: 1000
+                })
+                window.location.href = '/';
+              }
+          })
+          .catch(function(error){
+            console.log(error)
+          })
     }
   }
 }
@@ -215,6 +244,13 @@ export default {
       opacity: 1;
     }
   }
-
+  .mint-msgbox{
+    width:400px;
+  }
+  @media only screen and (max-width:600px){
+    .mint-msgbox{
+      width: 85%;
+    }
+  }
 
 </style>
