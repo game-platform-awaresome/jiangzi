@@ -57,6 +57,8 @@ export default {
       if(!this.user){
         MessageBox.confirm('您还没有登录,是否现在登录?').then(action => {
           window.location.href = '/login?redirect=' + encodeURIComponent(window.location.href);
+        }).catch(action => {
+            window.location.href = './index';
         });
 
       }else{
