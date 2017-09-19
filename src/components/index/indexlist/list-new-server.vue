@@ -1,5 +1,6 @@
 <template>
   <div class="list-new-server">
+    <listPublicHeader title="新开服"></listPublicHeader>
     <ul class="server-select">
       <li v-for="(server,index) in serverStyle" @click="toggleServer(index)" :class="{'server-select-content':active === index}">{{ server.name }}</li>
     </ul>
@@ -45,7 +46,9 @@
 </template>
 
 <script>
-export default {
+  import listPublicHeader from './common/list-public-header.vue'
+
+  export default {
   created(){
     //已开新服
     this.$http.get('/api/h5/game/server').then((res) => {
@@ -60,6 +63,9 @@ export default {
     },(err) => {
       console.log(err)
     })
+  },
+  components:{
+    listPublicHeader
   },
   data () {
     return {
@@ -140,10 +146,10 @@ export default {
   .game-status{
     position: absolute;
     top:50%;
-    height: 1.2rem;
-    font-size: 1.2rem;
-    line-height: 1.2rem;
-    margin-top: -0.6rem;
+    height: 1.4rem;
+    font-size: 1.4rem;
+    line-height: 1.4rem;
+    margin-top: -0.7rem;
     right: 8rem;
     color: #999;
   }
@@ -160,8 +166,8 @@ export default {
     position: absolute;
     display: block;
     width: 5rem;
-    height: 2.5rem;
-    line-height: 2.5rem;
+    height: 2.6rem;
+    line-height: 2.6rem;
     font-size: 1.4rem;
     border:0.1rem solid #4385f5;
     color: #4385f5;
@@ -170,21 +176,21 @@ export default {
     /*margin-top: 2.4rem;*/
     cursor: pointer;
     top: 50%;
-    margin-top: -1.25rem;
+    margin-top: -1.3rem;
     right: 1.8rem;
     border-radius: 0.5rem;
   }
 
   .list-new-server .server-select{
     text-align: center;
-    margin:1.4rem 0;
+    margin:.4rem 0;
 
   }
   .list-new-server .server-select li{
     display: inline-block ;
-    width: 49%;
+    width: 45%;
     border: 0.1rem solid #4385f5;
-    line-height: 2rem;
+    line-height: 2.4rem;
     color: #999 ;
     font-size: 1.4rem;
     cursor: pointer;
@@ -224,7 +230,9 @@ export default {
     border: 0.1rem solid #4385f5;
     color: #4385f5;
   }
-
+  p.game-content{
+    font-size: 1.3rem;
+  }
   @media only screen and (max-width: 350px){
     .list-hot ul li img{
       margin-top: -2rem;
