@@ -46,7 +46,8 @@ export default {
   .news-detial{
     background-color: #f2f2f2;
     height: 100%;
-    overflow-y: auto;
+    overflow-y: scroll;
+    /*-webkit-overflow-scrolling : touch;*/
   }
   .news-detial h1{
     height: 1.6rem;

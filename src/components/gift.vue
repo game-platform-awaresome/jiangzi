@@ -230,5 +230,7 @@ export default {
   .gift-list li + li{
     display: none;
   }
-
+  .game-list > li:last-of-type{
+    margin-bottom: 6rem;
+  }
 </style>

@@ -353,6 +353,7 @@ html,body{
   }
   .scroll{
     height: 100%;
+    -webkit-overflow-scrolling : touch;
   }
   @media only screen and (min-width: 600px){
     .main-wrap.not-login{

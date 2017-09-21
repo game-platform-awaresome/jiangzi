@@ -40,6 +40,7 @@
       </div>
     </div>
     <!--手机绑定弹出层 E-->
+    <div class="fuckWindow" v-if="fuckWindow === true"></div>
   </div>
 </template>
 
@@ -60,22 +61,25 @@ export default {
         }).catch(action => {
             window.location.href = './index';
         });
-
       }else{
           if (this.user.mobile === ""){
             this.style['follow-style'] = true
           }
+        this.fuckWindow = false
       }
     }, function (err) {
       console.log(err)
     })
+
+
   },
   data () {
     return {
       style:{
         'follow-style':false
       },
-      user:''
+      user:'',
+      fuckWindow : true
     }
   },
   components:{
@@ -254,5 +258,15 @@ export default {
       width: 85%;
     }
   }
-
+  .v-modal{
+    pointer-events: none;
+  }
+  .fuckWindow{
+    position: absolute;
+    z-index: 1999;
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
 </style>
