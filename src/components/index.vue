@@ -20,7 +20,7 @@ export default {
   created(){
     this.$axios.get('/api/h5/user/getUserinfo')
       .then(res => {
-        console.log(res)
+        // console.log(res)
         if (res.data.user){
           this.userInfo = res.data.user
         }

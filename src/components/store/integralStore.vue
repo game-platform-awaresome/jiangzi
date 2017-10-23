@@ -6,11 +6,13 @@
     <!--商品列表 S-->
     <div class="commodity-list">
       <ul class="clearfix">
-        <router-link tag="li" v-for="item in commodity" :to="{path:'/store/store/storedetial/'+item.id}">
-          <img :src="item.product_img" alt="">
-          <p class="commodity-list-tit">{{ item.product_name }}</p>
-          <p class="commodity-list-integral">{{ item.integral_exchange }}积分  <span class="commodity-list-num">剩余: {{ item.product_num }}</span></p>
-        </router-link>
+        <li v-for="item in commodity" >
+          <router-link :to="{path:'/store/store/storedetial/'+item.id}">
+            <img :src="item.product_img" alt="">
+            <p class="commodity-list-tit">{{ item.product_name }}</p>
+            <p class="commodity-list-integral">{{ item.integral_exchange }}积分  <span class="commodity-list-num">剩余: {{ item.product_num }}</span></p>
+          </router-link>
+        </li>
       </ul>
     </div>
     <!--商品列表 E-->

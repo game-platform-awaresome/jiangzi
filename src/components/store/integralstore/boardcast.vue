@@ -1,7 +1,7 @@
 <template>
   <div class="broadcast">
     <swiper :options="swiperOption">
-      <swiper-slide class="broadcast-list"  v-for="item in boardcast">
+      <swiper-slide class="broadcast-list"  v-for="item in boardcast" :key="item.id">
         <!--<p class="broadcast-list"  v-for="item in boardcast">-->
           <span>{{ item.user_nicename }}</span>兑换了{{item.product_name}}
         <!--</p>-->

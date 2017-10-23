@@ -12,11 +12,14 @@
         <span>{{ onenew.post_date }}</span>
       </li>-->
 
-      <router-link tag="li" :to="{path:'/newsdetial/'+onenew.id}" class="clearfix" v-for="onenew in news">
-        <span>{{ articleName(onenew.term_id) }}</span>
-        <span>{{ onenew.post_title }}</span>
-        <span>{{ onenew.post_date }}</span>
-      </router-link>
+
+      <li v-for="onenew in news">
+        <router-link :to="{path:'/newsdetial/'+onenew.id}" class="clearfix" >
+          <span>{{ articleName(onenew.term_id) }}</span>
+          <span>{{ onenew.post_title }}</span>
+          <span>{{ onenew.post_date }}</span>
+        </router-link>
+      </li>
     </ul>
   </div>
 </template>

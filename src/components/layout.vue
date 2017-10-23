@@ -173,14 +173,14 @@ export default {
       },
       //判断是否是微信浏览器
       isWechat(){
-        let ua = navigator.userAgent.toLowerCase();
-          if(ua.match(/MicroMessenger/i)[0] === 'micromessenger'){
-              console.log('是微信浏览器')
-              return true
-          }else{
-            console.log('不是微信浏览器')
-            return false
-          }
+        let reg = /MicroMessenger/i;
+        if(reg.test(navigator.userAgent.toLowerCase())){
+          // console.log('是微信浏览器');
+          return true;
+        }else{
+          // console.log('不是微信浏览器');
+          return false
+        }
       },
       //跳转到用户点击的游戏
       redirectGame(){

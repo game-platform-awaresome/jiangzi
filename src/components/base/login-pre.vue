@@ -91,7 +91,7 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .login{
+ .login{
     background: #000;
     position: fixed;
     top:0;
@@ -149,7 +149,6 @@
     text-align: center;
     color: #202020;
     font-size: 13px;
-
   }
   .login-type-item.wechat{
     background: url("../../assets/pc-login-wechat.png") no-repeat 0 0;

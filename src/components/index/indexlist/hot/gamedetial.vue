@@ -56,11 +56,14 @@
 
 
       <ul class="game-article" v-if="selectActive===2">
-        <router-link tag="li" v-for="article in articles" :to="{path:'/newsdetial/'+article.id}">
+        <li v-for="article in articles">
+          <router-link :to="{path:'/newsdetial/'+article.id}">
             <span class="game-article-style">公告</span>
             <span class="game-article-content">{{ article.post_title }}</span>
             <span class="game-article-time">{{ article.post_date }}</span>
-        </router-link>
+          </router-link>
+        </li>
+
 
       </ul>
       <!--+++++-->

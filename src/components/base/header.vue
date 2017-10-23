@@ -1,7 +1,6 @@
 <template>
-  <div class="header">
+  <div class="header" v-if="user">
       <img :src="user.avatar" alt="">
-
     <p v-html="user.user_nicename" class="user-name"></p>
     <!--<p class="user-name">greentea</p>-->
     <p class="user-id">{{ user.id }}</p>
@@ -27,14 +26,18 @@ export default {
       //平台登录信息
 
         this.user = res.body.user
-
+        if(!this.user){
+          this.user = {}
+        }
     },function (err) {
       console.log(err)
     })
   },
   data () {
     return {
-      user:{},
+      user:{
+        avatar: ''
+      },
       style:{
           'follow-style':false
       },

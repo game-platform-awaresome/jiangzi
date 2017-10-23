@@ -6,7 +6,7 @@
         <swiper :options="swiperOption">
 
           <!--v-for-->
-          <swiper-slide v-for="list in recentPlay">
+          <swiper-slide v-for="list in recentPlay" :key='item.id'>
           <li>
             <img :src="list.img" alt="" @click="clickBtn(list.gamename,list.url)">
             <p>{{ list.gamename }}</p>
@@ -30,7 +30,7 @@ export default {
   created(){
     this.$http.get('/api/h5/game/history').then(function (res) {
       this.recentPlay = res.body
-      console.log()
+      console.log(this.recentPlay)
     },function (err) {
       console.log(err)
     })
