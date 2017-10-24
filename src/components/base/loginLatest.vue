@@ -1,29 +1,29 @@
 <template>
   <div class="login-latest">
-    <div class="login-wrapper">
+    <!-- 用户登录 -->
+    <div class="login-index login-wrapper" v-if="loginFunc === ''">
       <!-- header -->
       <div class="header">
         <i class="logo"></i>
-        <a class="close icon-close"></a>
       </div>
       <!-- content -->
       <div class="content">
         <h1 class="title">用户登录</h1>
         <div class="input-wrapper">
           <span>账&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号:</span>
-          <input type="text" placeholder="">
+          <input type="text" placeholder="请输入账号" @blur="hasAccount(username)" v-model="username">
         </div>
         <div class="input-wrapper">
           <span>密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码:</span>
-          <input type="text">
+          <input type="text" placeholder="请输入密码">
         </div>
         <div class="btn-wrapper">
-          <div class="register-btn">一键注册</div>
-          <div class="login-btn">登录游戏</div>
+          <div class="register-btn" @click="register">一键注册</div>
+          <div class="login-btn" @click="login">登录</div>
         </div>
         <div class="btn-other clearfix">
-          <a class="bind">绑定手机</a>
-          <a class="update">修改密码</a>
+          <a class="bind" @click="bind">绑定手机</a>
+          <a class="update" @click="update">修改密码</a>
         </div>
       </div>
       <!-- bottom  -->
@@ -34,15 +34,15 @@
           <div class="line"></div>
         </h3>
         <div class="other-login">
-          <div class="tencent other-login-wrapper">
+          <div class="tencent other-login-wrapper" @click="tencentLoginUrl">
             <i class="logo icon-qq"></i>
             <p class="text">QQ</p>
           </div>
-          <div class="wechat other-login-wrapper">
+          <div class="wechat other-login-wrapper" @click="wechatLoginUrl">
             <i class="logo icon-wechat"></i>
             <p class="text">微信</p>
           </div>
-          <div class="phone other-login-wrapper">
+          <div class="phone other-login-wrapper" @click="phoneLogin">
             <i class="logo icon-mobile"></i>
             <p class="text">手机</p>
           </div>
@@ -53,23 +53,125 @@
         </div>
       </div>
     </div>
+    <!-- 手机登录 -->
+    <loginPhone v-if="loginFunc === 'phone'" @select-login="back"></loginPhone>
+    <!-- 绑定手机 -->
+    <bindPhone v-if="loginFunc === 'bind'" @select-login="back"></bindPhone>
+    <!-- 修改密码 -->
+    <updatePsd v-if="loginFunc === 'update'" @select-login="back"></updatePsd>
+    <!-- 注册 -->
+    <register v-if="loginFunc === 'register'" @select-login="back"></register>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
+  import loginPhone from '@/components/base/loginLatestPhone';
+  import bindPhone from '@/components/base/bindPhone';
+  import updatePsd from '@/components/base/updatePsd';
+  import register from '@/components/base/register';
   export default {
     data () {
       return {
-
+        loginFunc: '',  //登录方式
+        username: '',   //用户名
       };
     },
     components: {
+      loginPhone,
+      bindPhone,
+      updatePsd,
+      register
+    },
+    methods: {
+      // select func
+      //一键注册
+      register() {
+        this.loginFunc = 'register';
+      },
+      //微信登录
+      wechatLoginUrl(){
+        let token     = this.getUrlParam('token') ? '&token='+ encodeURIComponent(this.getUrlParam('token')) : '';
+        let redirect  = this.getUrlParam('redirect') ? '&redirect='+ encodeURIComponent(this.getUrlParam('redirect')) : '';
 
+        if(this.isWechat()){
+            window.location.href = '/api/h5/user/oauthlogin/oauthtype/wechat' + token + redirect;
+        }else{
+            window.location.href = '/api/h5/user/oauthlogin?oauthtype=scan' + token + redirect;
+        }
+      },
+      // 手机登录
+      phoneLogin(){
+        this.loginFunc = 'phone';
+      },
+      // QQ登录
+      tencentLoginUrl(){
+        let token     = this.getUrlParam('token') ? '&token='+ encodeURIComponent(this.getUrlParam('token')) : '';
+        let redirect  = this.getUrlParam('redirect') ? '&redirect='+ encodeURIComponent(this.getUrlParam('redirect')) : '';
+        window.location.href = '/api/h5/user/oauthlogin?oauthtype=qq' + token + redirect;
+      },
+      //绑定手机
+      bind() {
+        this.loginFunc = 'bind';
+      },
+      //修改密码
+      update() {
+        this.loginFunc = 'update';
+      },
+      //工具类
+      getUrlParam(name) {
+        let reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)');
+        let result = window.location.search.substr(1).match(reg);
+        return result ? decodeURIComponent(result[2]) : null
+      },
+      isWechat(){
+        let ua = navigator.userAgent.toLowerCase();
+        if(ua.match(/MicroMessenger/i) == 'micromessenger'){
+          console.log('是微信浏览器')
+          return true
+        }else{
+          console.log('不是微信浏览器')
+          return false
+        }
+      },
+      back() {
+        this.loginFunc = ''
+      },
+
+      /* ----------------------------------------
+      *               登录部分
+      ---------------------------------------- */
+      login() {
+
+      },
+      //用户名是否存在
+      hasAccount(username) {
+        this.$axios.post('/api/h5/user/verifyAccount',{
+            params : {
+                username : this.username
+            }
+        })
+          .then(res => {
+            console.log(res)
+            if (res.data.code === 2000){
+              this.getCodeBtn()
+              console.log(res.data.msg)
+            }
+            else{
+              layer.msg(res.data.msg)
+            }
+
+          })
+          .catch(function(error){
+            console.log(error)
+          })
+      }
     }
-  };
+
+  }
+
 </script>
 
-<style scoped lang="stylus">
+<style lang="stylus">
 
 common-header()
   background #eee
@@ -137,7 +239,7 @@ common-btn($bg-color,$color)
       padding 0 24px
       .title
         color #494949
-        font-size 30px
+        font-size 24px
         padding 16px 0
         text-align center
         font-weight 500
@@ -146,15 +248,17 @@ common-btn($bg-color,$color)
       // 按钮
       .btn-wrapper
         display flex
+        margin-bottom 20px
         .register-btn
           margin-right 5px
           common-btn(#f72243,#fff)
         .login-btn
           margin-left 5px
           common-btn(#3299f7,#fff)
+        .phone-login-btn
+          common-btn(#3299f7,#fff)
       //链接
       .btn-other
-        padding-top 20px
         width 100%
         .bind
           float left
