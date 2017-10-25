@@ -50,7 +50,7 @@
         this.$emit('select-login');
       },
       update() {
-        this.$axios.post('/api/h5/user/accountBindPhone',qs.stringify({
+        this.$axios.post('/api/h5/user/modify',qs.stringify({
                 username : this.username,
                 password : this.password,
                 new_password : this.newPassword,
