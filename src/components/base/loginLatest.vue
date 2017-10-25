@@ -11,17 +11,17 @@
         <h1 class="title">用户登录</h1>
         <div class="input-wrapper">
           <span>账&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号:</span>
-          <input type="text" placeholder="请输入账号" @blur="hasAccount(username)" v-model="username">
+          <input type="text" placeholder="请输入账号" @blur="hasAccount" v-model="username">
         </div>
         <div class="input-wrapper">
           <span>密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码:</span>
-          <input type="text" placeholder="请输入密码">
+          <input type="password" placeholder="请输入密码" v-model="password">
         </div>
         <div class="btn-wrapper">
           <div class="register-btn" @click="register">一键注册</div>
           <div class="login-btn" @click="login">登录</div>
         </div>
-        <div class="btn-other clearfix">
+        <div class="btn-other clearfix-new">
           <a class="bind" @click="bind">绑定手机</a>
           <a class="update" @click="update">修改密码</a>
         </div>
@@ -69,11 +69,14 @@
   import bindPhone from '@/components/base/bindPhone';
   import updatePsd from '@/components/base/updatePsd';
   import register from '@/components/base/register';
+
+  import qs from 'qs';
   export default {
     data () {
       return {
         loginFunc: '',  //登录方式
         username: '',   //用户名
+        password: ''    //密码
       };
     },
     components: {
@@ -141,20 +144,40 @@
       *               登录部分
       ---------------------------------------- */
       login() {
+        let _this = this;
+        this.$axios.post('/api/h5/user/accountLogin',qs.stringify({
+                username : this.username,
+                password : this.password
+            })
+        )
+          .then(res => {
+            if (res.data.code === 2000){
+              // 1.存账号
 
+              // 2.跳转
+              let redirect  = _this.getUrlParam('redirect') ? decodeURIComponent(this.getUrlParam('redirect')) : '/'
+              window.location.href = redirect;
+            }
+            else{
+              layer.msg(res.data.msg)
+            }
+
+          })
+          .catch(function(error){
+            console.log(error)
+          })
       },
       //用户名是否存在
-      hasAccount(username) {
-        this.$axios.post('/api/h5/user/verifyAccount',{
-            params : {
+      hasAccount() {
+        this.$axios.post('/api/h5/user/verifyAccount',qs.stringify({
                 username : this.username
-            }
-        })
+            })
+        )
           .then(res => {
-            console.log(res)
             if (res.data.code === 2000){
-              this.getCodeBtn()
-              console.log(res.data.msg)
+              return;
+            } else if(res.data.code === 4003) {
+              console.log('此账号有效')
             }
             else{
               layer.msg(res.data.msg)
@@ -165,6 +188,7 @@
             console.log(error)
           })
       }
+      //
     }
 
   }
@@ -194,6 +218,7 @@ common-input()
   border 1px solid #d9d9d9
   margin-bottom 20px
   border-radius 3px
+  display flex
   span
     display inline-block
     font-size 16px
@@ -204,7 +229,7 @@ common-input()
     border none
     outline none
     text-indent 10px
-
+    flex 1
 common-btn($bg-color,$color)
   flex 1
   background $bg-color

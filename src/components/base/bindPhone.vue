@@ -7,12 +7,20 @@
     <div class="content">
       <h1 class="title">手机绑定</h1>
       <div class="input-wrapper">
+        <span>账&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号:</span>
+        <input type="text" placeholder="" v-model="username">
+      </div>
+      <div class="input-wrapper">
+        <span>密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码:</span>
+        <input type="text" placeholder="" v-model="password">
+      </div>
+      <div class="input-wrapper">
         <span>手&nbsp;机&nbsp;号:</span>
-        <input type="text" placeholder="请输入您的手机号码" v-model="tel">
+        <input type="text" placeholder="" v-model="tel">
       </div>
       <div class="input-wrapper">
         <span>验&nbsp;证&nbsp;码:</span>
-        <input type="text" placeholder="请输入短信验证码" class="message-code" autocomplete="off" v-model="code">
+        <input type="text" placeholder="" class="message-code" autocomplete="off" v-model="code">
         <span class="get-code-btn" @click="getCode" v-if="yanzhengBtn == true">{{yanzhengVal}}</span>
         <span class="get-code-btn" v-else style="color: #d8d8d8;">{{yanzhengVal}}</span>
       </div>
@@ -26,7 +34,7 @@
 
 <script>
   import { Toast } from 'mint-ui';
-
+  import qs from 'qs';
   export default {
     created(){
       this.getData()
@@ -47,7 +55,10 @@
         },
         flag:false,
         user:'',
-        code:''   //绑定是否成功
+        code:'',   //绑定是否成功
+
+        username: '',
+        password: ''
       }
     },
     methods:{
@@ -70,6 +81,7 @@
           return;
         }
         if (this.flag === false) {
+
           this.$http.get('/api/h5/user/sendPhoneVerify?type=1&phone='+ this.tel).then(function (res) {
             // console.log(res)
             if (res.body.code === 2000) {
@@ -80,11 +92,18 @@
               this.fail = ''
             } else {
               //手机号格式错误
-              this.fail = res.body.msg
+              // this.fail = res.body.msg
+              layer.msg(res.body.msg)
             }
           }, function (err) {
             console.log(err)
           })
+
+
+
+
+
+
         } else {
           this.getCodeBtn()
         }
@@ -112,22 +131,29 @@
         },1000)
       },
       bind(){
-        let registerContent = {phone:this.tel,verify:this.yanzhengCode}
-        this.$http.post('/api/h5/user/bindphone',registerContent).then(function (res) {
-            this.code = res.body.code
-          if (this.code === 1){
-            //注册成功
-            this.getData()
-          }else{
-            //注册失败
-            Toast({
-              message: '绑定失败',
-              position: 'middle',
-              duration: 1000
-            })
+        this.$axios.post('/api/h5/user/accountBindPhone',qs.stringify({
+                username : this.username,
+                password : this.password,
+                phone : this.tel,
+                verify : this.code
+            }))
+          .then(res => {
+            if (res.data.code === 2000){
+              //绑定成功
+              layer.msg(res.data.msg);
+              setTimeout(function() {
+                window.location.href = '/login';
+              }, 2000);
+            }
+            else{
+              //绑定失败
+              layer.msg(res.data.msg)
+            }
 
-          }
-        })
+          })
+          .catch(function(error){
+            console.log(error)
+          })
       }
     }
   }

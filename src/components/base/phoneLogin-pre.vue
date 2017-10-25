@@ -45,6 +45,9 @@ export default {
     },
     //获取验证码
     getCode(){
+        /*
+        *  1.先判断手机号是否符合条件
+         */
         if(this.validatePhone()){
             this.$axios.get('/api/H5/User/sendPhoneVerify',{
                 params : {
@@ -60,6 +63,7 @@ export default {
                 }
                 else{
                   layer.msg(res.data.msg)
+                  console.log(res)
                 }
 
               })

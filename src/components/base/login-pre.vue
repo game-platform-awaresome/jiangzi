@@ -28,7 +28,7 @@
 </template>
 
 <script>
-  import phoneLogin from './phoneLogin.vue'
+  import phoneLogin from './phoneLogin-pre.vue'
   import _tool from '../../util/tool.js'
   export default {
     name: 'hello',

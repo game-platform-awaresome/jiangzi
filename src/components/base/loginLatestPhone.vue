@@ -112,7 +112,8 @@
               console.log(res)
               if (res.data.code === 2000){
                 console.log('登录成功')
-                window.location.href = _this.getUrlParam('redirect');
+                let redirect  = _this.getUrlParam('redirect') ? decodeURIComponent(this.getUrlParam('redirect')) : '/'
+                window.location.href = '/';
               }
               else{
                 layer.msg(res.data.msg);
