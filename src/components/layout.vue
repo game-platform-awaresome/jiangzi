@@ -1,7 +1,7 @@
 <template>
   <div id="guoqianchen">
     <div class="main-wrap" :class="{'not-login' : !isLogin}">
-      <div class="main" >
+      <div class="main">
         <div class="scroll">
           <!--路由 S-->
           <keep-alive>

@@ -12,7 +12,7 @@
       </div>
       <div class="input-wrapper">
         <span>密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码:</span>
-        <input type="text" placeholder="" v-model="password">
+        <input type="password" placeholder="" v-model="password">
       </div>
       <div class="input-wrapper">
         <span>手&nbsp;机&nbsp;号:</span>
@@ -24,7 +24,7 @@
         <span class="get-code-btn" @click="getCode" v-if="yanzhengBtn == true">{{yanzhengVal}}</span>
         <span class="get-code-btn" v-else style="color: #d8d8d8;">{{yanzhengVal}}</span>
       </div>
-      <p class="per-fail">{{ fail }}</p>
+      <!-- <p class="per-fail">{{ fail }}</p> -->
       <div class="btn-wrapper">
         <div class="phone-login-btn" @click="bind()">绑定</div>
       </div>

@@ -12,10 +12,18 @@
         <div class="input-wrapper">
           <span>账&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号:</span>
           <input type="text" placeholder="请输入账号" @blur="hasAccount" v-model="username">
+          <span class="index-common-btn account-list-btn icon-chevron-thin-down" @click.stop="openlist"></span>
+          <ul class="account-list" v-show="openUserList">
+            <li v-for="item in userList" @click="selectAccount(item)">
+              {{item.account}}
+            </li>
+          </ul>
         </div>
         <div class="input-wrapper">
           <span>密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码:</span>
-          <input type="password" placeholder="请输入密码" v-model="password">
+          <input type="password" placeholder="请输入密码" v-model="password" v-if="inputType">
+          <input type="text" placeholder="请输入密码" v-model="password" v-else >
+          <span class="index-common-btn icon-eye" :class="{'eye-input': !inputType}" @click="hidePassword"></span>
         </div>
         <div class="btn-wrapper">
           <div class="register-btn" @click="register">一键注册</div>
@@ -46,7 +54,7 @@
             <i class="logo icon-mobile"></i>
             <p class="text">手机</p>
           </div>
-          <div class="tourist other-login-wrapper">
+          <div class="tourist other-login-wrapper" @click="touristLogin">
             <i class="logo icon-user"></i>
             <p class="text">游客</p>
           </div>
@@ -72,11 +80,22 @@
 
   import qs from 'qs';
   export default {
+    created() {
+      // 通过本地存储获取用户数据
+      for(let i=0;i<localStorage.length;i++){
+        let str = JSON.parse(localStorage.getItem('user'+(i+1)));
+        this.userList.push(str);
+      }
+      console.log(this.userList);
+    },
     data () {
       return {
         loginFunc: '',  //登录方式
         username: '',   //用户名
-        password: ''    //密码
+        password: '',   //密码
+        userList: [],   //账号列表
+        openUserList: false,
+        inputType: true
       };
     },
     components: {
@@ -84,6 +103,12 @@
       bindPhone,
       updatePsd,
       register
+    },
+    mounted() {
+      let _this = this;
+      document.addEventListener('click',function (params) {
+        _this.openUserList = false;
+      })
     },
     methods: {
       // select func
@@ -153,10 +178,31 @@
           .then(res => {
             if (res.data.code === 2000){
               // 1.存账号
+              // 是否存储数据?
+              let flag = true;
+              //本地存储
+              let user = "user" + (localStorage.length+1);
+              let password = JSON.stringify(res.data);
+
+
+
+              for(let i=0;i<localStorage.length;i++) {
+                if(localStorage.getItem('user'+i) === password){
+                  flag = false;
+                }
+              }
+
+              if(flag){
+                localStorage.setItem(user,password);
+              }
 
               // 2.跳转
+              layer.msg(res.data.msg)
               let redirect  = _this.getUrlParam('redirect') ? decodeURIComponent(this.getUrlParam('redirect')) : '/'
-              window.location.href = redirect;
+              setTimeout(function() {
+                window.location.href = redirect;
+              }, 1000);
+
             }
             else{
               layer.msg(res.data.msg)
@@ -187,8 +233,61 @@
           .catch(function(error){
             console.log(error)
           })
+      },
+      //选择账号
+      selectAccount(item) {
+        this.username = item.account;
+        this.password = item.password;
+        this.openUserList = false;
+      },
+      hidePassword() {
+        this.inputType = !this.inputType;
+      },
+      //打开账号列表
+      openlist() {
+        this.openUserList = true;
+      },
+      touristLogin() {
+        this.$axios.post('/api/h5/user/register',qs.stringify({
+                type : 'key'
+            })
+        )
+          .then(res => {
+            if (res.data.code === 2000){
+              if(!this.redirect) {
+                layer.msg('欢迎您 '+ '<span style="color:red">' + res.data.account + '</span>' +'正在登录...');
+                // 1.存账号
+                // 是否存储数据?
+                let flag = true;
+                //本地存储
+                let user = "user" + (localStorage.length+1);
+                let password = JSON.stringify(res.data);
+
+                for(let i=0;i<localStorage.length;i++) {
+                  if(localStorage.getItem('user'+i) === password){
+                    flag = false;
+                  }
+                }
+
+                if(flag){
+                  localStorage.setItem(user,password);
+                }
+
+                setTimeout(function() {
+                  window.location.href = '/'
+                }, 2000);
+
+              }
+            }
+            else{
+              layer.msg(res.data.msg)
+            }
+
+          })
+          .catch(function(error){
+            console.log(error)
+          })
       }
-      //
     }
 
   }
@@ -269,14 +368,47 @@ common-btn($bg-color,$color)
         text-align center
         font-weight 500
       .input-wrapper
+        position relative
         common-input()
+        .index-common-btn
+          position absolute
+          right 0
+          bottom 0
+          top 0
+          width 42px
+          border-left 1px solid #d9d9d9
+          font-size 20px
+          line-height 42px
+          text-align center
+          color #d9d9d9
+          cursor pointer
+          &.eye-input
+            color #333
+        .account-list
+          position absolute
+          z-index 10
+          width 100%
+          left 0
+          top 45px
+          li
+
+            line-height 30px
+            height 30px
+            font-size 16px
+            background #fff
+            border 1px solid #d9d9d9
+            padding-left 10px
+            box-sizing border-box
       // 按钮
       .btn-wrapper
         display flex
         margin-bottom 20px
+        div
+          cursor pointer
         .register-btn
           margin-right 5px
           common-btn(#f72243,#fff)
+
         .login-btn
           margin-left 5px
           common-btn(#3299f7,#fff)
@@ -285,6 +417,8 @@ common-btn($bg-color,$color)
       //链接
       .btn-other
         width 100%
+        a
+          cursor pointer
         .bind
           float left
           color #f72243
@@ -310,6 +444,8 @@ common-btn($bg-color,$color)
       .other-login
         display flex
         justify-content space-between
+        div
+          cursor pointer
         .other-login-wrapper
           width 50px
           .logo

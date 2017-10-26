@@ -15,7 +15,7 @@
         <input type="password" placeholder="请输入密码" v-model="password">
       </div>
       <div class="input-wrapper">
-        <span>密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码:</span>
+        <span>新&nbsp;密&nbsp;码:</span>
         <input type="password" placeholder="长度为6-20位,大小写字母或数字" v-model="newPassword">
       </div>
       <div class="input-wrapper">
