@@ -47,6 +47,7 @@ import qs from 'qs';
       },
       //注册
       register() {
+        let _this = this;
         this.$axios.post('/api/h5/user/register',qs.stringify({
                 type : 'account',
                 username : this.username,
@@ -61,8 +62,7 @@ import qs from 'qs';
                 layer.msg(res.data.msg);
 
                 // 2.跳转
-                layer.msg(res.data.msg)
-                let redirect  = _this.getUrlParam('redirect') ? decodeURIComponent(this.getUrlParam('redirect')) : '/'
+                let redirect  = _this.getUrlParam('redirect') ? decodeURIComponent(_this.getUrlParam('redirect')) : '/login'
                 setTimeout(function() {
                   window.location.href = redirect;
                 }, 1000);
@@ -77,6 +77,11 @@ import qs from 'qs';
           .catch(function(error){
             console.log(error)
           })
+      },
+      getUrlParam(name) {
+        let reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)');
+        let result = window.location.search.substr(1).match(reg);
+        return result ? decodeURIComponent(result[2]) : null
       },
       //用户名是否存在
       hasAccount() {

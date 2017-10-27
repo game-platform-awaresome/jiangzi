@@ -50,6 +50,7 @@
         this.$emit('select-login');
       },
       update() {
+        let _this = this;
         this.$axios.post('/api/h5/user/modify',qs.stringify({
                 username : this.username,
                 password : this.password,
@@ -59,21 +60,27 @@
         )
           .then(res => {
             if (res.data.code === 2000){
-              if(!this.redirect) {
-                layer.msg(res.data.msg);
-                setTimeout(function() {
-                  window.location.href = '/login'
-                }, 2000);
-              }
-            }
-            else{
-              layer.msg(res.data.msg)
-            }
 
+                layer.msg(res.data.msg);
+
+                // 2.跳转
+                let redirect  = _this.getUrlParam('redirect') ? decodeURIComponent(_this.getUrlParam('redirect')) : '/login'
+                setTimeout(function() {
+                  window.location.href = redirect;
+                }, 1000);
+
+            }else{
+              layer.msg(res.data.msg);
+            }
           })
           .catch(function(error){
             console.log(error)
           })
+      },
+      getUrlParam(name) {
+        let reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)');
+        let result = window.location.search.substr(1).match(reg);
+        return result ? decodeURIComponent(result[2]) : null
       }
     }
   };

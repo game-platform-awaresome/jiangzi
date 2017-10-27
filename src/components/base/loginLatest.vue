@@ -63,12 +63,16 @@
     </div>
     <!-- 手机登录 -->
     <loginPhone v-if="loginFunc === 'phone'" @select-login="back"></loginPhone>
+
     <!-- 绑定手机 -->
     <bindPhone v-if="loginFunc === 'bind'" @select-login="back"></bindPhone>
+
     <!-- 修改密码 -->
     <updatePsd v-if="loginFunc === 'update'" @select-login="back"></updatePsd>
+
     <!-- 注册 -->
     <register v-if="loginFunc === 'register'" @select-login="back"></register>
+
   </div>
 </template>
 
@@ -340,6 +344,8 @@ common-btn($bg-color,$color)
   line-height 50px
   text-align center
   font-size 20px
+
+
 .login-latest
   position: fixed;
   top:0;
