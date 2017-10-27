@@ -75,7 +75,7 @@
                     localStorage.setItem('user'+(i+1),userInfo);
                     console.log('修改成功')
                     //将修改后的密码传入父组件
-                    _this.$emit('update-psd');
+                    _this.$emit('update-psd',_this.newPassword);
                     break;
                   }
                 }

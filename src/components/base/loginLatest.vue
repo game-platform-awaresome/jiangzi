@@ -68,7 +68,7 @@
     <bindPhone v-if="loginFunc === 'bind'" @select-login="back"></bindPhone>
 
     <!-- 修改密码 -->
-    <updatePsd v-if="loginFunc === 'update'" @select-login="back" @update-psd="getLocalStorage"></updatePsd>
+    <updatePsd v-if="loginFunc === 'update'" @select-login="back" @update-psd="updateNewPsd"></updatePsd>
 
     <!-- 注册 -->
     <register v-if="loginFunc === 'register'" @select-login="back"></register>
@@ -119,6 +119,11 @@
           this.userList.push(str);
         }
         console.log(this.userList);
+      },
+      //更新密码
+      updateNewPsd(newPassword) {
+        this.getLocalStorage();
+        this.password = newPassword;
       },
       // select func
       //一键注册
