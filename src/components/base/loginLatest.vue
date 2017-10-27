@@ -164,7 +164,6 @@
       back() {
         this.loginFunc = ''
       },
-
       /* ----------------------------------------
       *               登录部分
       ---------------------------------------- */
@@ -248,16 +247,17 @@
         this.openUserList = true;
       },
       touristLogin() {
+        let _this = this;
         this.$axios.post('/api/h5/user/register',qs.stringify({
                 type : 'key'
             })
         )
           .then(res => {
             if (res.data.code === 2000){
-              if(!this.redirect) {
+
                 layer.msg('欢迎您 '+ '<span style="color:red">' + res.data.account + '</span>' +'正在登录...');
                 // 1.存账号
-                // 是否存储数据?
+                // 是否存储数据标记
                 let flag = true;
                 //本地存储
                 let user = "user" + (localStorage.length+1);
@@ -268,16 +268,18 @@
                     flag = false;
                   }
                 }
-
+                //存储
                 if(flag){
                   localStorage.setItem(user,password);
                 }
 
-                setTimeout(function() {
-                  window.location.href = '/'
-                }, 2000);
+                // 2.跳转
 
-              }
+                let redirect  = _this.getUrlParam('redirect') ? decodeURIComponent(_this.getUrlParam('redirect')) : '/'
+                setTimeout(function() {
+                  window.location.href = redirect;
+                }, 1000);
+
             }
             else{
               layer.msg(res.data.msg)

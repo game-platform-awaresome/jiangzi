@@ -57,13 +57,17 @@ import qs from 'qs';
         )
           .then(res => {
             if (res.data.code === 2000){
-              if(!this.redirect) {
-                layer.msg(res.data.msg);
-                setTimeout(function() {
-                  window.location.href = '/login'
-                }, 2000);
 
-              }
+                layer.msg(res.data.msg);
+
+                // 2.跳转
+                layer.msg(res.data.msg)
+                let redirect  = _this.getUrlParam('redirect') ? decodeURIComponent(this.getUrlParam('redirect')) : '/'
+                setTimeout(function() {
+                  window.location.href = redirect;
+                }, 1000);
+
+
             }
             else{
               layer.msg(res.data.msg)
