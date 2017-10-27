@@ -141,9 +141,20 @@
             if (res.data.code === 2000){
               //绑定成功
               layer.msg(res.data.msg);
+              // 2.跳转
+              // 废弃跳转到redirect方案
+              /* let redirect  = _this.getUrlParam('redirect') ? decodeURIComponent(_this.getUrlParam('redirect')) : '/login?redirect='+_this.getUrlParam('redirect')
               setTimeout(function() {
-                window.location.href = '/login';
-              }, 2000);
+                window.location.href = redirect;
+              }, 1000); */
+
+              // 直接跳转login(也废弃)
+             /*  let redirect  = '/login?redirect='+_this.getUrlParam('redirect')
+              setTimeout(function() {
+                window.location.href = redirect;
+              }, 1000); */
+
+              _this.back();
             }
             else{
               //绑定失败

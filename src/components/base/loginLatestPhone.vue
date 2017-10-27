@@ -105,7 +105,8 @@
           this.$axios.get('/api/H5/User/phoneLogin',{
             params:{
               phone : this.phone,
-              v_code : this.code
+              v_code : this.code,
+              redirect : _this.getUrlParam('redirect') ? decodeURIComponent(this.getUrlParam('redirect')) : '/'
             }
           })
             .then(res => {

@@ -42,14 +42,14 @@
           <div class="line"></div>
         </h3>
         <div class="other-login">
-          <div class="tencent other-login-wrapper" @click="tencentLoginUrl">
+          <!-- <div class="tencent other-login-wrapper" @click="tencentLoginUrl">
             <i class="logo icon-qq"></i>
             <p class="text">QQ</p>
           </div>
           <div class="wechat other-login-wrapper" @click="wechatLoginUrl">
             <i class="logo icon-wechat"></i>
             <p class="text">微信</p>
-          </div>
+          </div> -->
           <div class="phone other-login-wrapper" @click="phoneLogin">
             <i class="logo icon-mobile"></i>
             <p class="text">手机</p>
@@ -190,7 +190,7 @@
 
 
               for(let i=0;i<localStorage.length;i++) {
-                if(localStorage.getItem('user'+i) === password){
+                if(localStorage.getItem('user'+(i+1)) === password){
                   flag = false;
                 }
               }
@@ -451,7 +451,7 @@ common-btn($bg-color,$color)
           font-size 12px
       .other-login
         display flex
-        justify-content space-between
+        justify-content space-around
         div
           cursor pointer
         .other-login-wrapper

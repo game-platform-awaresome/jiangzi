@@ -61,13 +61,39 @@
           .then(res => {
             if (res.data.code === 2000){
 
-                layer.msg(res.data.msg);
+                // 修改成功后同步本地存储的账号密码
+                // 遍历localstorage
+                for(let i=0;i<localStorage.length;i++) {
+                  let userObj = JSON.parse(localStorage.getItem('user'+(i+1)));
+                  console.log('userobj'+ userObj.account)
+                  console.log('username'+ _this.username)
+                  if(userObj.account === _this.username) {
 
+                    localStorage.removeItem('user'+(i+1));
+                    // 填入新账号信息
+                    let userInfo = '{"code":2000,"msg":"登录成功","account":"'+ _this.username +'","password":"'+ _this.newPassword +'"}';
+                    localStorage.setItem('user'+(i+1),userInfo);
+                    console.log('修改成功')
+                    return;
+                  }
+                }
+
+
+                layer.msg(res.data.msg);
                 // 2.跳转
-                let redirect  = _this.getUrlParam('redirect') ? decodeURIComponent(_this.getUrlParam('redirect')) : '/login'
+                // 废弃跳转到redirect方案
+                /* let redirect  = _this.getUrlParam('redirect') ? decodeURIComponent(_this.getUrlParam('redirect')) : '/login?redirect='+_this.getUrlParam('redirect')
                 setTimeout(function() {
                   window.location.href = redirect;
-                }, 1000);
+                }, 1000); */
+
+                // 直接跳转login(也废弃)
+                /* let redirect  = '/login?redirect='+_this.getUrlParam('redirect')
+                setTimeout(function() {
+                  window.location.href = redirect;
+                }, 1000); */
+
+                _this.back();
 
             }else{
               layer.msg(res.data.msg);
