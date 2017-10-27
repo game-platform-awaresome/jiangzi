@@ -26,7 +26,7 @@
           <span class="index-common-btn icon-eye" :class="{'eye-input': !inputType}" @click="hidePassword"></span>
         </div>
         <div class="btn-wrapper">
-          <div class="register-btn" @click="register">一键注册</div>
+          <div class="register-btn" @click="register">注册</div>
           <div class="login-btn" @click="login">登录</div>
         </div>
         <div class="btn-other clearfix-new">
@@ -68,7 +68,7 @@
     <bindPhone v-if="loginFunc === 'bind'" @select-login="back"></bindPhone>
 
     <!-- 修改密码 -->
-    <updatePsd v-if="loginFunc === 'update'" @select-login="back"></updatePsd>
+    <updatePsd v-if="loginFunc === 'update'" @select-login="back" @update-psd="getLocalStorage"></updatePsd>
 
     <!-- 注册 -->
     <register v-if="loginFunc === 'register'" @select-login="back"></register>
@@ -85,12 +85,8 @@
   import qs from 'qs';
   export default {
     created() {
-      // 通过本地存储获取用户数据
-      for(let i=0;i<localStorage.length;i++){
-        let str = JSON.parse(localStorage.getItem('user'+(i+1)));
-        this.userList.push(str);
-      }
-      console.log(this.userList);
+      this.getLocalStorage();
+
     },
     data () {
       return {
@@ -115,6 +111,15 @@
       })
     },
     methods: {
+      // 通过本地存储获取用户数据
+      getLocalStorage() {
+        this.userList = [];
+        for(let i=0;i<localStorage.length;i++){
+          let str = JSON.parse(localStorage.getItem('user'+(i+1)));
+          this.userList.push(str);
+        }
+        console.log(this.userList);
+      },
       // select func
       //一键注册
       register() {
@@ -187,8 +192,6 @@
               let user = "user" + (localStorage.length+1);
               let password = JSON.stringify(res.data);
 
-
-
               for(let i=0;i<localStorage.length;i++) {
                 if(localStorage.getItem('user'+(i+1)) === password){
                   flag = false;
@@ -258,7 +261,6 @@
         )
           .then(res => {
             if (res.data.code === 2000){
-
                 layer.msg('欢迎您 '+ '<span style="color:red">' + res.data.account + '</span>' +'正在登录...');
                 // 1.存账号
                 // 是否存储数据标记
@@ -266,7 +268,6 @@
                 //本地存储
                 let user = "user" + (localStorage.length+1);
                 let password = JSON.stringify(res.data);
-
                 for(let i=0;i<localStorage.length;i++) {
                   if(localStorage.getItem('user'+i) === password){
                     flag = false;
@@ -276,14 +277,11 @@
                 if(flag){
                   localStorage.setItem(user,password);
                 }
-
                 // 2.跳转
-
                 let redirect  = _this.getUrlParam('redirect') ? decodeURIComponent(_this.getUrlParam('redirect')) : '/'
                 setTimeout(function() {
                   window.location.href = redirect;
                 }, 1000);
-
             }
             else{
               layer.msg(res.data.msg)
@@ -294,6 +292,7 @@
             console.log(error)
           })
       }
+
     }
 
   }

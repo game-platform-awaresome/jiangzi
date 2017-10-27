@@ -19,7 +19,7 @@
         <input type="password" placeholder="与密码输入一致" v-model="repassword">
       </div>
       <div class="btn-wrapper">
-        <div class="register-btn" @click="register">一键注册</div>
+        <div class="register-btn" @click="register">注册</div>
       </div>
 
     </div>
@@ -58,6 +58,24 @@ import qs from 'qs';
         )
           .then(res => {
             if (res.data.code === 2000){
+
+                // 1.存账号
+                // 是否存储数据?
+                let flag = true;
+                //本地存储
+                let user = "user" + (localStorage.length+1);
+                let password = JSON.stringify(res.data);
+
+                for(let i=0;i<localStorage.length;i++) {
+                  if(localStorage.getItem('user'+(i+1)) === password){
+                    flag = false;
+                  }
+                }
+
+                if(flag){
+                  localStorage.setItem(user,password);
+                }
+
 
                 layer.msg(res.data.msg);
 

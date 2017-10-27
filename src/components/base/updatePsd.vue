@@ -74,7 +74,9 @@
                     let userInfo = '{"code":2000,"msg":"登录成功","account":"'+ _this.username +'","password":"'+ _this.newPassword +'"}';
                     localStorage.setItem('user'+(i+1),userInfo);
                     console.log('修改成功')
-                    return;
+                    //将修改后的密码传入父组件
+                    _this.$emit('update-psd');
+                    break;
                   }
                 }
 

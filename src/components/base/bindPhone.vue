@@ -131,6 +131,7 @@
         },1000)
       },
       bind(){
+        let _this = this;
         this.$axios.post('/api/h5/user/accountBindPhone',qs.stringify({
                 username : this.username,
                 password : this.password,
