@@ -42,14 +42,14 @@
           <div class="line"></div>
         </h3>
         <div class="other-login">
-          <!-- <div class="tencent other-login-wrapper" @click="tencentLoginUrl">
+          <div class="tencent other-login-wrapper" @click="tencentLoginUrl">
             <i class="logo icon-qq"></i>
             <p class="text">QQ</p>
           </div>
           <div class="wechat other-login-wrapper" @click="wechatLoginUrl">
             <i class="logo icon-wechat"></i>
             <p class="text">微信</p>
-          </div> -->
+          </div>
           <div class="phone other-login-wrapper" @click="phoneLogin">
             <i class="logo icon-mobile"></i>
             <p class="text">手机</p>
@@ -323,17 +323,19 @@ common-header()
     font-size 34px
 
 common-input()
-  padding 12px
+  padding 8px 12px
   border 1px solid #d9d9d9
   margin-bottom 20px
   border-radius 3px
   display flex
   span
     display inline-block
+    line-height 20px
     font-size 16px
     color #4d4d4d
   input
-    height 16px
+    height 20px
+    line-height 20px
     width 60%
     border none
     outline none
@@ -361,9 +363,10 @@ common-btn($bg-color,$color)
   .login-wrapper
     width 460px
     margin 0 auto
-    position relative
+    position absolute
+    left 50%
     top 50%
-    transform translate(0,-50%)
+    transform translate(-50%,-50%)
     background #fff
     border-radius 5px
     overflow hidden

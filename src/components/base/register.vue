@@ -7,11 +7,11 @@
     <div class="content">
       <h1 class="title">用户注册</h1>
       <div class="input-wrapper">
-        <span>账&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号:</span>
+        <span>账&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 号:</span>
         <input type="text" placeholder="必须包含字母和数字,6-20位" v-model="username" @blur.stop="hasAccount">
       </div>
       <div class="input-wrapper">
-        <span>密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码:</span>
+        <span>密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 码:</span>
         <input type="password" placeholder="长度为6-20位,大小写字母或数字" v-model="password">
       </div>
       <div class="input-wrapper">
