@@ -11,7 +11,7 @@
         <h1 class="title">用户登录</h1>
         <div class="input-wrapper">
           <span>账&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号:</span>
-          <input type="text" placeholder="请输入账号" @blur="hasAccount" v-model="username" autocomplete="off">
+          <input type="text" placeholder="请输入账号" v-model="username" autocomplete="off">
           <span class="index-common-btn account-list-btn icon-chevron-thin-down" @click.stop="openlist"></span>
           <ul class="account-list" v-show="openUserList">
             <li v-for="item in userList" @click="selectAccount(item)">
