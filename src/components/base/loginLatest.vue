@@ -11,7 +11,7 @@
         <h1 class="title">用户登录</h1>
         <div class="input-wrapper">
           <span>账&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号:</span>
-          <input type="text" placeholder="请输入账号" @blur="hasAccount" v-model="username">
+          <input type="text" placeholder="请输入账号" @blur="hasAccount" v-model="username" autocomplete="off">
           <span class="index-common-btn account-list-btn icon-chevron-thin-down" @click.stop="openlist"></span>
           <ul class="account-list" v-show="openUserList">
             <li v-for="item in userList" @click="selectAccount(item)">
@@ -21,7 +21,7 @@
         </div>
         <div class="input-wrapper">
           <span>密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码:</span>
-          <input type="password" placeholder="请输入密码" v-model="password" v-if="inputType">
+          <input type="password" placeholder="请输入密码" v-model="password" v-if="inputType" autocomplete="off">
           <input type="text" placeholder="请输入密码" v-model="password" v-else >
           <span class="index-common-btn icon-eye" :class="{'eye-input': !inputType}" @click="hidePassword"></span>
         </div>
@@ -330,10 +330,14 @@ common-input()
   display flex
   span
     display inline-block
-    line-height 20px
-    font-size 16px
+    height 21px
+    line-height 21px
+    font-size 15px
     color #4d4d4d
+    vertical-align center
+    transform translate(0,1px)
   input
+    display inline-block
     height 20px
     line-height 20px
     width 60%
@@ -341,6 +345,9 @@ common-input()
     outline none
     text-indent 10px
     flex 1
+    font-size 14px
+    vertical-align center
+    border none
 common-btn($bg-color,$color)
   flex 1
   background $bg-color
@@ -393,12 +400,15 @@ common-btn($bg-color,$color)
           width 42px
           border-left 1px solid #d9d9d9
           font-size 20px
-          line-height 42px
+          line-height 38px
           text-align center
           color #d9d9d9
           cursor pointer
+          height auto
           &.eye-input
             color #333
+        .get-code-btn
+          font-size 14px
         .account-list
           position absolute
           z-index 10
@@ -474,5 +484,7 @@ common-btn($bg-color,$color)
             text-align center
             line-height 16px
             padding-bottom 10px
+
+
 
 </style>

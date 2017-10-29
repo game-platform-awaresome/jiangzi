@@ -8,19 +8,19 @@
       <h1 class="title">手机绑定</h1>
       <div class="input-wrapper">
         <span>账&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号:</span>
-        <input type="text" placeholder="" v-model="username">
+        <input type="text" placeholder="请输入账号" v-model="username">
       </div>
       <div class="input-wrapper">
         <span>密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码:</span>
-        <input type="password" placeholder="" v-model="password">
+        <input type="password" placeholder="请输入密码" v-model="password">
       </div>
       <div class="input-wrapper">
         <span>手&nbsp;机&nbsp;号:</span>
-        <input type="text" placeholder="" v-model="tel">
+        <input type="text" placeholder="请输入手机号" v-model="tel">
       </div>
       <div class="input-wrapper">
         <span>验&nbsp;证&nbsp;码:</span>
-        <input type="text" placeholder="" class="message-code" autocomplete="off" v-model="code">
+        <input type="text" placeholder="请输入验证码" class="message-code" autocomplete="off" v-model="code">
         <span class="get-code-btn" @click="getCode" v-if="yanzhengBtn == true">{{yanzhengVal}}</span>
         <span class="get-code-btn" v-else style="color: #d8d8d8;">{{yanzhengVal}}</span>
       </div>

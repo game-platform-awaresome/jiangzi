@@ -29,16 +29,15 @@
 
 
     <!--手机绑定弹出层 S-->
-    <div class="follow-alert" :class="style" @click="close">
+    <!-- <div class="follow-alert" :class="style" @click="close">
       <div class="follow-window">
-        <!--<div class="follow-heading"></div>-->
         <p class="follow-text follow-text-header">防止账号丢失</p>
         <p class="follow-text">设置后可用手机号登录</p>
         <router-link :to="{path:'/person/addtel'}">
           <a href="javascript:;" class="follow-bind">立即绑定</a>
         </router-link>
       </div>
-    </div>
+    </div> -->
     <!--手机绑定弹出层 E-->
     <div class="fuckWindow" v-if="fuckWindow === true"></div>
   </div>
