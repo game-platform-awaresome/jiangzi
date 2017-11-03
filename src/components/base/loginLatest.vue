@@ -133,12 +133,13 @@
       //微信登录
       wechatLoginUrl(){
         let token     = this.getUrlParam('token') ? '&token='+ encodeURIComponent(this.getUrlParam('token')) : '';
-        let redirect  = this.getUrlParam('redirect') ? '&redirect='+ encodeURIComponent(this.getUrlParam('redirect')) : '';
+        let redirect  = this.getUrlParam('redirect') ? '?redirect='+ encodeURIComponent(this.getUrlParam('redirect')) : '';
+        let redirect2  = this.getUrlParam('redirect') ? '&redirect='+ encodeURIComponent(this.getUrlParam('redirect')) : '';
 
         if(this.isWechat()){
-            window.location.href = '/api/h5/user/oauthlogin/oauthtype/wechat' + token + redirect;
+            window.location.href = '/api/h5/user/oauthlogin/oauthtype/wechat' + redirect;
         }else{
-            window.location.href = '/api/h5/user/oauthlogin?oauthtype=scan' + token + redirect;
+            window.location.href = '/api/h5/user/oauthlogin?oauthtype=scan' + redirect2;
         }
       },
       // 手机登录
@@ -149,7 +150,7 @@
       tencentLoginUrl(){
         let token     = this.getUrlParam('token') ? '&token='+ encodeURIComponent(this.getUrlParam('token')) : '';
         let redirect  = this.getUrlParam('redirect') ? '&redirect='+ encodeURIComponent(this.getUrlParam('redirect')) : '';
-        window.location.href = '/api/h5/user/oauthlogin?oauthtype=qq' + token + redirect;
+        window.location.href = '/api/h5/user/oauthlogin?oauthtype=qq' + redirect;
       },
       //绑定手机
       bind() {
@@ -261,7 +262,8 @@
       touristLogin() {
         let _this = this;
         this.$axios.post('/api/h5/user/register',qs.stringify({
-                type : 'key'
+                type : 'key',
+                redirect : _this.getUrlParam('redirect')
             })
         )
           .then(res => {

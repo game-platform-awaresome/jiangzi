@@ -6,7 +6,7 @@
         <swiper :options="swiperOption">
 
           <!--v-for-->
-          <swiper-slide v-for="list in recentPlay" :key='item.id'>
+          <swiper-slide v-for="list in recentPlay">
           <li>
             <img :src="list.img" alt="" @click="clickBtn(list.gamename,list.url)">
             <p>{{ list.gamename }}</p>

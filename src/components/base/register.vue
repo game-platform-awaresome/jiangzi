@@ -53,7 +53,7 @@ import qs from 'qs';
                 username : this.username,
                 password : this.password,
                 repassword : this.repassword,
-                redirect : ''
+                redirect : _this.getUrlParam('redirect')
             })
         )
           .then(res => {
