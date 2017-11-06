@@ -27,6 +27,7 @@ created(){
   data () {
     return {
       swiperOption: {
+        pagination: '.swiper-pagination',
         direction: 'vertical',
         autoplay:2000,
         width:window.innerWidth,
@@ -48,6 +49,7 @@ created(){
   .broadcast{
     height: 3rem;
     background-color: #ececec;
+    overflow: hidden;
   }
   .broadcast-list{
     height: 3rem;
@@ -59,6 +61,6 @@ created(){
   }
   .broadcast-list span{
     color: #ff6b4f;
-    padding: 0 1rem 0 3rem;
+    padding: 0 1rem 0 2rem;
   }
 </style>

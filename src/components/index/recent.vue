@@ -3,10 +3,9 @@
     <p>最<br/>近<br/>在<br/>玩</p>
     <div class="recent-play-list clearfix">
       <ul>
-        <swiper :options="swiperOption">
+        <swiper :options="swiperOption" class="list-wrapper">
 
-          <!--v-for-->
-          <swiper-slide v-for="list in recentPlay">
+          <swiper-slide v-for="list in recentPlay" class="list-swiper">
           <li>
             <img :src="list.img" alt="" @click="clickBtn(list.gamename,list.url)">
             <p>{{ list.gamename }}</p>
@@ -41,10 +40,10 @@ export default {
 
       ],
       swiperOption: {
-        pagination: '.swiper-pagination',
         slidesPerView: 4,
         paginationClickable: true,
         spaceBetween: 10,
+        freeMode: true
       }
     }
   },
@@ -90,6 +89,9 @@ export default {
   padding-top: 1.5rem;
   border-radius: .5rem;
   z-index: 2;
+}
+.list-wrapper .list-swiper{
+  float: left;
 }
 .recent-play-list{
   /*height:11rem;*/
