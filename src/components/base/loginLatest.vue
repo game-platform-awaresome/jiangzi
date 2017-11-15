@@ -148,9 +148,19 @@
       },
       // QQ登录
       tencentLoginUrl(){
-        let token     = this.getUrlParam('token') ? '&token='+ encodeURIComponent(this.getUrlParam('token')) : '';
+        // let token     = this.getUrlParam('token') ? '&token='+ encodeURIComponent(this.getUrlParam('token')) : '';
         let redirect  = this.getUrlParam('redirect') ? '&redirect='+ encodeURIComponent(this.getUrlParam('redirect')) : '';
-        window.location.href = '/api/h5/user/oauthlogin?oauthtype=qq' + redirect;
+
+
+        let theHtml = decodeURIComponent(redirect);
+        let qqapp = "lt=wd";
+        if(theHtml.includes(qqapp)){
+          window.location.href = '/api/h5/user/oauthlogin?oauthtype=qqapp' + redirect;
+        }else{
+          window.location.href = '/api/h5/user/oauthlogin?oauthtype=qq' + redirect;
+        }
+
+
       },
       //绑定手机
       bind() {
