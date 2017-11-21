@@ -13,7 +13,7 @@
           <span>账&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号:</span>
           <input type="text" placeholder="请输入账号" v-model="username" autocomplete="off">
           <span class="index-common-btn account-list-btn icon-chevron-thin-down" @click.stop="openlist"></span>
-          <ul class="account-list" v-show="openUserList">
+          <ul class="account-list" v-if="openUserList">
             <li v-for="item in userList" @click="selectAccount(item)">
               {{item.account}}
             </li>
@@ -86,7 +86,7 @@
   export default {
     created() {
       this.getLocalStorage();
-
+      this.loginPageCount();
     },
     data () {
       return {
@@ -118,7 +118,7 @@
           let str = JSON.parse(localStorage.getItem('user'+(i+1)));
           this.userList.push(str);
         }
-        console.log(this.userList);
+        // console.log(this.userList);
       },
       //更新密码
       updateNewPsd(newPassword) {
@@ -255,6 +255,14 @@
           .catch(function(error){
             console.log(error)
           })
+      },
+      //统计login页面曝光次数
+      loginPageCount(){
+        let _this = this;
+        this.$axios.post('/api/h5/user/loginCount',qs.stringify({
+          route : 'login',
+          redirect : _this.getUrlParam('redirect')
+        })).then(res => res);
       },
       //选择账号
       selectAccount(item) {
@@ -420,7 +428,15 @@ common-btn($bg-color,$color)
           &.eye-input
             color #333
         .get-code-btn
+          position absolute
           font-size 14px
+          text-decoration none
+          top 0
+          right 0
+          bottom 0
+          padding 0 8px
+          line-height 38px
+          border-left 1px solid #d9d9d9
         .account-list
           position absolute
           z-index 10

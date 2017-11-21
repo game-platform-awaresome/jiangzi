@@ -13,7 +13,7 @@
       <div class="input-wrapper">
         <span>验&nbsp;证&nbsp;码:</span>
         <input type="text" placeholder="请输入短信验证码" class="message-code" autocomplete="off" v-model="code">
-        <span class="get-code-btn" @click="getCode" v-if="yanzhengBtn == true">{{yanzhengVal}}</span>
+        <s class="get-code-btn" @click="getCode" v-if="yanzhengBtn == true">{{yanzhengVal}}</s>
         <span class="get-code-btn" v-else style="color: #d8d8d8;">{{yanzhengVal}}</span>
       </div>
       <div class="btn-wrapper">
