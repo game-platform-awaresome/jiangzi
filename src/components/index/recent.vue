@@ -1,21 +1,13 @@
 <template>
   <div class="recent clearfix">
     <p>最<br/>近<br/>在<br/>玩</p>
-    <div class="recent-play-list clearfix">
-      <ul>
-        <swiper :options="swiperOption" class="list-wrapper">
-
-          <swiper-slide v-for="list in recentPlay" class="list-swiper">
-          <li>
+    <div class="recent-play-list clearfix" ref="recentWrap">
+      <ul ref="recentList">
+          <li v-for="list in recentPlay">
             <img :src="list.img" alt="" @click="clickBtn(list.gamename,list.url)">
             <p>{{ list.gamename }}</p>
             <a @click="clickBtn(list.gamename,list.url)">开始</a>
           </li>
-          </swiper-slide>
-          <swiper-slide>
-
-          </swiper-slide>
-        </swiper>
       </ul>
     </div>
   </div>
@@ -23,8 +15,9 @@
 
 <script>
   import Vue from 'vue'
-  import { swiper, swiperSlide, swiperPlugins } from 'vue-awesome-swiper'
+  // import { swiper, swiperSlide, swiperPlugins } from 'vue-awesome-swiper'
   import tools from '../../util/tool.js'
+  import BScroll from 'better-scroll'
 export default {
   created(){
     this.$http.get('/api/h5/game/history').then(function (res) {
@@ -39,17 +32,17 @@ export default {
       recentPlay:[
 
       ],
-      swiperOption: {
-        slidesPerView: 4,
-        paginationClickable: true,
-        spaceBetween: 10,
-        freeMode: true
-      }
+
     }
   },
   components: {
-    swiper,
-    swiperSlide
+
+  },
+  mounted() {
+    this.$nextTick(() => {
+        this._initScroll();
+        this._initPics();
+      });
   },
   methods:{
     //游戏点击
@@ -63,6 +56,24 @@ export default {
         },
         href : url
       })
+    },
+    _initPics() {
+      if (this.recentPlay) {
+        let picWidth = 7;
+        let margin = 0.5;
+        let width = (picWidth + margin) * this.recentPlay.length - margin + 2.3;
+        this.$refs.picList.style.width = width + 'px';
+        this.$nextTick(() => {
+          if (!this.picScroll) {
+            this.picScroll = new BScroll(this.$refs.recentWrap, {
+              scrollX: true,
+              eventPassthrough: 'vertical'
+            });
+          } else {
+            this.picScroll.refresh();
+          }
+        });
+      }
     }
   }
 }
