@@ -20,12 +20,7 @@
   import BScroll from 'better-scroll'
 export default {
   created(){
-    this.$http.get('/api/h5/game/history').then(function (res) {
-      this.recentPlay = res.body
-      console.log(this.recentPlay)
-    },function (err) {
-      console.log(err)
-    })
+
   },
   data () {
     return {
@@ -40,7 +35,6 @@ export default {
   },
   mounted() {
     this.$nextTick(() => {
-        this._initScroll();
         this._initPics();
       });
   },
@@ -58,23 +52,42 @@ export default {
       })
     },
     _initPics() {
-      if (this.recentPlay) {
+      // if (this.recentPlay) {
         let picWidth = 7;
         let margin = 0.5;
-        let width = (picWidth + margin) * this.recentPlay.length - margin + 2.3;
-        this.$refs.picList.style.width = width + 'px';
-        this.$nextTick(() => {
-          if (!this.picScroll) {
-            this.picScroll = new BScroll(this.$refs.recentWrap, {
-              scrollX: true,
-              eventPassthrough: 'vertical'
-            });
-          } else {
-            this.picScroll.refresh();
-          }
-        });
-      }
-    }
+
+        this.$http.get('/api/h5/game/history').then(function (res) {
+          this.recentPlay = res.body
+
+          let width = (picWidth + margin) * this.transformArray(this.recentPlay).length  - margin + 2.3;
+          console.log(this.transformArray(this.recentPlay).length)
+          this.$refs.recentList.style.width = width + 'rem';
+
+          this.$nextTick(() => {
+            if (!this.picScroll) {
+              this.picScroll = new BScroll(this.$refs.recentWrap, {
+                scrollX: true,
+                eventPassthrough: 'vertical'
+              });
+            } else {
+              this.picScroll.refresh();
+            }
+          });
+
+        },function (err) {
+          console.log(err)
+        })
+
+
+      // }
+    },
+    transformArray :  function(obj){
+        var arr = [];
+        for(var item in obj){
+            arr.push(obj[item]);
+        }
+        return arr;
+    },
   }
 }
 </script>
@@ -106,18 +119,22 @@ export default {
 }
 .recent-play-list{
   /*height:11rem;*/
+  overflow: hidden;
 }
   .recent-play-list ul{
     height: 12rem;
     text-align: center;
   }
+  .recent-play-list ul li:first-of-type{
+    margin-left: 2.5rem;
+  }
   .recent-play-list ul li{
     height: 9rem;
     width: 7rem;
-    display: block;
-    float: left;
+    display: inline-block;
+    /* float: left; */
     box-shadow: 0 0 .25rem rgba(0,0,0,.2);
-    margin: 2.3rem 0 0.5rem;
+    margin: 2.3rem 0.5rem 0.5rem;
     position: relative;
   }
 .recent-play-list ul li img{

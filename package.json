@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "axios": "^0.16.2",
+    "better-scroll": "^1.4.2",
     "json-server": "^0.10.0",
     "mint-ui": "^2.2.7",
     "vue": "^2.2.6",
