@@ -5,12 +5,15 @@
         <p>热门</p>
       </router-link>
       <router-link :to="{path:'/new-server'}" tag="li">
+        <div class="red-rot" :class="newServerRed" ></div>
         <p>新开服</p>
       </router-link>
       <router-link :to="{path:'/news'}" tag="li">
+        <div class="red-rot" :class=""></div>
         <p>资讯</p>
       </router-link>
       <router-link :to="{path:'/subject'}" tag="li">
+        <div class="red-rot" :class=""></div>
         <p>专题</p>
       </router-link>
     </ul>
@@ -31,6 +34,15 @@ export default {
       },(err) => {
         console.log(err)
       })
+
+       //新内容
+      this.$axios.get('/api/h5/index/redsign')
+      .then((res) => {
+        if(res.data.code == 2000) {
+          this.redDate = res.data.data
+          console.log(this.redDate)
+        }
+      })
   },
   components:{
     Hot,
@@ -41,15 +53,25 @@ export default {
   data () {
     return {
       currentList:'Hot',
-
-      active:0
+      redDate: {},
+      active:0,
+      localDate: {
+        new_server: 0,
+        message: 0,
+        special: 0,
+        gift: 0,
+        mall: 0
+      }
     }
   },
   methods:{
-      updateList(num,index){
-        this.currentList = num
-        this.active = index
-      },
+    newServerRed() {
+      return this.redDate['new_server'] > localDate['new_server'] ? 'has' : ''
+    },
+    updateList(num,index){
+      this.currentList = num
+      this.active = index
+    },
     clickRouter(path,name){
       tools.clickNum({
         url : '/api/h5/index/buttonClick',
@@ -113,6 +135,17 @@ export default {
   color: #333;
   height: 8rem;
   background-size: 4rem!important;
+}
+.red-rot{
+  position: absolute;
+  top: 12px;
+  right: 20px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+.red-rot.has{
+  background-color: red;
 }
 .index-content-nav li p{
   position: absolute;

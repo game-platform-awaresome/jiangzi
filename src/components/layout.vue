@@ -57,7 +57,13 @@ export default {
     if(window.location.pathname === '/login'){
         this.isLogin = true;
     }
-
+    //新内容
+    this.$axios.get('/api/h5/index/redsign')
+      .then(res => {
+        if (res.code === 2000) {
+          this.redDate = res.data
+        }
+      })
     //用户信息初始化
     this.getUserInfo()
 
@@ -138,11 +144,10 @@ export default {
   data(){
       return{
         linkcolor:true,
-        user:{
-
-        },
+        user:{},
         config:'',
-        isLogin:false
+        isLogin:false,
+        redDate: {}
       }
   },
   methods:{
