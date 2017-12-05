@@ -5,15 +5,15 @@
         <p>热门</p>
       </router-link>
       <router-link :to="{path:'/new-server'}" tag="li">
-        <div class="red-rot" :class="newServerRed" ></div>
+        <div class="red-rot" :class="redHas('new_server')"></div>
         <p>新开服</p>
       </router-link>
       <router-link :to="{path:'/news'}" tag="li">
-        <div class="red-rot" :class=""></div>
+        <div class="red-rot" :class="redHas('message')"></div>
         <p>资讯</p>
       </router-link>
       <router-link :to="{path:'/subject'}" tag="li">
-        <div class="red-rot" :class=""></div>
+        <div class="red-rot" :class="redHas('special')"></div>
         <p>专题</p>
       </router-link>
     </ul>
@@ -40,9 +40,10 @@ export default {
       .then((res) => {
         if(res.data.code == 2000) {
           this.redDate = res.data.data
-          console.log(this.redDate)
         }
       })
+
+      this.getLocalDate()
   },
   components:{
     Hot,
@@ -56,6 +57,9 @@ export default {
       redDate: {},
       active:0,
       localDate: {
+
+      },
+      defaultDate: {
         new_server: 0,
         message: 0,
         special: 0,
@@ -65,8 +69,40 @@ export default {
     }
   },
   methods:{
-    newServerRed() {
-      return this.redDate['new_server'] > localDate['new_server'] ? 'has' : ''
+    getLocalDate() {
+      if (localStorage.getItem('red')) {
+        this.localDate = JSON.parse(localStorage.getItem('red'))
+      } else {
+        this.localDate = this.defaultDate
+      }
+    },
+    saveDate(content) {
+      if (content === 'new-server') {
+        content = 'new_server'
+      }
+      if (content === 'news') {
+        content = 'message'
+      }
+      if (content === 'subject') {
+        content = 'special'
+      }
+      // console.log(this.localDate[content],this.redDate[content])
+      if (parseInt(this.localDate[content]) < parseInt(this.redDate[content])) {
+        console.log('save it')
+        let obj = {}
+        obj[content] = parseInt(Date.now() / 1000)
+        this.localDate = Object.assign({},this.localDate,obj)
+        localStorage.setItem('red',JSON.stringify(this.localDate))
+      }
+    },
+    redHas(content) {
+      if (this.redDate[content] === 0) {
+        return ''
+      } else if (this.localDate[content] < this.redDate[content]) {
+        return 'has'
+      } else {
+        return ''
+      }
     },
     updateList(num,index){
       this.currentList = num
@@ -83,6 +119,7 @@ export default {
       },'router')
     },
     clickRouterUrl(val){
+        this.saveDate(val.path.substr(1))
         let data = {
             path : '',
             name : '',

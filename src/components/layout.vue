@@ -19,12 +19,14 @@
               </router-link>
               <router-link :to="{path:'/store'}">
                 <li class="footer-link-2 footer-store">
+                  <div class="red-rot" :class="redHas('mall')"></div>
                   <div class="footer-logo"></div>
                   <p>商城</p>
                 </li>
               </router-link>
               <router-link :to="{path:'/gift'}">
                 <li class="footer-link-3">
+                  <div class="red-rot" :class="redHas('gift')"></div>
                   <div class="footer-logo"></div>
                   <p>礼包</p>
                 </li>
@@ -54,16 +56,18 @@
 //  import wx from 'wx-js-sdk'
 export default {
   created(){
+
     if(window.location.pathname === '/login'){
         this.isLogin = true;
     }
-    //新内容
-    this.$axios.get('/api/h5/index/redsign')
-      .then(res => {
-        if (res.code === 2000) {
-          this.redDate = res.data
+   //新内容
+      this.$axios.get('/api/h5/index/redsign')
+      .then((res) => {
+        if(res.data.code == 2000) {
+          this.redDate = res.data.data
         }
       })
+      this.getLocalDate()
     //用户信息初始化
     this.getUserInfo()
 
@@ -147,10 +151,59 @@ export default {
         user:{},
         config:'',
         isLogin:false,
-        redDate: {}
+        redDate: {},
+        localDate: {
+
+        },
+        defaultDate: {
+          new_server: 0,
+          message: 0,
+          special: 0,
+          gift: 0,
+          mall: 0
+        }
       }
   },
+  watch:{
+    "$route" : "clickRouterUrl"
+  },
   methods:{
+    clickRouterUrl(val) {
+      this.saveDate(val.path.substr(1))
+    },
+    getLocalDate() {
+      if (localStorage.getItem('red')) {
+        this.localDate = JSON.parse(localStorage.getItem('red'))
+      } else {
+        this.localDate = this.defaultDate
+      }
+    },
+    saveDate(content) {
+      if (content === 'store/store') {
+        content = 'mall'
+      }
+      if (content === 'gift') {
+        content = 'gift'
+      }
+      console.log(content)
+      console.log(this.localDate[content],this.redDate[content])
+      if (parseInt(this.localDate[content]) < parseInt(this.redDate[content])) {
+        console.log('save it')
+        let obj = {}
+        obj[content] = parseInt(Date.now() / 1000)
+        this.localDate = Object.assign({},this.localDate,obj)
+        localStorage.setItem('red',JSON.stringify(this.localDate))
+      }
+    },
+    redHas(content) {
+      if (this.redDate[content] === 0) {
+        return ''
+      } else if (this.localDate[content] < this.redDate[content]) {
+        return 'has'
+      } else {
+        return ''
+      }
+    },
       //获取平台登录信息
       getUserInfo(){
         this.$http.get('/api/h5/user/getUserinfo').then(function(res) {
@@ -422,6 +475,7 @@ html,body{
     width: 100%;
   }
   .footer ul li{
+    position: relative;
     display: inline-block;
     width: 20%;
     font-size: 1.4rem;
@@ -429,7 +483,18 @@ html,body{
     line-height: 2rem;
     color:#666666;
   }
-  .footer ul li div{
+  .red-rot{
+    position: absolute;
+    top: 12px;
+    right: 20px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+  }
+  .red-rot.has{
+    background-color: red;
+  }
+  .footer ul li .footer-logo{
     margin: 0 auto;
     margin-top: 0.7rem;
     width: 2rem;
@@ -471,25 +536,25 @@ html,body{
 
 
   .router-link-active li{
-    color: #4385f5 !important;
+    color: #4385f5 ;
   }
-  .router-link-active .footer-link-1 div {
+  .router-link-active .footer-link-1 .footer-logo {
     background: url("../assets/icon-game-blue.png") 0 0 no-repeat !important;
     background-size: cover !important;
   }
-  .router-link-active .footer-link-2 div {
+  .router-link-active .footer-link-2 .footer-logo {
     background: url("../assets/icon-store-blue.png") 0 0 no-repeat !important;
     background-size: cover !important;
   }
-  .router-link-active .footer-link-3 div {
+  .router-link-active .footer-link-3 .footer-logo {
     background: url("../assets/icon-gift-blue.png") 0 0 no-repeat !important;
     background-size: cover !important;
   }
-  .router-link-active .footer-link-4 div {
+  .router-link-active .footer-link-4 .footer-logo {
     background: url("../assets/icon-community-blue.png") 0 0 no-repeat !important;
     background-size: cover !important;
   }
-  .router-link-active .footer-link-5 div {
+  .router-link-active .footer-link-5 .footer-logo {
     background: url("../assets/icon-person-blue.png") 0 0 no-repeat !important;
     background-size: cover !important;
   }
