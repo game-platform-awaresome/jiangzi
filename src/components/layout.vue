@@ -67,6 +67,12 @@ export default {
           this.redDate = res.data.data
         }
       })
+    // 日志
+    this.$axios.get('/api/h5/user/logs')
+      .then((res) => {
+
+      })
+      // 获取本地date
       this.getLocalDate()
     //用户信息初始化
     this.getUserInfo()
