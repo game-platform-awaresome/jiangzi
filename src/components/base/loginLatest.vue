@@ -4,11 +4,14 @@
     <div class="login-index login-wrapper" v-if="loginFunc === ''">
       <!-- header -->
       <div class="header">
-        <i class="logo"></i>
+        <!-- <i class="logo"></i> -->
+        <span class="new-icon fa fa-angle-left" @click="backIndex"></span>
+        登录
+        <span class="new-register" @click="register">注册</span>
       </div>
       <!-- content -->
       <div class="content">
-        <h1 class="title">用户登录</h1>
+        <!-- <h1 class="title">用户登录</h1> -->
         <div class="input-wrapper">
           <span>账&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号:</span>
           <input type="text" placeholder="请输入账号" v-model="username" autocomplete="off">
@@ -25,13 +28,13 @@
           <input type="text" placeholder="请输入密码" v-model="password" v-else >
           <span class="index-common-btn icon-eye" :class="{'eye-input': !inputType}" @click="hidePassword"></span>
         </div>
-        <div class="btn-wrapper">
-          <div class="register-btn" @click="register">注册</div>
-          <div class="login-btn" @click="login">登录</div>
-        </div>
         <div class="btn-other clearfix-new">
-          <a class="bind" @click="bind">绑定手机</a>
+          <!-- <a class="bind" @click="bind">绑定手机</a> -->
           <a class="update" @click="update">修改密码</a>
+        </div>
+        <div class="btn-wrapper">
+          <!-- <div class="register-btn" @click="register">注册</div> -->
+          <div class="login-btn" @click="login">登录</div>
         </div>
       </div>
       <!-- bottom  -->
@@ -42,14 +45,14 @@
           <div class="line"></div>
         </h3>
         <div class="other-login">
-          <div class="tencent other-login-wrapper" @click="tencentLoginUrl">
+          <!-- <div class="tencent other-login-wrapper" @click="tencentLoginUrl">
             <i class="logo icon-qq"></i>
             <p class="text">QQ</p>
           </div>
           <div class="wechat other-login-wrapper" @click="wechatLoginUrl">
             <i class="logo icon-wechat"></i>
             <p class="text">微信</p>
-          </div>
+          </div> -->
           <div class="phone other-login-wrapper" @click="phoneLogin">
             <i class="logo icon-mobile"></i>
             <p class="text">手机</p>
@@ -81,7 +84,7 @@
   import bindPhone from '@/components/base/bindPhone';
   import updatePsd from '@/components/base/updatePsd';
   import register from '@/components/base/register';
-
+  import 'font-awesome/css/font-awesome.min.css'
   import qs from 'qs';
   export default {
     created() {
@@ -161,6 +164,9 @@
         }
 
 
+      },
+      backIndex() {
+        this.$router.push('/index')
       },
       //绑定手机
       bind() {
@@ -327,8 +333,13 @@
 <style lang="stylus">
 
 common-header()
-  background #eee
-  padding 12px 24px
+  // background #eee
+  position relative
+  font-size 19px
+  color #fff
+  text-align center
+  padding 12px 0px
+  background-color transparent
   .logo
     display inline-block
     height 34px
@@ -341,19 +352,32 @@ common-header()
     right 8px
     color #494949
     font-size 34px
-
+  .new-icon
+    position absolute 
+    font-size 30px
+    top 3px
+    left 0
+    color #9f758d
+  .new-register
+    position absolute
+    right 0
+    top 12px
+    font-size 13px
+    color #989898
+    line-height 19px
 common-input()
   padding 8px 12px
-  border 1px solid #d9d9d9
-  margin-bottom 20px
-  border-radius 3px
+  // border 1px solid #d9d9d9
+  background-color #f0f0f0
+  margin-bottom 10px
+  // border-radius 3px
   display flex
   span
     display inline-block
     height 21px
     line-height 21px
-    font-size 15px
-    color #4d4d4d
+    font-size 14px
+    color #a1a1a1
     vertical-align center
     transform translate(0,1px)
   input
@@ -362,21 +386,23 @@ common-input()
     line-height 20px
     width 60%
     border none
+    color #c8c8c8
     outline none
     text-indent 10px
     flex 1
-    font-size 14px
+    font-size 12px
     vertical-align center
     border none
+    background-color #f0f0f0
 common-btn($bg-color,$color)
   flex 1
   background $bg-color
   color $color
   border-radius 5px
-  height 50px
-  line-height 50px
+  height 38px
+  line-height 38px
   text-align center
-  font-size 20px
+  font-size 14px
 
 
 .login-latest
@@ -393,17 +419,18 @@ common-btn($bg-color,$color)
     margin 0 auto
     position absolute
     left 50%
-    top 50%
-    transform translate(-50%,-50%)
-    background #fff
-    border-radius 5px
+    top 30px
+    transform translate(-50%,0)
+    // background #fff
+    // border-radius 5px
     overflow hidden
     // 头部
     .header
       common-header()
     // 内容
     .content
-      padding 0 24px
+      padding 16px 24px 0
+      background-color #fff
       .title
         color #494949
         font-size 24px
@@ -416,14 +443,15 @@ common-btn($bg-color,$color)
         .index-common-btn
           position absolute
           right 0
-          bottom 0
+          bottom 1px
           top 0
           width 42px
-          border-left 1px solid #d9d9d9
+          // border-left 1px solid #d9d9d9
           font-size 20px
           line-height 38px
           text-align center
-          color #d9d9d9
+          background-color #e5e5e5
+          color #c1c1c1 
           cursor pointer
           height auto
           &.eye-input
@@ -456,7 +484,8 @@ common-btn($bg-color,$color)
       // 按钮
       .btn-wrapper
         display flex
-        margin-bottom 20px
+        // margin-bottom 20px
+        padding-bottom 15px
         div
           cursor pointer
         .register-btn
@@ -465,12 +494,13 @@ common-btn($bg-color,$color)
 
         .login-btn
           margin-left 5px
-          common-btn(#3299f7,#fff)
+          common-btn(#9f758d,#fff)
         .phone-login-btn
-          common-btn(#3299f7,#fff)
+          common-btn(#9f758d,#fff)
       //链接
       .btn-other
         width 100%
+        pa
         a
           cursor pointer
         .bind
@@ -479,14 +509,18 @@ common-btn($bg-color,$color)
           font-size 14px
         .update
           float right
-          color #f72243
+          color #989898
           font-size 14px
+          padding 5px 0
     .bottom
       padding 0 24px
+      background-color #fff
       .description
-        width 200px
-        margin 10px auto
+        width 160px
+        padding 10px 0
+        margin 0 auto
         display flex
+        color #8a8a8a
         .line
           position relative
           top 6px
@@ -495,7 +529,10 @@ common-btn($bg-color,$color)
         .content
           padding 0 10px
           font-size 12px
+          background-color #fff
       .other-login
+        width 160px
+        margin 0 auto
         display flex
         justify-content space-around
         div
@@ -513,6 +550,7 @@ common-btn($bg-color,$color)
             text-align center
             line-height 16px
             padding-bottom 10px
+            
 
 
 

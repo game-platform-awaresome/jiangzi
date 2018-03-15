@@ -1,11 +1,12 @@
 <template>
   <div class="login-phone login-wrapper">
     <div class="header">
-      <i class="logo"></i>
-      <a class="close icon-close" @click="back"></a>
-    </div>
+        <span class="new-icon fa fa-angle-left" @click="back"></span>
+        手机登录
+        <span class="new-register" @click="register">注册</span>
+      </div>
     <div class="content">
-      <h1 class="title">手机登录</h1>
+      <!-- <h1 class="title">手机登录</h1> -->
       <div class="input-wrapper">
         <span>手&nbsp;机&nbsp;号:</span>
         <input type="text" placeholder="请输入手机号码" class="phone-input" autocomplete="off" @blur="validatePhone" v-model="phone">
@@ -137,6 +138,9 @@
         let reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)');
         let result = window.location.search.substr(1).match(reg);
         return result ? decodeURIComponent(result[2]) : null
+      },
+      register() {
+        this.$emit('select-login')
       }
     }
   };

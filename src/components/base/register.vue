@@ -1,9 +1,11 @@
 <template>
   <div class="register login-wrapper">
     <div class="header">
-      <i class="logo"></i>
-      <a class="close icon-close" @click="back"></a>
-    </div>
+        <!-- <i class="logo"></i> -->
+        <span class="new-icon fa fa-angle-left" @click="backIndex"></span>
+        注册
+        <span class="new-register" @click="login">登录</span>
+      </div>
     <div class="content">
       <h1 class="title">用户注册</h1>
       <div class="input-wrapper">
@@ -43,6 +45,9 @@ import qs from 'qs';
     },
     methods: {
       back() {
+        this.$emit('select-login');
+      },
+      backIndex() {
         this.$emit('select-login');
       },
       //注册
@@ -100,6 +105,9 @@ import qs from 'qs';
         let reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)');
         let result = window.location.search.substr(1).match(reg);
         return result ? decodeURIComponent(result[2]) : null
+      },
+      login() {
+        this.$emit('select-login')
       },
       //用户名是否存在
       hasAccount() {
