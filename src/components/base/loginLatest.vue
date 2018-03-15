@@ -386,7 +386,8 @@ common-btn($bg-color,$color)
   bottom: 0;
   right: 0;
   z-index: 999;
-  background: #6c6c6c;
+  // background: #6c6c6c;
+  background:linear-gradient(#abcbfc,#f7faff);
   .login-wrapper
     width 460px
     margin 0 auto
