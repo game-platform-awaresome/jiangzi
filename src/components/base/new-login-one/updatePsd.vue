@@ -1,11 +1,12 @@
 <template>
   <div class="update login-wrapper">
     <div class="header">
-      <i class="logo"></i>
-      <a class="close icon-close" @click="back"></a>
-    </div>
+        <span class="new-icon fa fa-angle-left" @click="back"></span>
+        修改密码
+        <!-- <span class="new-register" @click="register">注册</span> -->
+      </div>
     <div class="content">
-      <h1 class="title">修改密码</h1>
+      <!-- <h1 class="title">修改密码</h1> -->
       <div class="input-wrapper">
         <span>账&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 号:</span>
         <input type="text" placeholder="请输入账号" v-model="username">
@@ -109,6 +110,9 @@
         let reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)');
         let result = window.location.search.substr(1).match(reg);
         return result ? decodeURIComponent(result[2]) : null
+      },
+      back() {
+        this.$emit('select-login')
       }
     }
   };
@@ -116,5 +120,5 @@
 
 <style scoped lang="stylus">
 
-@import "~@/components/base/style.stylus"
+@import "~@/components/base/new-login-one/style.stylus"
 </style>

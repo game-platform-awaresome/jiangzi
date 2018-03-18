@@ -30,6 +30,11 @@ import storeDetial from '@/components/store/integralstore/storedetial.vue'
 import storeGet from '@/components/store/integralstore/storeget.vue'
 import Login from '@/components/base/login-pre.vue'
 import LoginLatest from '@/components/base/loginLatest.vue'
+/* 
+  增加第一版新路由
+*/
+import LoginLatestNewOne from '@/components/base/new-login-one/loginLatest.vue'
+
 Vue.use(Router);
 export default new Router({
     mode:'history',
@@ -154,6 +159,10 @@ export default new Router({
       {
         path:'/login',
         component: LoginLatest
+      },
+      {
+        path:'/login-ios-one',
+        component: LoginLatestNewOne
       },
       {
         path:'/login-pre',

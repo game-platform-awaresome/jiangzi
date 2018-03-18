@@ -57,7 +57,7 @@
 export default {
   created(){
 
-    if(window.location.pathname === '/login'){
+    if(window.location.pathname === '/login' || window.location.pathname === '/login-ios-one'){
         this.isLogin = true;
     }
    //新内容
