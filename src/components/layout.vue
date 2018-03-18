@@ -79,6 +79,10 @@ export default {
     this.getUserInfo()
     // 微信分享
     this.wechatShare()
+    // 通过参数判定login
+    if (this.$route.query.type === 'ios-one') {
+      this.$router.push('/login-ios-one')
+    }
   },
   components:{
 
