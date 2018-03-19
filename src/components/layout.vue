@@ -80,9 +80,22 @@ export default {
     // 微信分享
     this.wechatShare()
     // 通过参数判定login
-    if (this.$route.query.type === 'ios-one') {
+    let uriUrl = decodeURIComponent(window.location.href);
+    if ((uriUrl.indexOf('type=ios-one') > -1) || this.$route.query.type === 'ios-one') {
       this.$router.push('/login-ios-one')
-    }
+    } 
+    if ((uriUrl.indexOf('type=ios-two') > -1) || this.$route.query.type === 'ios-two') {
+      this.$router.push('/login-ios-two')
+    } 
+    if ((uriUrl.indexOf('type=ios-three') > -1) || this.$route.query.type === 'ios-three') {
+      this.$router.push('/login-ios-three')
+    } 
+    if ((uriUrl.indexOf('type=ios-four') > -1) || this.$route.query.type === 'ios-four') {
+      this.$router.push('/login-ios-four')
+    } 
+    // if (this.$route.query.type === 'ios-one') {
+    //   this.$router.push('/login-ios-one')
+    // }
   },
   components:{
 

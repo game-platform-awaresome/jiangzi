@@ -34,6 +34,18 @@ import LoginLatest from '@/components/base/loginLatest.vue'
   增加第一版新路由
 */
 import LoginLatestNewOne from '@/components/base/new-login-one/loginLatest.vue'
+/* 
+  增加第二版新路由
+*/
+import LoginLatestNewTwo from '@/components/base/new-login-two/loginLatest.vue'
+/* 
+  增加第三版新路由
+*/
+import LoginLatestNewThree from '@/components/base/new-login-three/loginLatest.vue'
+/* 
+  增加第四版新路由
+*/
+import LoginLatestNewFour from '@/components/base/new-login-four/loginLatest.vue'
 
 Vue.use(Router);
 export default new Router({
@@ -163,6 +175,18 @@ export default new Router({
       {
         path:'/login-ios-one',
         component: LoginLatestNewOne
+      },
+      {
+        path:'/login-ios-two',
+        component: LoginLatestNewTwo
+      },
+      {
+        path:'/login-ios-three',
+        component: LoginLatestNewThree
+      },
+      {
+        path:'/login-ios-four',
+        component: LoginLatestNewFour
       },
       {
         path:'/login-pre',
