@@ -81,7 +81,7 @@
   import bindPhone from '@/components/base/bindPhone';
   import updatePsd from '@/components/base/updatePsd';
   import register from '@/components/base/register';
-
+  import { Toast,MessageBox } from 'mint-ui';
   import qs from 'qs';
   export default {
     created() {

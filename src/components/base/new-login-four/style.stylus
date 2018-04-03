@@ -2,9 +2,10 @@ common-header() {
   // background #eee
   position: relative;
   font-size: 28px;
-  color: #808080;
+  color: #6d6c6c;
   text-align: center;
-  padding: 50px 0px 12px;
+  font-family: fzzyjw--gb1-0;
+  padding: 80px 0 30px;
   background-color: transparent;
 
   .logo {
@@ -46,7 +47,7 @@ common-input() {
   border 1px solid #ddd
   background-color: #fff;
   margin-bottom: 10px;
-  border-radius 20px
+  // border-radius 20px
   display: flex;
 
   span {
@@ -58,7 +59,7 @@ common-input() {
     vertical-align: center;
     transform: translate(0, 1px);
     padding-right: 8px;
-    border-right: 1px solid #ddd;
+    // border-right: 1px solid #ddd;
   }
 
   input {
@@ -96,7 +97,7 @@ common-btn($bg-color, $color) {
   bottom: 0;
   right: 0;
   z-index: 999;
-  // background: #fff;
+  background: #fff;
   // background: linear-gradient(#abcbfc, #f7faff);
 
   .login-wrapper {
@@ -190,6 +191,7 @@ common-btn($bg-color, $color) {
       .btn-wrapper {
         display: flex;
         // margin-bottom 20px
+        padding-top: 15px;
         padding-bottom: 15px;
 
         div {
@@ -203,8 +205,8 @@ common-btn($bg-color, $color) {
 
         .login-btn,.phone-login-btn,.register-btn  {
           // margin-left: 5px;
-          common-btn(#3388ff, #fff);
-          border-radius: 19px
+          common-btn(#f1a113, #fff);
+          border-radius: 5px
         }
 
         // .phone-login-btn {
@@ -217,7 +219,7 @@ common-btn($bg-color, $color) {
         display: block;
         box-sizing: border-box;
         // width: 100%;
-        margin: 0 20px 10px;
+        // margin: 0 20px 10px;
         // display: flex;
         // justify-content: space-around;
         pa, a {
@@ -225,22 +227,14 @@ common-btn($bg-color, $color) {
         }
 
         .bind {
-          float: left;
-          text-align: center;
-          // flex: 1;
-          color: #414141;
-          font-size: 14px;
-          // text-decoration: underline;
+          display: block;
+         common-btn(#d02b2b, #fff);
+         margin-bottom: 15px;
         }
 
         .update {
-          float: right;
-          text-align: center;
-          // flex: 1;
-          color: #414141;
-          // text-decoration: underline;
-          font-size: 14px;
-          // padding: 5px 0;
+          display: block;
+          common-btn(#4eafea, #fff);
         }
       }
     }
@@ -287,11 +281,11 @@ common-btn($bg-color, $color) {
             display: block;
             font-size: 30px;
             padding: 10px;
-            color: #3388ff;
+            color: #35b19b;
           }
 
           .text {
-            color: #3388ff;
+            color: #35b19b;
             font-size: 12px;
             text-align: center;
             line-height: 16px;

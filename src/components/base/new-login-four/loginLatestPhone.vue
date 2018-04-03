@@ -15,7 +15,7 @@
         <span>验&nbsp;证&nbsp;码:</span>
         <input type="text" placeholder="请输入短信验证码" class="message-code" autocomplete="off" v-model="code">
         <s class="get-code-btn" @click="getCode" v-if="yanzhengBtn == true">{{yanzhengVal}}</s>
-        <span class="get-code-btn" v-else style="color: #d8d8d8;">{{yanzhengVal}}</span>
+        <span class="get-code-btn" v-else>{{yanzhengVal}}</span>
       </div>
       <div class="btn-other clearfix-new" style="padding-bottom:10px;">
           <!-- <a class="update" @click="register">返回注册</a> -->

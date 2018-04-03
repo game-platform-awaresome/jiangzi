@@ -86,6 +86,7 @@ import bindPhone from "@/components/base/bindPhone";
 import updatePsd from "@/components/base/new-login-three/updatePsd";
 import register from "@/components/base/new-login-three/register";
 import "font-awesome/css/font-awesome.min.css";
+import { Toast,MessageBox } from 'mint-ui';
 import qs from "qs";
 export default {
   created() {
@@ -238,11 +239,11 @@ export default {
             }
 
             // 2.跳转
-            MessageBox.confirm("是否现在绑定手机?")
-              .then(action => {
-                this.loginFunc = 'bind'
-              })
-              .catch(action => {
+            // MessageBox.confirm("是否现在绑定手机?")
+            //   .then(action => {
+            //     this.loginFunc = 'bind'
+            //   })
+            //   .catch(action => {
                 layer.msg(res.data.msg);
                 let redirect = _this.getUrlParam("redirect")
                   ? decodeURIComponent(this.getUrlParam("redirect"))
@@ -250,7 +251,7 @@ export default {
                 setTimeout(function() {
                   window.location.href = redirect;
                 }, 1000);
-              });
+              // });
           } else {
             layer.msg(res.data.msg);
           }

@@ -42,6 +42,7 @@ common-header() {
 }
 
 common-input() {
+  border: 1px solid #ddd;
   padding: 8px 12px;
   // border 1px solid #d9d9d9
   background-color: #fff;
@@ -94,7 +95,7 @@ common-btn($bg-color, $color) {
   bottom: 0;
   right: 0;
   z-index: 999;
-  // background: #fff;
+  background: #fff;
   // background: linear-gradient(#abcbfc, #f7faff);
 
   .login-wrapper {

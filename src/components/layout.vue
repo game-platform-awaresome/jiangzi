@@ -81,18 +81,21 @@ export default {
     this.wechatShare()
     // 通过参数判定login
     let uriUrl = decodeURIComponent(window.location.href);
-    if ((uriUrl.indexOf('type=ios-one') > -1) || this.$route.query.type === 'ios-one') {
-      this.$router.push('/login-ios-one')
-    } 
-    if ((uriUrl.indexOf('type=ios-two') > -1) || this.$route.query.type === 'ios-two') {
-      this.$router.push('/login-ios-two')
-    } 
-    if ((uriUrl.indexOf('type=ios-three') > -1) || this.$route.query.type === 'ios-three') {
-      this.$router.push('/login-ios-three')
-    } 
-    if ((uriUrl.indexOf('type=ios-four') > -1) || this.$route.query.type === 'ios-four') {
-      this.$router.push('/login-ios-four')
-    } 
+
+    
+    
+    // if ((uriUrl.indexOf('type=ios-one') > -1)) {
+    //   this.$router.push(`/login-ios-one?redirect=${this.getUrlParam('redirect').replace(/ios-one/,'ios-1')}`)
+    // } 
+    // if ((uriUrl.indexOf('type=ios-two') > -1)) {
+    //   this.$router.push(`/login-ios-two?redirect=${this.getUrlParam('redirect')}`)
+    // } 
+    // if ((uriUrl.indexOf('type=ios-three') > -1)) {
+    //   this.$router.push(`/login-ios-three?redirect=${this.getUrlParam('redirect')}`)
+    // } 
+    // if ((uriUrl.indexOf('type=ios-four') > -1) ) {
+    //   this.$router.push(`/login-ios-four?redirect=${this.getUrlParam('redirect')}`)
+    // } 
     // if (this.$route.query.type === 'ios-one') {
     //   this.$router.push('/login-ios-one')
     // }
@@ -274,11 +277,21 @@ export default {
       //跳转到用户点击的游戏
       redirectGame(){
         let decode = decodeURIComponent(window.location.search)
-        decode = decode.substr(10)
-        console.log(decode)
+        // let uriUrl = decodeURIComponent(window.location.href);
+        // if ((uriUrl.indexOf('type=ios-one') == -1) || (uriUrl.indexOf('type=ios-two') == -1) || 
+        // (uriUrl.indexOf('type=ios-three') == -1) || (uriUrl.indexOf('type=ios-fou
+          decode = decode.substr(10)
+        // }
+          
+        console.log(decode+ '未切割')
         if(window.location.href.indexOf("redirect") !== -1){
           window.location.href = decode
         }
+      },
+      getUrlParam(name) {
+        let reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)')
+        let result = decodeURIComponent(window.location.search).substr(1).match(reg)
+        return result ? decodeURIComponent(result[2]) : null
       }
   }
 }

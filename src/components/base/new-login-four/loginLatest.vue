@@ -11,10 +11,7 @@
       </div>
       <!-- content -->
       <div class="content">
-        <div class="btn-other clearfix-new">
-          <a class="bind" @click="register">马上注册</a>
-          <a class="update" @click="update">修改密码</a>
-        </div>
+       
         <!-- <h1 class="title">用户登录</h1> -->
         <div class="input-wrapper">
           <span>账号</span>
@@ -36,6 +33,10 @@
         <div class="btn-wrapper">
           <!-- <div class="register-btn" @click="register">注册</div> -->
           <div class="login-btn" @click="login">登录</div>
+        </div>
+         <div class="btn-other clearfix-new">
+          <a class="bind" @click="register">马上注册</a>
+          <a class="update" @click="update">修改密码</a>
         </div>
       </div>
       <!-- bottom  -->
@@ -86,6 +87,7 @@ import bindPhone from "@/components/base/bindPhone";
 import updatePsd from "@/components/base/new-login-four/updatePsd";
 import register from "@/components/base/new-login-four/register";
 import "font-awesome/css/font-awesome.min.css";
+import { Toast,MessageBox } from 'mint-ui';
 import qs from "qs";
 export default {
   created() {
@@ -238,11 +240,11 @@ export default {
             }
 
             // 2.跳转
-            MessageBox.confirm("是否现在绑定手机?")
-              .then(action => {
-                this.loginFunc = 'bind'
-              })
-              .catch(action => {
+            // MessageBox.confirm("是否现在绑定手机?")
+            //   .then(action => {
+            //     this.loginFunc = 'bind'
+            //   })
+            //   .catch(action => {
                 layer.msg(res.data.msg);
                 let redirect = _this.getUrlParam("redirect")
                   ? decodeURIComponent(this.getUrlParam("redirect"))
@@ -250,7 +252,7 @@ export default {
                 setTimeout(function() {
                   window.location.href = redirect;
                 }, 1000);
-              });
+              // });
           } else {
             layer.msg(res.data.msg);
           }
@@ -361,6 +363,6 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-@import "~@/components/base/new-login-three/style.stylus"
+@import "~@/components/base/new-login-four/style.stylus"
 
 </style>
