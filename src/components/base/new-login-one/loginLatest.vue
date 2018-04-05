@@ -5,7 +5,7 @@
       <!-- header -->
       <div class="header">
         <!-- <i class="logo"></i> -->
-        <span class="new-icon fa fa-angle-left" @click="backIndex"></span>
+        <!-- <span class="new-icon fa fa-angle-left" @click="backIndex"></span> -->
         登录
         <span class="new-register" @click="register">注册</span>
       </div>
