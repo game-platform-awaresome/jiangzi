@@ -30,6 +30,10 @@ import storeDetial from '@/components/store/integralstore/storedetial.vue'
 import storeGet from '@/components/store/integralstore/storeget.vue'
 import Login from '@/components/base/login-pre.vue'
 import LoginLatest from '@/components/base/loginLatest.vue'
+import Service from '@/components/person/service.vue'
+import MyGift from '@/components/person/mygift.vue'
+import PayLog from '@/components/person/pay-log.vue'
+import PayCoin from '@/components/person/pay-coin/pay-coin.vue'
 /* 
   增加第一版新路由
 */
@@ -191,6 +195,22 @@ export default new Router({
       {
         path:'/login-pre',
         component: Login
+      },
+      {
+        path:'/person/service',
+        component: Service
+      },
+      {
+        path:'/person/mygift',
+        component: MyGift
+      },
+      {
+        path: '/person/paylog',
+        component: PayLog
+      },
+      {
+        path: '/person/paycoin',
+        component: PayCoin
       }
     ]
 })

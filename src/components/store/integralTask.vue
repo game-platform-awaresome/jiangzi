@@ -36,7 +36,10 @@ export default {
     created(){
         this.getData();
     },
-  data () {
+    mounted() {
+      this.checkRoute()
+    },
+    data () {
     return {
         tasks:[],
         //1日常任务 2新手任务
@@ -74,7 +77,17 @@ export default {
           console.log(error)
 
         })
+    },
+    checkRoute() {
+      if (this.$route.query.type === 2) {
+        this.active = 2
+      } else if (this.$route.query.type === 1) {
+        this.active = 1
+      }
     }
+  },
+  watch: {
+    '$route.query.type' : "checkRoute"
   }
 }
 </script>

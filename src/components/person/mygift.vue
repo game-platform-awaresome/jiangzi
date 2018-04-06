@@ -1,0 +1,113 @@
+<template>
+  <div class="mygift">
+    <div class="title">我的礼包</div>
+    <div class="gift-wrapper" ref="wrapper">
+      <ul>
+        <li class="gift-list-wrapper" v-for="(item, index) in giftList" :key="index">
+          <p class="gift-title">{{item.name}}</p>
+          <p class="gift-time">兑换有效期: <span>{{item.time}}</span></p>
+          <p class="gift-no">卡号: <span>{{item.no}}</span></p>
+        </li>
+      </ul>
+    </div>
+  </div>
+</template>
+
+<script type="text/ecmascript-6">
+  import BScroll from 'better-scroll'
+
+  export default {
+    created() {
+      this.getMyGift()
+    },
+    mounted() {
+      setTimeout(() => {
+        this.initScroll()
+      },20)
+    },
+    data () {
+      return {
+        giftList: []
+      }
+    },
+    components: {
+
+    },
+    methods: {
+      initScroll() {
+        let scroll = new BScroll(this.$refs.wrapper,{
+          scrollY: true,
+          click: true
+        })
+      },
+      getMyGift() {
+        this.$axios.get('/api/H5/goods/card_log')
+            .then(res => {
+              console.log(res)
+              if (res.data.code === 200){
+                console.log(res.data.msg)
+              }
+              else{
+                layer.msg(res.data.msg)
+              }
+
+            })
+            .catch(function(error){
+              console.log(error)
+            })
+      }
+    }
+  }
+</script>
+
+<style scoped lang="stylus" rel="stylesheet/stylus">
+  .mygift
+    position absolute
+    top 0 
+    left 0
+    right 0
+    bottom 0
+    .title
+      height 50px
+      line-height 50px
+      font-size 16px
+      color #fff
+      background-color #4ac3ee
+      text-align center
+    .gift-wrapper
+      position absolute
+      top 50px
+      left 0
+      right 0
+      bottom 64px
+      padding 10px 13px
+      overflow hidden
+      ul
+        .gift-list-wrapper
+          display flex
+          justify-content space-around
+          flex-direction column
+          height 90px
+          box-sizing border-box
+          padding 5px 0
+          border-bottom 1px solid #ededed
+          .gift-title
+            font-size 14px
+            color #444
+          .gift-time
+            font-size 13px
+            color #999
+            span
+              padding 0 5px
+          .gift-no
+            height 28px
+            line-height 28px
+            background-color #ededed
+            padding 0 15px
+            color #666
+            font-size 12px
+            span
+              padding 0 5px 
+              color #ce0000
+
+</style>

@@ -1,51 +1,44 @@
 <template>
   <div class="person">
-    <person-header></person-header>
-    <div class="person-function">
-  <!--    <li class="person-function-gap person-score">
-        <span class="person-function-tit">我的积分</span>
-        <span class="person-function-score">121</span>
-      </li>-->
-      <!--<router-link to="/person/qiaodao" tag="li" class="person-qiandao person-function-gap">
-        <span class="person-function-tit">签到</span>
-      </router-link>-->
-      <router-link to="/person/realname" tag="li" class="person-function-gap person-realname">
-        <span class="person-function-tit">实名认证</span>
-      </router-link>
-      <router-link to="/person/addtel" tag="li" class="person-addtel">
-        <span class="person-function-tit">绑定手机</span>
-      </router-link>
-      <router-link to="/person/mycollection" tag="li" class="person-collection">
-        <span class="person-function-tit">游戏收藏</span>
-      </router-link>
-    <!--  <router-link to="/person/gradeinfo" tag="li" class="person-function-gap person-gradeinfo">
-        <span class="person-function-tit">用户条例</span>
-      </router-link>
-      <router-link to="/person/" tag="li" class="person-function-gap person-online">
-        <span class="person-function-tit">在线客服</span>
-      </router-link>-->
-    </div>
-    <a href="javascript:;" class="person-exit" @click="logout()">退出</a>
-
-
-    <!--手机绑定弹出层 S-->
-    <!-- <div class="follow-alert" :class="style" @click="close">
-      <div class="follow-window">
-        <p class="follow-text follow-text-header">防止账号丢失</p>
-        <p class="follow-text">设置后可用手机号登录</p>
-        <router-link :to="{path:'/person/addtel'}">
-          <a href="javascript:;" class="follow-bind">立即绑定</a>
+    <div class="person-header">
+      <div class="person-header-myinfo">
+        <div class="info-img-wrapper">
+          <img :src="user.avatar" alt="">
+        </div>
+        <div class="info-other-wrapper">
+          <p>昵称 : {{user.user_nicename}}</p>
+          <p>账号UID : {{user.id}}</p>
+        </div>
+      </div>
+      <div class="person-header-myinfo-num">
+        <router-link to="/store/log">
+          <p>积分 : {{user.score}}分 </p>
+        </router-link>
+        <p>|</p>
+        <router-link to="/person/paylog">
+          <p>平台币 : {{user.coin}}</p>
         </router-link>
       </div>
-    </div> -->
-    <!--手机绑定弹出层 E-->
-    <div class="fuckWindow" v-if="fuckWindow === true"></div>
+    </div>
+    <div class="person-function">
+      <ul>
+        <router-link :to="{path: '/store/task',query: {type: 1}}" tag="li"><img src="./person/person-icon/task.png" alt=""><p>新手任务</p></router-link>
+        <router-link :to="{path: '/store/task',query: {type: 2}}" tag="li"><img src="./person/person-icon/common-task.png" alt=""><p>日常任务</p></router-link>
+        <router-link to="/person/paycoin" tag="li"><img src="./person/person-icon/platform.png" alt=""><p>平台币充值</p></router-link>
+        <router-link to="/person/mycollection" tag="li"><img src="./person/person-icon/collection.png" alt=""><p>游戏收藏</p></router-link>
+        <router-link to="/person/addtel" tag="li"><img src="./person/person-icon/bind-phone.png" alt=""><p>绑定手机</p></router-link>
+        <router-link to="/store/store" tag="li"><img src="./person/person-icon/shopping.png" alt=""><p>积分商城</p></router-link>
+        <router-link to="/person/mygift" tag="li"><img src="./person/person-icon/gift.png" alt=""><p>我的礼包</p></router-link>
+        <router-link to="/person/realname" tag="li"><img src="./person/person-icon/renzheng.png" alt=""><p>实名认证</p></router-link>
+        <router-link to="/person/service" tag="li"><img src="./person/person-icon/customer.png" alt=""><p>联系客服</p></router-link>
+      </ul>
+    </div>
+    <a href="javascript:;" class="person-exit" @click="logout()">退出</a>
   </div>
 </template>
 
 <script>
   import Vue from 'vue'
-  import personHeader from './person/person-header'
   import { Toast,MessageBox } from 'mint-ui';
 export default {
   created(){
@@ -54,6 +47,7 @@ export default {
     this.$http.get('/api/h5/user/getUserinfo').then(function (res) {
       //平台登录信息
       this.user = res.body.user
+      console.log(this.user)
       if(!this.user){
         MessageBox.confirm('您还没有登录,是否现在登录?').then(action => {
           window.location.href = '/login?redirect=' + encodeURIComponent(window.location.href);
@@ -82,7 +76,6 @@ export default {
     }
   },
   components:{
-      personHeader,
       Toast,
       MessageBox
   },
@@ -115,140 +108,90 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scope>
-  .person{
+<style scope lang="stylus">
+  .person
     height: calc(100% - 5.2rem);
-    background-color: #ececec;
-  }
-  .person-function li{
-    height: 5rem;
-    line-height: 5rem;
-    text-indent: 6rem;
-    background-size: 3.5rem,1rem;
-    font-size: 1.6rem;
-    color: #444;
     background-color: #fff;
-    border-bottom: 0.1rem solid #ececec;
-  }
-  .person-function-score{
-    float: right;
-    padding-right: 1.6rem;
-    font-weight: normal;
-    color: #999;
-  }
-  .person-function-gap{
-    margin-top: 1rem;
-  }
-  .person-score{
-    background: url("../assets/score.png")  1.6rem center no-repeat
-  }
-  .person-qiandao{
-    background: url("../assets/qiandao.png")  1.6rem center no-repeat,
-    url("../assets/person-function-right.png")  right 1.6rem center no-repeat;
-  }
-  .person-realname{
-    background: url("../assets/realname.png")  1.6rem center no-repeat,
-    url("../assets/person-function-right.png")  right 1.6rem center no-repeat;
-  }
-  .person-addtel{
-    background: url("../assets/addtel.png")  1.6rem center no-repeat,
-    url("../assets/person-function-right.png")  right 1.6rem center no-repeat;
-  }
-  .person-collection{
-    background: url("../assets/collection.png")  1.6rem center no-repeat,
-    url("../assets/person-function-right.png")  right 1.6rem center no-repeat;
-  }
-  .person-gradeinfo{
-    background: url("../assets/userinfo.png")  1.6rem center no-repeat,
-    url("../assets/person-function-right.png")  right 1.6rem center no-repeat;
-  }
-  .person-online{
-    background: url("../assets/online.png")  1.6rem center no-repeat,
-    url("../assets/person-function-right.png")  right 1.6rem center no-repeat;
-  }
-  .person-exit{
-    display: block;
-    width: 80%;
-    margin:2rem auto 0;
-    height: 4rem;
-    line-height: 4rem;
-    text-align: center;
-    font-size: 2rem;
-    background-color: #4385f5;
-    border-radius: 2rem;
-    color: #fff;
-  }
+    .person-header
+      height 132px
+      background-color #49c4ee
+      .person-header-myinfo
+        position relative
+        height 85px
+        .info-img-wrapper
+          position absolute
+          top 50%
+          margin-top -26px
+          left 102px
+          width 53px
+          height 53px
+          border-radius 50%
+          overflow hidden
+          img
+            width 100%
+            height 100%
+        .info-other-wrapper
+          position absolute
+          top 50%
+          margin-top -26px
+          height 53px
+          left 163px
+          display flex
+          flex-direction column
+          justify-content space-around
+          p
+            font-size 14px
+            color #fff
+      .person-header-myinfo-num
+        height 46px
+        border-top 1px solid #fff
+        margin 0 13px
+        display flex
+        font-size 14px
+        color #fff
+        justify-content center
+        align-items center
+        p
+          padding 0 22px
+    .person-function
+      ul
+        display flex
+        flex-wrap wrap
+        justify-content center
+        li
+          display flex
+          box-sizing border-box
+          border 1px solid #ededed
+          border-top none
+          border-left none
+          width 30%
+          height 130px
+          flex-direction column
+          justify-content center
+          align-items center
+          &:nth-child(3n-2)
+            border-left none
+          &:nth-child(3n)
+            border-right none
+          img
+            width 34px
+            height 34px
+          p
+            padding-top 10px
+    .person-exit
+      display: block;
+      width: 80%;
+      margin:2rem auto 0;
+      height: 4rem;
+      line-height: 4rem;
+      text-align: center;
+      font-size: 2rem;
+      background-color: #4385f5;
+      border-radius: 2rem;
+      color: #fff;
+    
 
-  .follow-alert{
-    position: absolute;
-    top: 0;
-    left:0;
-    width: 100%;
-    z-index: 999;
-    height: 100%;
-    background-color: rgba(0,0,0,.6);
-    display: none;
-  }
-  .follow-style{
-    display: block;
-  }
-  .follow-window{
-    width:25rem;
-    height: 15rem;
-    position: absolute;
-    top: 50%;
-    left:50%;
-    margin-left: -12.5rem;
-    margin-top: -7.5rem;
-    z-index:999;
-    border-radius: 0.5rem;
-    overflow: hidden;
-    background-color: #f0f0f6;
-    animation: focus .5s ;
-    opacity: 1;
-  }
-  .follow-heading{
-    height:50%;
-    /*background: #0aa2ff url('../../assets/logo.png') no-repeat center center;*/
-    background-size:contain;
-    /*background-color: #0aa2ff;*/
-  }
-  .follow-text{
-    text-align: center;
-    line-height: 2rem;
-    height: 2rem;
-    padding: 0.5rem 0 ;
-    font-size: 1.4rem;
-  }
-  .follow-text-header{
-    line-height: 2.5rem;
-    height: 2.5rem;
-    font-size: 1.8rem;
-    margin-top: 1rem;
-  }
-  .follow-bind{
-    display: block;
-    height: 3rem;
-    line-height: 3rem;
-    width: 14rem;
-    text-align: center;
-    margin: 2rem auto 0;
-    border-radius: 3rem;
-    background-color: #FD482C;
-    color: #fff;
-    font-size: 1.4rem;
-  }
-  @keyframes focus
-  {
-    from {
-      top: 40%;
-      opacity: 0;
-    }
-    to {
-      top: 50%;
-      opacity: 1;
-    }
-  }
+  
   .mint-msgbox{
     width:400px;
   }
