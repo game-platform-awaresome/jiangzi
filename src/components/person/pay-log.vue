@@ -17,18 +17,24 @@
         <div class="pay-log-list-wrapper" v-if="isPayLog">
           <ul>
             <li class="pay-log-list" v-for="(item,index) in payLog" :key="index">
-              <span class="list-time">{{item.time}}</span>
-              <span class="list-content">{{item.content}}</span>
+              <span class="list-time">{{item.log_time}}</span>
+              <span class="list-content">{{item.remark}}</span>
             </li>
           </ul>
+          <div class="empty" v-show="isPayLog && payLog.length === 0">
+            <p>尚无记录</p>
+          </div>
         </div>
         <div class="pay-log-list-wrapper" v-else>
           <ul>
-            <li class="pay-log-list" >
-              <span class="list-time">2018sd.4.6</span>
-              <span class="list-content">充值充值sdfsdf充值充值充值充值充值充值充值充值</span>
+            <li class="pay-log-list" v-for="(item,index) in useLog" :key="index">
+              <span class="list-time">{{item.log_time}}</span>
+              <span class="list-content">{{item.remark}}</span>
             </li>
           </ul>
+          <div class="empty" v-show="!isPayLog && useLog.length === 0">
+            <p>尚无记录</p>
+          </div>
         </div>
       </div>
     </div>
@@ -39,7 +45,8 @@
   import BScroll from 'better-scroll'
   export default {
     created() {
-
+      this.getPayLog()
+      this.getUseLog()
     },
     mounted() {
       setTimeout(() => {
@@ -49,66 +56,10 @@
     data () {
       return {
         isPayLog: true,
-        payLog: [{
-          time: '2018.4.6',
-          content: '充值充值充值充值充值充值充值充值充值充值'
-        },
-        {
-          time: '2018.4.6',
-          content: '充值充值充值充值充值充值充值充值充值充值'
-        },
-        {
-          time: '2018.4.6',
-          content: '充值充值充值充值充值充值充值充值充值充值'
-        },
-        {
-          time: '2018.4.6',
-          content: '充值充值充值充值充值充值充值充值充值充值'
-        },
-        {
-          time: '2018.4.6',
-          content: '充值充值充值充值充值充值充值充值充值充值'
-        },
-        {
-          time: '2018.4.6',
-          content: '充值充值充值充值充值充值充值充值充值充值'
-        },
-        {
-          time: '2018.4.6',
-          content: '充值充值充值充值充值充值充值充值充值充值'
-        },
-        {
-          time: '2018.4.6',
-          content: '充值充值充值充值充值充值充值充值充值充值'
-        },
-        {
-          time: '2018.4.6',
-          content: '充值充值充值充值充值充值充值充值充值充值'
-        },
-        {
-          time: '2018.4.6',
-          content: '充值充值充值充值充值充值充值充值充值充值'
-        },
-        {
-          time: '2018.4.6',
-          content: '充值充值充值充值充值充值充值充值充值充值'
-        },
-        {
-          time: '2018.4.6',
-          content: '充值充值充值充值充值充值充值充值充值充值'
-        },
-        {
-          time: '2018.4.6',
-          content: '充值充值充值充值充值充值充值充值充值充值'
-        },
-        {
-          time: '2018.4.6',
-          content: '充值充值充值充值充值充值充值充值充值充值'
-        },
-        {
-          time: '2018.4.6',
-          content: '充值充值充值充值充值充值充值充值充值充值'
-        }]
+        payLog: [],
+        useLog: [],
+        isPayLogEmpty: false,
+        isUseLogEmpty: false
       }
     },
     components: {
@@ -128,6 +79,52 @@
         } else {
           this.isPayLog = false
         }
+      },
+      getPayLog() {
+        this.$axios.get('/api/h5/pay/ptb_log',{
+          params: {
+            start: 0,
+            limit: 1000,
+            type: 0
+          }
+        })
+            .then(res => {
+              console.log(res)
+              if (res.data.code === 200){
+                this.payLog = res.data.data
+              }
+              else{
+                layer.msg(res.data.msg)
+                this.isPayLogEmpty = true
+              }
+
+            })
+            .catch(function(error){
+              console.log(error)
+            })
+      },
+      getUseLog() {
+        this.$axios.get('/api/h5/pay/ptb_log',{
+          params: {
+            start: 0,
+            limit: 1000,
+            type: 1
+          }
+        })
+            .then(res => {
+              console.log(res)
+              if (res.data.code === 200){
+                this.useLog = res.data.data
+              }
+              else{
+                layer.msg(res.data.msg)
+                this.isUseLogEmpty = true
+              }
+
+            })
+            .catch(function(error){
+              console.log(error)
+            })
       }
     }
   }
@@ -190,4 +187,9 @@
             flex 1
           .list-content
             flex 1
+        .empty
+          padding 30px 0
+          text-align center 
+          font-size 14px
+          color #ccc
 </style>

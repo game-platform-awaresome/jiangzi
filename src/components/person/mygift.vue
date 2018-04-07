@@ -5,10 +5,13 @@
       <ul>
         <li class="gift-list-wrapper" v-for="(item, index) in giftList" :key="index">
           <p class="gift-title">{{item.name}}</p>
-          <p class="gift-time">兑换有效期: <span>{{item.time}}</span></p>
-          <p class="gift-no">卡号: <span>{{item.no}}</span></p>
+          <p class="gift-time">兑换有效期: <span>{{item.get_time}} ~ {{item.end_time}}</span></p>
+          <p class="gift-no">卡号: <span>{{item.card_info}}</span></p>
         </li>
       </ul>
+      <div class="empty" v-show="isEmpty">
+        <p>无领取记录</p>
+      </div>
     </div>
   </div>
 </template>
@@ -27,7 +30,8 @@
     },
     data () {
       return {
-        giftList: []
+        giftList: [],
+        isEmpty: false
       }
     },
     components: {
@@ -41,14 +45,20 @@
         })
       },
       getMyGift() {
-        this.$axios.get('/api/H5/goods/card_log')
+        this.$axios.get('/api/H5/goods/card_log',{
+          params: {
+            start: 0,
+            limit: 1000
+          }
+        })
             .then(res => {
               console.log(res)
               if (res.data.code === 200){
-                console.log(res.data.msg)
+                this.giftList = res.data.data
               }
               else{
                 layer.msg(res.data.msg)
+                this.isEmpty = true
               }
 
             })
@@ -109,5 +119,10 @@
             span
               padding 0 5px 
               color #ce0000
+      .empty
+        padding 50px 0
+        text-align center
+        color #ccc
+        font-size 14px
 
 </style>
