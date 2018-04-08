@@ -47,7 +47,7 @@
         </p>
         <p class="pay-desc">充值比例:1元 = 1{{conf.ptb_name}}</p>
         <div class="wechat-pay" @click="wechatPay">微信</div>
-        <div class="ali-pay" @click="aliPay">支付宝</div>
+        <div class="ali-pay" @click="aliPay" v-show="!tool.navigator.isWechat()">支付宝</div>
         <!-- <p class="ddm-title">请选择礼包码充值 :</p>
         <div class="ddm-pay">DDM游戏礼包码</div> -->
       </div>
@@ -62,12 +62,14 @@
     created() {
       this.getUserInfo()
       this.getConf()
+      // this.wechatShare()
     },
     data () {
       return {
         user: '',
         money: 100,
         otherMoney: 0,
+        tool: tool,
         conf: '',
         order_no: '',    // 订单号吗,
         qr_code: 'http://qr.liantu.com/api.php?text=',
@@ -177,7 +179,7 @@
                 console.log(tool)
                 if (res.data.code === 1){
                   // 手机浏览器
-                  if(!tool.navigator.isPC()) {
+                  if(!tool.navigator.isPC() && !tool.navigator.isWechat()) {
                     window.location.href = res.data.data.mweb_url
                   }
                   // PC
@@ -187,7 +189,8 @@
                     this.pcWindow = true
                   }
                   // 微信环境
-                  if (tool.navigator.isWechat) {
+                  if (tool.navigator.isWechat()) {
+                    console.log('已进入微信环境的充值调用')
                     this.wechatpayApi(res.data.data.pay_info)
                   }
                 }
@@ -252,7 +255,7 @@
       wechatpayApi(attr) {
         function onBridgeReady() {
             WeixinJSBridge.invoke(
-                'getBrandWCPayRequest', $attr,
+                'getBrandWCPayRequest', attr,
                 function (res) {
                     if (res.err_msg === "get_brand_wcpay_request:ok") {
                     }     // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。
@@ -270,6 +273,81 @@
         } else {
             onBridgeReady();
         }
+      },
+      wechatShare() {
+      let _this = this;
+      //微信分享SDK
+      this.$axios.get('/api/h5/index/getwechatsdkconf?route='+ encodeURIComponent(window.location.pathname+window.location.search))
+        .then(res => {
+          this.config = res.data;
+          wx.config(this.config)
+
+          /*s*/
+  //        分享到朋友圈
+          wx.onMenuShareTimeline({
+            title: '游戏酱紫,即点即玩,游戏就是这样简单', // 分享标题
+            link: 'http://h5.wan855.cn', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+            imgUrl: 'http://h5.wan855.cn/logo.png', // 分享图标
+            success: function () {
+              // 用户确认分享后执行的回调函数
+              alert('分享成功!')
+              _this.$axios.get('/api/Integral/Task/share',{
+                params: {
+                  gid: 0
+                }
+              })
+                .then(res => {
+                  if (res.code === '200'){
+                    console.log(res.msg)
+                    location.reload()
+                  }
+                })
+                .catch(function(error){
+                  console.log(error)
+                })
+            },
+            cancel: function () {
+
+            },
+            error:function () {
+            }
+          })
+          /*e*/
+
+  //        分享给朋友
+          wx.onMenuShareAppMessage({
+            title: '游戏酱紫', // 分享标题
+            desc: '即点即玩,游戏就是这样简单', // 分享描述
+            link: 'http://h5.wan855.cn', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+            imgUrl: 'http://h5.wan855.cn/logo.png', // 分享图标
+            type: '', // 分享类型,music、video或link，不填默认为link
+            dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+            success: function () {
+              // 用户确认分享后执行的回调函数
+              alert('分享成功!')
+              _this.$axios.get('/api/Integral/Task/share',{
+                params: {
+                  gid: 0
+                }
+              })
+                .then(res => {
+                  if (res.code === '200'){
+                    console.log(res.msg)
+                    location.reload()
+                  }
+                })
+                .catch(function(error){
+                  console.log(error)
+                })
+            },
+            cancel: function () {
+              // 用户取消分享后执行的回调函数
+            }
+          });
+        })
+        .catch(function(error){
+            console.log(error)
+        })
       }
     },
     components: {

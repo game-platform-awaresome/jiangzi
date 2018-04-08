@@ -127,6 +127,7 @@ export default {
   },
   methods:{
     clickRouterUrl(val) {
+      console.log('监听所有路由' + window.location.pathname+window.location.search)
       this.saveDate(val.path.substr(1))
       this.wechatShare()
     },

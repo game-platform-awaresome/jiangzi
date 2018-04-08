@@ -14,7 +14,6 @@ Vue.use(VueResource)
 
 Vue.prototype.$axios = Axios
 Vue.http.options.emulateJSON = true
-
 /* eslint-disable no-new */
 new Vue({
   el: '#guoqianchen',
