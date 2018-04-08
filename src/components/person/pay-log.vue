@@ -18,7 +18,7 @@
           <ul>
             <li class="pay-log-list" v-for="(item,index) in payLog" :key="index">
               <span class="list-time">{{item.log_time}}</span>
-              <span class="list-content">{{item.remark}}</span>
+              <span class="list-content">{{item.amount}}</span>
             </li>
           </ul>
           <div class="empty" v-show="isPayLog && payLog.length === 0">

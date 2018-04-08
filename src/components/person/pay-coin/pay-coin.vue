@@ -2,11 +2,12 @@
   <div class="pay-coin">
     <div class="ali" ref="ali"></div>
     <div class="qr-code" v-show="pcWindow">
+      <p>您需要支付{{money}}元，请使用{{windowText}}扫描二维码完成支付</p>
       <span @click="closeWindow">关闭</span>
       <img :src="qr_code" alt="" width="150px" height="150px">
     </div>
     <div class="title">
-      <p class="what">未收到平台币?</p>
+      <p class="what">未收到{{conf.ptb_name}}?</p>
       <p class="qq">请联系客服QQ: 214354</p>
     </div>
     <div class="pay-coin-wrapper">
@@ -24,7 +25,7 @@
           <span class="pay-coin-info-content">{{user.user_nicename}}</span>
         </p>
         <p>
-          <span class="pay-coin-info-title">当前平台币 :</span>
+          <span class="pay-coin-info-title">当前{{conf.ptb_name}} :</span>
           <span class="pay-coin-info-content">{{user.coin}}</span>
         </p>
       </div>
@@ -33,21 +34,22 @@
         <p>{{otherMoney}}</p> -->
         <p class="pay-num-title">请选择充值金额 :</p>
         <div class="select-pay-num-wrapper">
-            <span :class="{active: money === 100}" @click="changeMoney(100)">100元</span>
+            <span v-for="(item,index) in conf.amount_list" :key="index" :class="{active: money == item}" @click="changeMoney(item)">{{item}}元</span>
+            <!-- <span :class="{active: money === 100}" @click="changeMoney(100)">100元</span>
             <span :class="{active: money === 200}" @click="changeMoney(200)">200元</span>
             <span :class="{active: money === 500}" @click="changeMoney(500)">500元</span>
-            <span :class="{active: money === 1000}" @click="changeMoney(1000)">1000元</span>
+            <span :class="{active: money === 1000}" @click="changeMoney(1000)">1000元</span> -->
         </div>
         <p class="other-pay-num">
           <span class="other-pay-title">其他充值金额 :</span>
           <input type="number" class="other-pay-input" v-model="otherMoney"
            @focus="otherMoneyChange" @blur="sureMoneyChange">
         </p>
-        <p class="pay-desc">充值比例:1元 = 1平台币</p>
+        <p class="pay-desc">充值比例:1元 = 1{{conf.ptb_name}}</p>
         <div class="wechat-pay" @click="wechatPay">微信</div>
         <div class="ali-pay" @click="aliPay">支付宝</div>
-        <p class="ddm-title">请选择礼包码充值 :</p>
-        <div class="ddm-pay">DDM游戏礼包码</div>
+        <!-- <p class="ddm-title">请选择礼包码充值 :</p>
+        <div class="ddm-pay">DDM游戏礼包码</div> -->
       </div>
     </div>
   </div>
@@ -69,7 +71,8 @@
         conf: '',
         order_no: '',    // 订单号吗,
         qr_code: 'http://qr.liantu.com/api.php?text=',
-        pcWindow: false
+        pcWindow: false,
+        windowText: '微信'
       }
     },
     computed: {
@@ -131,7 +134,7 @@
           params: {
             total_amount: this.money,
             uid: this.user.id,
-            order_des: this.money+'平台币',
+            order_des: this.money+'酱紫币',
             ptb_number: (() => {
               if (this.conf.ratio) {
                 console.log(this.conf.ratio)
@@ -160,7 +163,7 @@
                   order_id : this.order_no,
                   pay_type : 'wechat',
                   total_amount: this.money,
-                  order_des: this.money + '平台币',
+                  order_des: this.money + '酱紫币',
                   ptb_number: (() => {
                     if (this.conf.ratio) {
                       return this.money * this.conf.ratio
@@ -180,6 +183,7 @@
                   // PC
                   if(tool.navigator.isPC()) {
                     this.qr_code = this.qr_code + res.data.data.code_url
+                    this.windowText = '微信'
                     this.pcWindow = true
                   }
                   // 微信环境
@@ -205,7 +209,7 @@
                   order_id : this.order_no,
                   pay_type : 'alipay',
                   total_amount: this.money,
-                  order_des: this.money + '平台币',
+                  order_des: this.money + '酱紫币',
                   ptb_number: (() => {
                     if (this.conf.ratio) {
                       return this.money * this.conf.ratio
@@ -221,16 +225,17 @@
                   // 手机浏览器
                   if(!tool.navigator.isPC()) {
                     this.$refs.ali.innerHTML = res.data.form
+                    console.log(res.data.form)
                     document.getElementById('alipaysubmit').submit()
                   }
                   // PC
                   if(tool.navigator.isPC()) {
                     this.qr_code = this.qr_code + res.data.code_url
+                    this.windowText = '支付宝'
                     this.pcWindow = true
                   }
                 }
                 else{
-                  layer.msg(res.data.msg)
                   this.isEmpty = true
                 }
 
@@ -292,6 +297,11 @@
         top 20px
         right 20px
         font-size 14px
+      p
+        position absolute
+        width 100%
+        top 50px
+        text-align center
       img
         display block
         margin 70px auto 0
@@ -330,9 +340,11 @@
           color #999
         .select-pay-num-wrapper
           display flex
-          justify-content space-between
+          justify-content flex-start
+          flex-wrap wrap
           span
             display block
+            margin 0 15px 15px
             width 72px
             height 29px
             line-height 29px

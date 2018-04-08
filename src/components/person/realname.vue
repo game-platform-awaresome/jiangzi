@@ -189,7 +189,7 @@
   }
   .per-validate-code{
     position: absolute;
-    right: 0;
+    right: 20px;
     height: 3rem;
     top:50%;
     margin-top: -1.5rem;
