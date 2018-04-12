@@ -6,7 +6,7 @@
         <li class="gift-list-wrapper" v-for="(item, index) in giftList" :key="index">
           <p class="gift-title">{{item.name}}</p>
           <p class="gift-time">兑换有效期: <span>{{item.get_time}} ~ {{item.end_time}}</span></p>
-          <p class="gift-no">卡号: <span>{{item.card_info}}</span></p>
+          <p class="gift-no" @click="checkGiftCode(item.card_info)">卡号: <span class="code">{{item.card_info}}</span></p>
         </li>
       </ul>
       <div class="empty" v-show="isEmpty">
@@ -18,7 +18,7 @@
 
 <script type="text/ecmascript-6">
   import BScroll from 'better-scroll'
-
+  import { Toast,MessageBox } from 'mint-ui'
   export default {
     created() {
       this.getMyGift()
@@ -38,6 +38,13 @@
 
     },
     methods: {
+      checkGiftCode(card){
+          MessageBox({
+            title:'领取提示',
+            message: '<p style="color=#222;"><span style="padding-right: 1rem">兑换码</span><span style="-webkit-user-select:text;background: #ebebeb;padding: 0 .5rem;font-style: italic;">'+ card +'</span></p><p style="font-size: 1.2rem;padding-top: .3rem;line-height: 20px;"">复制兑换码,去游戏中使用</p>',
+            showCancelButton: false
+          });
+      },
       initScroll() {
         let scroll = new BScroll(this.$refs.wrapper,{
           scrollY: true,
@@ -116,9 +123,10 @@
             padding 0 15px
             color #666
             font-size 12px
-            span
+            .code
               padding 0 5px 
               color #ce0000
+              user-select text
       .empty
         padding 50px 0
         text-align center

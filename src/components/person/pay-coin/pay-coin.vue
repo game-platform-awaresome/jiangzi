@@ -2,13 +2,14 @@
   <div class="pay-coin">
     <div class="ali" ref="ali"></div>
     <div class="qr-code" v-show="pcWindow">
-      <p>您需要支付{{money}}元，请使用{{windowText}}扫描二维码完成支付</p>
+      <p>您需要支付<s class="money-text">{{money}}</s>元</p>
+      <p>请使用{{windowText}}扫描二维码完成支付</p>
       <span @click="closeWindow">关闭</span>
       <img :src="qr_code" alt="" width="150px" height="150px">
     </div>
     <div class="title">
       <p class="what">未收到{{conf.ptb_name}}?</p>
-      <p class="qq">请联系客服QQ: 214354</p>
+      <p class="qq">请联系客服QQ: 2143548021</p>
     </div>
     <div class="pay-coin-wrapper">
       <div class="pay-coin-info">
@@ -45,7 +46,8 @@
           <input type="number" class="other-pay-input" v-model="otherMoney"
            @focus="otherMoneyChange" @blur="sureMoneyChange">
         </p>
-        <p class="pay-desc">充值比例:1元 = 1{{conf.ptb_name}}</p>
+        <p class="pay-desc">充值比例:1元 = 1{{conf.ptb_name}} <span v-show="money < 1 && otherMoney < 1">一元起充</span></p>
+        
         <div class="wechat-pay" @click="wechatPay">微信</div>
         <div class="ali-pay" @click="aliPay" v-show="!tool.navigator.isWechat()">支付宝</div>
         <!-- <p class="ddm-title">请选择礼包码充值 :</p>
@@ -58,6 +60,7 @@
 <script type="text/ecmascript-6">
  import qs from 'qs'
  import tool from '@/util/judgeTool.js'
+ import { Toast } from 'mint-ui';
   export default {
     created() {
       this.getUserInfo()
@@ -68,11 +71,12 @@
       return {
         user: '',
         money: 100,
-        otherMoney: 0,
+        otherMoney: '',
         tool: tool,
         conf: '',
         order_no: '',    // 订单号吗,
-        qr_code: 'http://qr.liantu.com/api.php?text=',
+        qr_code: '',
+        qr_code_base: 'http://qr.liantu.com/api.php?text=',
         pcWindow: false,
         windowText: '微信'
       }
@@ -107,6 +111,26 @@
             })
             .catch(function(error){
               console.log(error)
+            })
+      },
+      // 查询订单状态
+      checkOrderStatus(order_id) {
+        this.$axios.get('/api/Integral/Task/share',{
+          params: {
+            order_id
+          }
+        })
+            .then(res => {
+              console.log(res)
+              if (res.data.code === 2000){
+                layer.msg(res.data.msg)
+                setTimeout(() => {
+                  window.onload()
+                },1500)
+              }
+            })
+            .catch(function(error){
+              layer.msg(error.data.msg)
             })
       },
       // 获取登录信息
@@ -159,7 +183,8 @@
             })
       },
       wechatPay() {
-        this.createOrder()
+        if (this.money >= 1) {
+          this.createOrder()
           .then(() => {
             this.$axios.post('/api/h5/pay/startpay',qs.stringify({
                   order_id : this.order_no,
@@ -184,7 +209,8 @@
                   }
                   // PC
                   if(tool.navigator.isPC()) {
-                    this.qr_code = this.qr_code + res.data.data.code_url
+                    this.qr_code = ''
+                    this.qr_code = this.qr_code_base + res.data.data.code_url
                     this.windowText = '微信'
                     this.pcWindow = true
                   }
@@ -193,6 +219,10 @@
                     console.log('已进入微信环境的充值调用')
                     this.wechatpayApi(res.data.data.pay_info)
                   }
+                  setInterval(() => {
+                    this.checkOrderStatus(this.order_no)
+                  },2000)
+                  
                 }
                 else{
                   layer.msg(res.data.msg)
@@ -204,9 +234,12 @@
                 console.log(error)
               })
             })
+        }
+        
       },
       aliPay() {
-        this.createOrder()
+        if (this.money >= 1) {
+          this.createOrder()
           .then(() => {
             this.$axios.post('/api/h5/pay/startpay',qs.stringify({
                   order_id : this.order_no,
@@ -233,10 +266,14 @@
                   }
                   // PC
                   if(tool.navigator.isPC()) {
-                    this.qr_code = this.qr_code + res.data.code_url
+                    this.qr_code = ''
+                    this.qr_code = this.qr_code_base + res.data.code_url
                     this.windowText = '支付宝'
                     this.pcWindow = true
                   }
+                  setInterval(() => {
+                    this.checkOrderStatus(this.order_no)
+                  },2000)
                 }
                 else{
                   this.isEmpty = true
@@ -247,6 +284,8 @@
                 console.log(error)
               })
           })
+        }
+        
       },
       /**
          * 微信付款
@@ -351,7 +390,7 @@
       }
     },
     components: {
-
+      Toast
     }
   }
 </script>
@@ -370,19 +409,25 @@
       top 50%
       margin-left -150px
       margin-top -200px
+      box-sizing border-box
+      padding-top 30px
       span 
         position absolute 
         top 20px
         right 20px
         font-size 14px
       p
-        position absolute
+        // position absolute
         width 100%
         top 50px
         text-align center
+        padding 5px 0
+        .money-text
+          color #ce0000
+          text-decoration none
       img
         display block
-        margin 70px auto 0
+        margin 10px auto 0
         width 250px
         height 250px
     .title
@@ -442,10 +487,15 @@
             min-width 60%
             margin-left 10px
             text-indent 10px
-        .pay-desc
-          color #ce0000
+        .pay-desc,
+        .pay-warn
+          color #999
           font-size 14px
           padding 10px 0
+          span 
+            color #ce0000
+        .pay-warn
+          text-align center
         .wechat-pay,
         .ali-pay,
         .ddm-pay

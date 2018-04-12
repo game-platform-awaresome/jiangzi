@@ -113,11 +113,15 @@ export default {
     height: calc(100% - 5.2rem);
     background-color: #fff;
     .person-header
-      height 132px
+      // height 130px
       background-color #49c4ee
       .person-header-myinfo
         position relative
         height 85px
+        @media screen and (max-width: 330px)
+          height 66px
+          // .info-img-wrapper
+          //   margin-top 
         .info-img-wrapper
           position absolute
           top 50%
@@ -133,8 +137,8 @@ export default {
         .info-other-wrapper
           position absolute
           top 50%
-          margin-top -26px
-          height 53px
+          margin-top -22px
+          height 44px
           left 163px
           display flex
           flex-direction column
@@ -169,6 +173,12 @@ export default {
           flex-direction column
           justify-content center
           align-items center
+          @media screen and (max-width: 380px)
+            height 110px
+          @media screen and (max-width: 330px)
+            height 85px
+            p
+              font-size 12px
           &:nth-child(3n-2)
             border-left none
           &:nth-child(3n)
@@ -177,11 +187,12 @@ export default {
             width 34px
             height 34px
           p
-            padding-top 10px
+            padding-top 13px
+            font-size 14px
     .person-exit
       display: block;
       width: 80%;
-      margin:2rem auto 0;
+      margin:1.5rem auto 0;
       height: 4rem;
       line-height: 4rem;
       text-align: center;

@@ -18,14 +18,14 @@
           <ul>
             <li class="pay-log-list" v-for="(item,index) in payLog" :key="index">
               <span class="list-time">{{item.log_time}}</span>
-              <span class="list-content">{{item.amount}}</span>
+              <span class="list-content">{{item.remark}}</span>
             </li>
           </ul>
           <div class="empty" v-show="isPayLog && payLog.length === 0">
             <p>尚无记录</p>
           </div>
         </div>
-        <div class="pay-log-list-wrapper" v-else>
+        <div class="pay-log-list-wrapper" v-if="!isPayLog">
           <ul>
             <li class="pay-log-list" v-for="(item,index) in useLog" :key="index">
               <span class="list-time">{{item.log_time}}</span>
@@ -85,7 +85,7 @@
           params: {
             start: 0,
             limit: 1000,
-            type: 0
+            type: 1
           }
         })
             .then(res => {
@@ -108,7 +108,7 @@
           params: {
             start: 0,
             limit: 1000,
-            type: 1
+            type: 2
           }
         })
             .then(res => {
