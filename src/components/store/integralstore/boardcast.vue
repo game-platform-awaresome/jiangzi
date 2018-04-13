@@ -61,6 +61,6 @@ created(){
   }
   .broadcast-list span{
     color: #ff6b4f;
-    padding: 0 1rem 0 2rem;
+    padding: 0 1rem 0 2.5rem;
   }
 </style>

@@ -115,7 +115,7 @@
       },
       // 查询订单状态
       checkOrderStatus(order_id) {
-        this.$axios.get('/api/Integral/Task/share',{
+        this.$axios.get('/api/h5/pay/ptbCheck',{
           params: {
             order_id
           }
