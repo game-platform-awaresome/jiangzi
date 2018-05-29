@@ -125,8 +125,8 @@
               if (res.data.code === 2000){
                 layer.msg(res.data.msg)
                 setTimeout(() => {
-                  window.onload()
-                },1500)
+                  location.reload() 
+                }, 1500);
               }
             })
             .catch(function(error){

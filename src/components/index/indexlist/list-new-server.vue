@@ -29,7 +29,7 @@
           </p>
           <p class="game-content">{{ game.servername }}</p>
         </div>
-        <p class="game-time">开服时间{{ game.start_time }}</p>
+        <p class="game-time">{{ game.start_time }}</p>
       </li>
      <!-- <li>
         <img src="" alt="">
@@ -158,7 +158,7 @@
     font-size: 1.6rem;
     height: 1.6rem;
     line-height: 1.6rem;
-    right: 1.8rem;
+    right: 5rem;
     top: 50%;
     margin-top: -0.9rem;
   }
